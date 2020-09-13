@@ -3,10 +3,10 @@ CREATE TABLE users (
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email_address VARCHAR(255) NOT NULL,
-    password BINARY(60) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     is_active BOOLEAN NOT NULL,
-    created_date_time LOCALDATE NOT NULL,
-    updated_date_time LOCALDATE,
+    created_date_time DATETIME NOT NULL,
+    updated_date_time DATETIME,
     UNIQUE KEY email_address (email_address)
 );
 
@@ -19,15 +19,13 @@ CREATE TABLE todos (
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME,
     label_id VARCHAR(50),
-    user_id VARCHAR(50) NOT NULL,
-
+    user_id VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE labels (
     label_id VARCHAR(50) PRIMARY KEY,
     label_name VARCHAR(50) NOT NULL,
     description VARCHAR(255),
-    label_name VARCHAR(50) NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME,
     user_id VARCHAR(50) NOT NULL,
