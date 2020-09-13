@@ -10,8 +10,6 @@ CREATE TABLE users (
     UNIQUE KEY email_address (email_address)
 );
 
-
-
 CREATE TABLE todos (
     todo_id VARCHAR(50) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
