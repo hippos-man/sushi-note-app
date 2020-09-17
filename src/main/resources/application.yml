@@ -1,1 +1,8 @@
-
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql
+    username: user
+    password: password
