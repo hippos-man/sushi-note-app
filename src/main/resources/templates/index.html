@@ -9,9 +9,8 @@
 <div class="container-main">
     <h2>All tasks</h2>
     <div class="submit-todo">
-        <form>
-            <label for="todo-title">New task:</label><br>
-            <input type="text" id="todo-title" name="todo-title" placeholder="What needs to be done?">
+        <form role="form" action="/register" th:action="@{/register}" th:object="${todoForm}" method="post">
+            <input type="text" th:field="*{title}">
             <input type="submit" value="Add">
         </form>
     </div>
