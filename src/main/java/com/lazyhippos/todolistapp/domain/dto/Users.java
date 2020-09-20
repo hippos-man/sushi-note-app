@@ -16,6 +16,21 @@ public class Users {
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
 
+    public Users() {
+    }
+
+    public Users(String userId, String firstName, String lastName, String emailAddress, String password,
+                 Boolean isActive, LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.isActive = isActive;
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
+    }
+
     public String getUserId() {
         return userId;
     }
