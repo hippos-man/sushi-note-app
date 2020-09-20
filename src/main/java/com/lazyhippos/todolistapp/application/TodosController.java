@@ -7,7 +7,9 @@ import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -20,7 +22,7 @@ public class TodosController {
     private TodoJpaRepository todoJpaRepository;
 
     @PostMapping("/register")
-    public String registerTodo (){
+    public String registerTodo (@ModelAttribute TodoForm form){
 
         // Mock Login user
         Users mockLoginUser = new Users (
@@ -35,29 +37,29 @@ public class TodosController {
         );
 
         // Mock request body
-        TodoRequest mockTodoRequest = new TodoRequest(
+        TodoRequest request = new TodoRequest(
           "5i4jgahgja",
-          "Go to Rahmen shop near my house",
+          form.getTitle(),
           null,
           null,
           false,
           LocalDateTime.now(),
           null,
           null,
-          "john777"
+          mockLoginUser.getUserId()
         );
 
         // Convert to Entity
         Todos todosEntity = new Todos(
-                mockTodoRequest.getTodoId(),
-                mockTodoRequest.getTitle(),
-                mockTodoRequest.getDescription(),
+                request.getTodoId(),
+                request.getTitle(),
+                request.getDescription(),
                 null,
-                mockTodoRequest.getCompleted(),
-                mockTodoRequest.getCreatedDateTime().toString(),
+                request.getCompleted(),
+                request.getCreatedDateTime().toString(),
                 null,
-                mockTodoRequest.getLabelId(),
-                mockTodoRequest.getUserId()
+                request.getLabelId(),
+                request.getUserId()
         );
         // Save request
         todoJpaRepository.save(todosEntity);
@@ -84,6 +86,7 @@ public class TodosController {
 
         // Add to Model
         model.addAttribute("todos", todos);
+        model.addAttribute("todoForm", new TodoForm());
         return "index";
     }
 }
