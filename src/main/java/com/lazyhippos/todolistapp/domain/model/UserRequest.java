@@ -1,4 +1,4 @@
 package com.lazyhippos.todolistapp.domain.model;
 
-public class Users {
+public class UserRequest {
 }
