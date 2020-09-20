@@ -11,12 +11,28 @@ public class Todos {
     private String title;
     private String description;
     private String deadlineDate;
-    private String isCompleted;
+    private boolean isCompleted;
     private String createdDateTime;
     private String updatedDateTime;
     private String labelId;
     private String userId;
 
+    public Todos() {
+    }
+
+    public Todos(String todoId, String title, String description, String deadlineDate,
+                 boolean isCompleted, String createdDateTime, String updatedDateTime,
+                 String labelId, String userId) {
+        this.todoId = todoId;
+        this.title = title;
+        this.description = description;
+        this.deadlineDate = deadlineDate;
+        this.isCompleted = isCompleted;
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
+        this.labelId = labelId;
+        this.userId = userId;
+    }
 
     public String getTodoId() {
         return todoId;
@@ -50,11 +66,11 @@ public class Todos {
         this.deadlineDate = deadlineDate;
     }
 
-    public String getIsCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 
-    public void setIsCompleted(String isCompleted) {
+    public void setIsCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
 
