@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todos List</title>
+
+</head>
+<body>
+<div class="container-main">
+    <h2>All tasks</h2>
+    <div class="submit-todo">
+        <form>
+            <label for="todo-title">New task:</label><br>
+            <input type="text" id="todo-title" name="todo-title" placeholder="What needs to be done?">
+            <input type="submit" value="Add">
+        </form>
+    </div>
+    <div class="container-todolist">
+        <ul th:each="todo: ${todos}">
+            <li>
+                <a href="/" th:text="${todo.title}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="container-sub"></div>
+</body>
+</html>
