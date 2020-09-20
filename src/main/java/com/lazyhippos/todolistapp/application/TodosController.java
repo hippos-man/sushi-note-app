@@ -7,13 +7,13 @@ import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class TodosController {
@@ -36,9 +36,12 @@ public class TodosController {
                 null
         );
 
-        // Mock request body
+        // Generate UUID
+        String todoId = UUID.randomUUID().toString();
+
+        // Request
         TodoRequest request = new TodoRequest(
-          "5i4jgahgja",
+                todoId,
           form.getTitle(),
           null,
           null,
@@ -83,7 +86,6 @@ public class TodosController {
 
         // Retrieve all Todos by user ID
         List<Todos> todos = todoJpaRepository.findByUserId(mockLoginUser.getUserId());
-
         // Add to Model
         model.addAttribute("todos", todos);
         model.addAttribute("todoForm", new TodoForm());
