@@ -7,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController
+@Controller
 public class TodosController {
 
     @Autowired
     private TodoJpaRepository todoJpaRepository;
 
     @GetMapping("/")
-    public List<Todos> get(Model model){
+    public String listTodos(Model model){
 
         // Mock Login user
         Users mockLoginUser = new Users (
@@ -37,7 +36,7 @@ public class TodosController {
         List<Todos> todos = todoJpaRepository.findByUserId(mockLoginUser.getUserId());
 
         // Add to Model
-//        model.addAttribute("todo", todos);
-        return todos;
+        model.addAttribute("todos", todos);
+        return "index";
     }
 }
