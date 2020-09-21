@@ -3,7 +3,7 @@ package com.lazyhippos.todolistapp.application;
 import com.lazyhippos.todolistapp.domain.dto.Todos;
 import com.lazyhippos.todolistapp.domain.dto.Users;
 import com.lazyhippos.todolistapp.domain.model.TodoRequest;
-import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
+import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +19,10 @@ import java.util.UUID;
 public class TodosController {
 
     @Autowired
-    private TodoJpaRepository todoJpaRepository;
+    private TodoService todoService;
 
     @PostMapping("/register")
-    public String registerTodo (@ModelAttribute TodoForm form){
+    public String register (@ModelAttribute TodoForm form){
 
         // Mock Login user
         Users mockLoginUser = new Users (
@@ -39,6 +39,7 @@ public class TodosController {
         // Generate UUID
         String todoId = UUID.randomUUID().toString();
 
+        // TODO Refacter (Generate Entity & Request body)
         // Request
         TodoRequest request = new TodoRequest(
                 todoId,
@@ -64,8 +65,9 @@ public class TodosController {
                 request.getLabelId(),
                 request.getUserId()
         );
+
         // Save request
-        todoJpaRepository.save(todosEntity);
+        todoService.store(todosEntity);
         return "redirect:/";
     }
 
@@ -85,7 +87,7 @@ public class TodosController {
         );
 
         // Retrieve all Todos by user ID
-        List<Todos> todos = todoJpaRepository.findByUserId(mockLoginUser.getUserId());
+        List<Todos> todos = todoService.retrieve(mockLoginUser.getUserId());
         // Add to Model
         model.addAttribute("todos", todos);
         model.addAttribute("todoForm", new TodoForm());
