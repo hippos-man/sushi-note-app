@@ -41,8 +41,14 @@ public class TodosController {
         return "redirect:/";
     }
 
+    // TODO: Update method
+//    @PostMapping("/update")
+    public String updateTask(){
+        return "Hello";
+    }
+
     @GetMapping("/")
-    public String listTodos(Model model){
+    public String showTaskList(Model model){
 
         // Mock Login user
         Users mockLoginUser = new Users (
@@ -65,7 +71,7 @@ public class TodosController {
     }
 
     @GetMapping("/detail/{todoId}")
-    public String showTodoDetail(@PathVariable("todoId") String todoId, Model model){
+    public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by user ID
         Todos todo= todoService.retrieveOne(todoId);
         model.addAttribute("todo", todo);
