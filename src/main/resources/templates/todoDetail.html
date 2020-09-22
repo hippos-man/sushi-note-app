@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Detail</title>
+</head>
+<body>
+<div class="container-main">
+    <h2>Task Setting</h2>
+        <div class="todo-detail">
+            Title:
+            <span th:text="${todo.title}"></span><br />
+            <!-- TODO Replace fixed value once implement label feature -->
+            Label:
+            <span>Private</span><br />
+            DeadLine:
+            <span th:if="${not #strings.isEmpty(todo.deadlineDate)}"
+                  th:text="${todo.deadlineDate}"></span><br />
+            Description:
+            <span th:text="${todo.description}"></span><br />
+        </div>
+</div>
+<div class="container-sub"></div>
+</body>
+</html>
