@@ -16,9 +16,12 @@ public class TodoService {
     private TodoJpaRepository todoJpaRepository;
 
 
-    public List<Todos> retrieve(String userId){
-
+    public List<Todos> retrieveAll(String userId){
         return todoJpaRepository.findByUserId(userId);
+    }
+
+    public Todos retrieveOne(String todoId){
+        return todoJpaRepository.getOne(todoId);
     }
 
     public void store(String todoTitle, LocalDateTime currentDateTime, String userId){

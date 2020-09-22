@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -56,10 +57,18 @@ public class TodosController {
         );
 
         // Retrieve all Todos by user ID
-        List<Todos> todos = todoService.retrieve(mockLoginUser.getUserId());
+        List<Todos> todos = todoService.retrieveAll(mockLoginUser.getUserId());
         // Add to Model
         model.addAttribute("todos", todos);
         model.addAttribute("todoForm", new TodoRequest());
         return "index";
+    }
+
+    @GetMapping("/detail/{todoId}")
+    public String showTodoDetail(@PathVariable("todoId") String todoId, Model model){
+        // Retrieve the object by user ID
+        Todos todo= todoService.retrieveOne(todoId);
+        model.addAttribute("todo", todo);
+        return "todoDetail";
     }
 }
