@@ -1,8 +1,9 @@
-package com.lazyhippos.todolistapp.application;
+package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.domain.dto.Todos;
-import com.lazyhippos.todolistapp.domain.dto.Users;
-import com.lazyhippos.todolistapp.domain.model.TodoRequest;
+import com.lazyhippos.todolistapp.application.resource.TodoForm;
+import com.lazyhippos.todolistapp.domain.model.Todos;
+import com.lazyhippos.todolistapp.domain.model.Users;
+import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

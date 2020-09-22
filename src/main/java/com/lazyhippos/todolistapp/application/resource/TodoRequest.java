@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.domain.model;
+package com.lazyhippos.todolistapp.application.resource;
 
 import java.time.LocalDateTime;
 
@@ -62,4 +62,6 @@ public class TodoRequest {
     public String getUserId() {
         return userId;
     }
+
+
 }
