@@ -1,9 +1,8 @@
 package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.application.resource.TodoForm;
+import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.model.Users;
-import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class TodosController {
@@ -23,9 +21,10 @@ public class TodosController {
     private TodoService todoService;
 
     @PostMapping("/register")
-    public String register (@ModelAttribute TodoForm form){
-
-        // Mock Login user
+    public String register (@ModelAttribute TodoRequest request){
+        // Fetch current datetime
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        // Mock Login user TODO Replace once login function is implemented
         Users mockLoginUser = new Users (
                 "john777",
                 "John",
@@ -36,39 +35,8 @@ public class TodosController {
                 LocalDateTime.parse("2020-10-10T01:01:01"),
                 null
         );
-
-        // Generate UUID
-        String todoId = UUID.randomUUID().toString();
-
-        // TODO Refacter (Generate Entity & Request body)
-        // Request
-        TodoRequest request = new TodoRequest(
-                todoId,
-          form.getTitle(),
-          null,
-          null,
-          false,
-          LocalDateTime.now(),
-          null,
-          null,
-          mockLoginUser.getUserId()
-        );
-
-        // Convert to Entity
-        Todos todosEntity = new Todos(
-                request.getTodoId(),
-                request.getTitle(),
-                request.getDescription(),
-                null,
-                request.getCompleted(),
-                request.getCreatedDateTime().toString(),
-                null,
-                request.getLabelId(),
-                request.getUserId()
-        );
-
-        // Save request
-        todoService.store(todosEntity);
+        // Store new object
+        todoService.store(request.getTitle(), currentDatetime, mockLoginUser.getUserId());
         return "redirect:/";
     }
 
@@ -91,7 +59,7 @@ public class TodosController {
         List<Todos> todos = todoService.retrieve(mockLoginUser.getUserId());
         // Add to Model
         model.addAttribute("todos", todos);
-        model.addAttribute("todoForm", new TodoForm());
+        model.addAttribute("todoForm", new TodoRequest());
         return "index";
     }
 }
