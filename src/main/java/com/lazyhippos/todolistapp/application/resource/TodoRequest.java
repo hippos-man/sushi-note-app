@@ -1,14 +1,14 @@
-package com.lazyhippos.todolistapp.application;
+package com.lazyhippos.todolistapp.application.resource;
 
 import java.io.Serializable;
 
-public class TodoForm implements Serializable {
+public class TodoRequest implements Serializable {
 
     private String title;
 
-    public TodoForm(){}
+    public TodoRequest(){}
 
-    public TodoForm(String title) {
+    public TodoRequest(String title) {
         this.title = title;
     }
 
