@@ -9,14 +9,14 @@
     <h2>All tasks</h2>
     <div class="submit-todo">
         <form role="form" action="/register" th:action="@{/register}" th:object="${todoForm}" method="post">
-            <input type="text" th:field="*{title}">
+            <input type="text" th:field="*{title}" placeholder="What needs to be done?">
             <input type="submit" value="Add">
         </form>
     </div>
     <div class="container-todolist">
         <ul th:each="todo: ${todos}">
             <li>
-                <a href="/" th:text="${todo.title}"></a>
+                <a th:href="@{'/detail/' + ${todo.todoId}}" th:text="${todo.title}"></a>
             </li>
         </ul>
     </div>
