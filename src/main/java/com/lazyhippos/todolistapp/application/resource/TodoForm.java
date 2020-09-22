@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.application;
+package com.lazyhippos.todolistapp.application.resource;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.domain.dto;
+package com.lazyhippos.todolistapp.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

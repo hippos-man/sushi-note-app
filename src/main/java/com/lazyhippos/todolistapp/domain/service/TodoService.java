@@ -1,6 +1,6 @@
 package com.lazyhippos.todolistapp.domain.service;
 
-import com.lazyhippos.todolistapp.domain.dto.Todos;
+import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
