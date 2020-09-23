@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.domain.service;
 
+import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,17 @@ public class TodoService {
                 userId
         );
         todoJpaRepository.save(todosEntity);
+    }
+
+    public void update (String todoId, TodoRequest request){
+        // Fetch the entity
+        Todos task = todoJpaRepository.getOne(todoId);
+        // Update
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setDeadlineDate(request.getDeadlineDate().toString());
+        task.setLabelId(request.getLabelId());
+        // Execute
+        todoJpaRepository.save(task);
     }
 }
