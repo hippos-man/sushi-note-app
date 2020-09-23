@@ -40,10 +40,13 @@ public class TodosController {
 
 
     @PostMapping("/update/{todoId}")
-    public void updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
-        System.out.println("Will update Todo ID : " + request.getTodoId());
+    public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+        System.out.println("Will update Todo ID : " + todoId);
+        System.out.println("title data from form is " + request.getTitle());
         // Update
         todoService.update(todoId, request);
+        System.out.println("Redirect to index page");
+        return "redirect:/";
     }
 
     @GetMapping("/")
@@ -73,8 +76,18 @@ public class TodosController {
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
-        model.addAttribute("todo", todo);
-        model.addAttribute("request", new TodoRequest());
+        // TODO Generate request from entity
+        TodoRequest request = new TodoRequest(
+                todo.getTodoId(),
+                "TEST TITLE",
+                "TEST DESCRIPTION",
+                null,
+                todo.getIsCompleted(),
+                null,
+                null,
+               null
+        );
+        model.addAttribute("request", request);
         return "todoDetail";
     }
 }
