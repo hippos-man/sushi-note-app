@@ -14,8 +14,8 @@
         </form>
     </div>
     <div class="container-todolist">
-        <ul th:each="todo: ${todos}">
-            <li>
+        <ul>
+            <li th:each="todo: ${todos}">
                 <a th:href="@{'/detail/' + ${todo.todoId}}" th:text="${todo.title}"></a>
             </li>
         </ul>

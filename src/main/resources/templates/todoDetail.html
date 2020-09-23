@@ -8,18 +8,18 @@
 <div class="container-main">
     <h2>Task Setting</h2>
         <div class="todo-detail">
-            <form th:action="@{'/update/' + ${todo.todoId}}" th:object="${request}" method="post">
+            <form role="form" action="#" th:action="@{'/update/' + ${request.todoId}}" th:object="${request}" method="post">
                 Title:
-                <input type="text" th:value="${todo.title}" size="100"><br /><br />
+                <input type="text" th:field="*{title}" size="100"><br /><br />
                 <!-- TODO Show Label name once it's implemented -->
                 Label:
-                <input type="text" th:value="${todo.labelId}"
+                <input type="text" th:field="*{labelId}"
                        size="50"><br /><br />
                 DeadLine:
                 <input type="text"
-                       th:value="${todo.deadlineDate}" size="50"><br /><br />
+                       th:field="*{deadlineDate}" size="50"><br /><br />
                 Description:
-                <input type="text" th:value="${todo.description}" size="100"><br /><br />
+                <input type="text" th:field="*{description}" size="100"><br /><br />
                 <input type="submit" value="Update"><br />
             </form>
         </div>
