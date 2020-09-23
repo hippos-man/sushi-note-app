@@ -7,10 +7,7 @@ import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,10 +38,23 @@ public class TodosController {
         return "redirect:/";
     }
 
-    // TODO: Update method
-//    @PostMapping("/update")
-    public String updateTask(){
-        return "Hello";
+
+    @PostMapping("/update")
+    public void updateTask(){
+        // Mock request
+        TodoRequest mockRequest = new TodoRequest(
+                "fdjaofjaojfd",
+          "Super long party night at Marina bay",
+          "From 9:00 A.M Going to fetch my friend. After that buying some alchohol.",
+                LocalDateTime.parse("2020-12-03T10:15:30"),
+                false,
+                LocalDateTime.parse("2020-10-01T10:00:00"),
+                LocalDateTime.now(),
+                null
+        );
+        System.out.println("Will update Todo ID : " + mockRequest.getTodoId());
+        // Update
+        todoService.update(mockRequest.getTodoId(), mockRequest);
     }
 
     @GetMapping("/")
