@@ -39,22 +39,11 @@ public class TodosController {
     }
 
 
-    @PostMapping("/update")
-    public void updateTask(){
-        // Mock request
-        TodoRequest mockRequest = new TodoRequest(
-                "fdjaofjaojfd",
-          "Super long party night at Marina bay",
-          "From 9:00 A.M Going to fetch my friend. After that buying some alchohol.",
-                LocalDateTime.parse("2020-12-03T10:15:30"),
-                false,
-                LocalDateTime.parse("2020-10-01T10:00:00"),
-                LocalDateTime.now(),
-                null
-        );
-        System.out.println("Will update Todo ID : " + mockRequest.getTodoId());
+    @PostMapping("/update/{todoId}")
+    public void updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+        System.out.println("Will update Todo ID : " + request.getTodoId());
         // Update
-        todoService.update(mockRequest.getTodoId(), mockRequest);
+        todoService.update(todoId, request);
     }
 
     @GetMapping("/")
@@ -82,9 +71,10 @@ public class TodosController {
 
     @GetMapping("/detail/{todoId}")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
-        // Retrieve the object by user ID
+        // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
         model.addAttribute("todo", todo);
+        model.addAttribute("request", new TodoRequest());
         return "todoDetail";
     }
 }

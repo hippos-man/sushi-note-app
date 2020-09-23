@@ -8,18 +8,26 @@
 <div class="container-main">
     <h2>Task Setting</h2>
         <div class="todo-detail">
-            Title:
-            <span th:text="${todo.title}"></span><br />
-            <!-- TODO Replace fixed value once implement label feature -->
-            Label:
-            <span>Private</span><br />
-            DeadLine:
-            <span th:if="${not #strings.isEmpty(todo.deadlineDate)}"
-                  th:text="${todo.deadlineDate}"></span><br />
-            Description:
-            <span th:text="${todo.description}"></span><br />
+            <form th:action="@{'/update/' + ${todo.todoId}}" th:object="${request}" method="post">
+                Title:
+                <input type="text" th:value="${todo.title}" size="100"><br /><br />
+                <!-- TODO Show Label name once it's implemented -->
+                Label:
+                <input type="text" th:value="${todo.labelId}"
+                       size="50"><br /><br />
+                DeadLine:
+                <input type="text"
+                       th:value="${todo.deadlineDate}" size="50"><br /><br />
+                Description:
+                <input type="text" th:value="${todo.description}" size="100"><br /><br />
+                <input type="submit" value="Update"><br />
+            </form>
         </div>
 </div>
-<div class="container-sub"></div>
+<div class="container-sub">
+    <button>
+        <a th:href="${'/'}">Go back</a>
+    </button>
+</div>
 </body>
 </html>
