@@ -47,10 +47,18 @@ public class TodoService {
         // Fetch the entity
         Todos task = todoJpaRepository.getOne(todoId);
         // Update
-        task.setTitle(request.getTitle());
-        task.setDescription(request.getDescription());
-        task.setDeadlineDate(request.getDeadlineDate().toString());
-        task.setLabelId(request.getLabelId());
+        if(request.getTitle() != null){
+            task.setTitle(request.getTitle());
+        }
+        if (request.getDescription() != null){
+            task.setDescription(request.getDescription());
+        }
+        if (request.getDeadlineDate() != null){
+            task.setDeadlineDate(request.getDeadlineDate().toString());
+        }
+        if (request.getLabelId() != null){
+            task.setLabelId(request.getLabelId());
+        }
         // Execute
         todoJpaRepository.save(task);
     }
