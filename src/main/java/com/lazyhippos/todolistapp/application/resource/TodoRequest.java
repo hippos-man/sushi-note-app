@@ -1,5 +1,7 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -8,6 +10,7 @@ public class TodoRequest implements Serializable {
     private String todoId;
     private String title;
     private String description;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime deadlineDate;
     private boolean isCompleted;
     private LocalDateTime createdDateTime;

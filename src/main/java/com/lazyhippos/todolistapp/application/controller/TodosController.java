@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -75,18 +76,34 @@ public class TodosController {
     @GetMapping("/detail/{todoId}")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
+        System.out.println(todoId);
         Todos todo= todoService.retrieveOne(todoId);
-        // TODO Generate request from entity
+        System.out.println("Created date time is : " + todo.getCreatedDateTime());
+        // TODO Extract this method to another class
+        // Generate Update request from Entity
         TodoRequest request = new TodoRequest(
                 todo.getTodoId(),
-                "TEST TITLE",
-                "TEST DESCRIPTION",
+                todo.getTitle(),
+             null,
                 null,
                 todo.getIsCompleted(),
                 null,
                 null,
                null
         );
+
+        if(todo.getDescription() != null) {
+            request.setDescription(todo.getDescription());
+        }
+
+        if(todo.getDeadlineDate() != null){
+            request.setDeadlineDate(LocalDateTime.parse(todo.getDeadlineDate(),DateTimeFormatter.BASIC_ISO_DATE));
+        }
+
+        if(todo.getLabelId() != null) {
+            request.setLabelId(todo.getLabelId());
+        }
+
         model.addAttribute("request", request);
         return "todoDetail";
     }
