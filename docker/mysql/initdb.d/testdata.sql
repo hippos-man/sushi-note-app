@@ -17,7 +17,7 @@ VALUES
     "hoge@gmail.com",
     "password",
     true,
-    "2020-10-10-01:01:01",
+    "2020-10-10T01:01:01",
     NULL
     );
 
@@ -41,7 +41,7 @@ VALUES
     "A day off!! Wake up in the morning, and borrow the car from my friend. Let's go beach",
     NULL,
     false,
-    "2020-08-24 10:00:00",
+    "2020-08-24T10:00:00",
     NULL,
     NULL,
     "john777"
