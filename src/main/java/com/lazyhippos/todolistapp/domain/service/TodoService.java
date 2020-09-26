@@ -54,7 +54,7 @@ public class TodoService {
             task.setDescription(request.getDescription());
         }
         if (request.getDeadlineDate() != null){
-            System.out.println(task.getDeadlineDate());
+            System.out.println("DeadlineDateTime is : " + task.getDeadlineDate());
             task.setDeadlineDate(request.getDeadlineDate().toString());
         }
         if (request.getLabelId() != null){
