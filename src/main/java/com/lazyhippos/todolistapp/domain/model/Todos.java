@@ -58,7 +58,7 @@ public class Todos {
         this.description = description;
     }
 
-    public String deadlineDate() {
+    public String getDeadlineDate() {
         return deadlineDate;
     }
 
