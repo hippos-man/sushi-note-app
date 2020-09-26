@@ -34,7 +34,7 @@ public class TodosController {
                 "password",
                 true,
                 LocalDateTime.parse("2020-09-09T01:01:01"),
-                null
+                LocalDateTime.parse("2020-09-09T01:01:01")
         );
         // Store new object
         todoService.store(request.getTitle(), currentDatetime, mockLoginUser.getUserId());
@@ -44,10 +44,12 @@ public class TodosController {
 
     @PostMapping("/update/{todoId}")
     public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+        // Fetch current datetime
+        LocalDateTime currentDatetime = LocalDateTime.now();
         System.out.println("Will update Todo ID : " + todoId);
         System.out.println("title data from form is " + request.getTitle());
         // Update
-        todoService.update(todoId, request);
+        todoService.update(todoId, request, currentDatetime);
         System.out.println("Redirect to index page");
         return "redirect:/";
     }

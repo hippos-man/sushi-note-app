@@ -36,14 +36,14 @@ public class TodoService {
                 null,
                 false,
                 currentDateTime.toString(),
-                null,
+                currentDateTime.toString(),
                 null,
                 userId
         );
         todoJpaRepository.save(todosEntity);
     }
 
-    public void update (String todoId, TodoRequest request){
+    public void update (String todoId, TodoRequest request, LocalDateTime now){
         // Fetch the entity
         Todos task = todoJpaRepository.getOne(todoId);
         // Update
@@ -55,11 +55,14 @@ public class TodoService {
         }
         if (request.getDeadlineDate() != null){
             System.out.println("DeadlineDateTime is : " + task.getDeadlineDate());
-            task.setDeadlineDate(request.getDeadlineDate().toString());
+            task.setDeadlineDate(request.getDeadlineDate());
         }
         if (request.getLabelId() != null){
             task.setLabelId(request.getLabelId());
         }
+
+        task.setUpdatedDateTime(now.toString());
+
         // Execute
         todoJpaRepository.save(task);
     }
