@@ -17,7 +17,7 @@ VALUES
     "hoge@gmail.com",
     "password",
     true,
-    "2020-10-10T01:01:01",
+    "2020-07-07T01:01:01",
     NULL
     );
 
