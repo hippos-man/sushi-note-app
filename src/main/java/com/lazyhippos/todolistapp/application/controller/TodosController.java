@@ -21,8 +21,8 @@ public class TodosController {
     @Autowired
     private TodoService todoService;
 
-    @PostMapping("/register")
-    public String register (@ModelAttribute TodoRequest request){
+    @PostMapping("/task/register")
+    public String registerTask (@ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Mock Login user TODO Replace once login function is implemented
@@ -42,7 +42,7 @@ public class TodosController {
     }
 
 
-    @PostMapping("/update/{todoId}")
+    @PostMapping("/task/update/{todoId}")
     public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
@@ -77,7 +77,7 @@ public class TodosController {
         return "index";
     }
 
-    @GetMapping("/detail/{todoId}")
+    @GetMapping("/task/detail/{todoId}")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
         System.out.println("Retrieving todoID : " + todoId);
