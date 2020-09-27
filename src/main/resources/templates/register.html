@@ -8,17 +8,17 @@
 <body>
     <div class="container-main">
         <h2>Sign up</h2>
-        <form>
+        <form role="form" action="#" th:action="@{/user/register}" th:object="${request}" method="post">
             User ID:<br>
-            <input type="text" size="30"><br>
+            <input type="text" th:field="*{userId}" size="30"><br>
             First Name:<br>
-            <input type="text" size="20"><br>
+            <input type="text" th:field="*{firstName}" size="20"><br>
             Last Name:<br>
-            <input type="text" size="20"><br>
+            <input type="text" th:field="*{lastName}" size="20"><br>
             Password:<br>
-            <input type="password" size="20"><br>
+            <input type="password" th:field="*{password}" size="20"><br>
             Email address:<br>
-            <input type="text" size="30"><br>
+            <input type="text" th:field="*{emailAddress}" size="30"><br>
             <input type="submit" value="Register">
         </form>
         <button>
