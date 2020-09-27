@@ -1,10 +1,13 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -27,14 +30,14 @@ public class UserController {
     }
 
     @GetMapping("/user/register")
-    public String showUserRegisterPage(){
-        // TODO Pass Model
+    public String showUserRegisterPage(Model model){
+        model.addAttribute("request", new UserRequest());
         return "register";
     }
 
 
     @PostMapping("/user/register")
-    public void register(){
+    public void register(@ModelAttribute UserRequest request){
 
         // Get current time
         LocalDateTime now = LocalDateTime.now();
