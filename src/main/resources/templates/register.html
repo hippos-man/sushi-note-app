@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up - To-do app</title>
+
+</head>
+<body>
+    <div class="container-main">
+        <h2>Sign up</h2>
+        <form>
+            User ID:<br>
+            <input type="text" size="30"><br>
+            First Name:<br>
+            <input type="text" size="20"><br>
+            Last Name:<br>
+            <input type="text" size="20"><br>
+            Password:<br>
+            <input type="password" size="20"><br>
+            Email address:<br>
+            <input type="text" size="30"><br>
+            <input type="submit" value="Register">
+        </form>
+        <button>
+            <a th:href="@{/login}">Go back</a>
+        </button>
+    </div>
+    <div class="container-sub"></div>
+</body>
+</html>
