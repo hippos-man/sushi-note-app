@@ -1,9 +1,7 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
-import com.lazyhippos.todolistapp.domain.model.Users;
-import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.lazyhippos.todolistapp.domain.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,22 +9,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserJpaRepository userJpaRepository;
+    private final UserService userService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-    @GetMapping("/get/all-user")
-    public List<Users> get(){
-        // DEBUG
-        List<Users> userList = userJpaRepository.findAll();
-        return userList;
+    UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/user/register")
@@ -42,37 +32,8 @@ public class UserController {
         // Get current time
         LocalDateTime now = LocalDateTime.now();
 
-        // TODO Bind Input
-        Users user = new Users(
-                request.getUserId(),
-                request.getFirstName(),
-                request.getLastName(),
-                request.getPassword(),
-                true,
-                now,
-                now
-        );
-        System.out.println("New userID : " + user.getUserId());
-        System.out.println("New user's first name is  : " + user.getFirstName());
-//        // Mock input
-//        Users mockUserInput = new Users(
-//                "taro",
-//                "Taro",
-//                "Yamada",
-//                "fuga@outlook.com",
-//                "smith0123",
-//                true,
-//                now,
-//                now
-//        );
-
-        // Encrypt password
-//        String encryptedPassword = passwordEncoder.encode(mockUserInput.getPassword());
-//        mockUserInput.setPassword(encryptedPassword);
-//        System.out.println("The password is encrypted : " + encryptedPassword);
-        // Execute
-        userJpaRepository.save(user);
-        System.out.println("Sign up completed");
+        // Store new user
+        userService.register(request, now);
         return "redirect:/";
     }
 }
