@@ -4,7 +4,6 @@ import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +17,14 @@ import java.util.List;
 @Controller
 public class TodosController {
 
-    @Autowired
-    private TodoService todoService;
+    private final TodoService todoService;
 
-    @PostMapping("/register")
-    public String register (@ModelAttribute TodoRequest request){
+    TodosController (TodoService todoService){
+        this.todoService = todoService;
+    }
+
+    @PostMapping("/task/register")
+    public String registerTask (@ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Mock Login user TODO Replace once login function is implemented
@@ -30,11 +32,10 @@ public class TodosController {
                 "john777",
                 "John",
                 "Smith",
-                "hoge@gmail.com",
                 "password",
                 true,
                 LocalDateTime.parse("2020-09-09T01:01:01"),
-                null
+                LocalDateTime.parse("2020-09-09T01:01:01")
         );
         // Store new object
         todoService.store(request.getTitle(), currentDatetime, mockLoginUser.getUserId());
@@ -42,12 +43,14 @@ public class TodosController {
     }
 
 
-    @PostMapping("/update/{todoId}")
+    @PostMapping("/task/update/{todoId}")
     public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+        // Fetch current datetime
+        LocalDateTime currentDatetime = LocalDateTime.now();
         System.out.println("Will update Todo ID : " + todoId);
         System.out.println("title data from form is " + request.getTitle());
         // Update
-        todoService.update(todoId, request);
+        todoService.update(todoId, request, currentDatetime);
         System.out.println("Redirect to index page");
         return "redirect:/";
     }
@@ -60,7 +63,6 @@ public class TodosController {
                 "john777",
                 "John",
                 "Smith",
-                "hoge@gmail.com",
                 "password",
                 true,
                 LocalDateTime.parse("2020-09-09T01:01:01"),
@@ -75,12 +77,10 @@ public class TodosController {
         return "index";
     }
 
-    @GetMapping("/detail/{todoId}")
+    @GetMapping("/task/detail/{todoId}")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
-        System.out.println("Retrieving todoID : " + todoId);
         Todos todo= todoService.retrieveOne(todoId);
-        System.out.println("Created date time is : " + todo.getCreatedDateTime());
         // TODO Extract this method to another class
         // Generate Update request from Entity
         TodoRequest request = new TodoRequest(
@@ -99,7 +99,6 @@ public class TodosController {
         }
 
         if(todo.getDeadlineDate() != null){
-            System.out.println("Fetched DeadLineDate : " + todo.getDeadlineDate());
             request.setDeadlineDate(todo.getDeadlineDate());
         }
 

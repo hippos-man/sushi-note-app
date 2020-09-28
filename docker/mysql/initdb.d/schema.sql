@@ -2,12 +2,10 @@ CREATE TABLE users (
     user_id VARCHAR(50) PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    email_address VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     is_active BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
-    updated_date_time DATETIME,
-    UNIQUE KEY email_address (email_address)
+    updated_date_time DATETIME NOT NULL
 );
 
 CREATE TABLE todos (
@@ -17,7 +15,7 @@ CREATE TABLE todos (
     deadline_date DATETIME,
     is_completed BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
-    updated_date_time DATETIME,
+    updated_date_time DATETIME NOT NULL,
     label_id VARCHAR(50),
     user_id VARCHAR(50) NOT NULL
 );
@@ -27,7 +25,7 @@ CREATE TABLE labels (
     label_name VARCHAR(50) NOT NULL,
     description VARCHAR(255),
     created_date_time DATETIME NOT NULL,
-    updated_date_time DATETIME,
+    updated_date_time DATETIME NOT NULL,
     user_id VARCHAR(50) NOT NULL,
     is_deleted BOOLEAN NOT NULL
 );
