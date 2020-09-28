@@ -37,30 +37,42 @@ public class UserController {
 
 
     @PostMapping("/user/register")
-    public void register(@ModelAttribute UserRequest request){
+    public String register(@ModelAttribute UserRequest request){
 
         // Get current time
         LocalDateTime now = LocalDateTime.now();
 
         // TODO Bind Input
-        // Mock input
-        Users mockUserInput = new Users(
-                "taro",
-                "Taro",
-                "Yamada",
-                "fuga@outlook.com",
-                "smith0123",
+        Users user = new Users(
+                request.getUserId(),
+                request.getFirstName(),
+                request.getLastName(),
+                request.getPassword(),
                 true,
                 now,
                 now
         );
+        System.out.println("New userID : " + user.getUserId());
+        System.out.println("New user's first name is  : " + user.getFirstName());
+//        // Mock input
+//        Users mockUserInput = new Users(
+//                "taro",
+//                "Taro",
+//                "Yamada",
+//                "fuga@outlook.com",
+//                "smith0123",
+//                true,
+//                now,
+//                now
+//        );
 
         // Encrypt password
 //        String encryptedPassword = passwordEncoder.encode(mockUserInput.getPassword());
 //        mockUserInput.setPassword(encryptedPassword);
 //        System.out.println("The password is encrypted : " + encryptedPassword);
         // Execute
-        userJpaRepository.save(mockUserInput);
+        userJpaRepository.save(user);
         System.out.println("Sign up completed");
+        return "redirect:/";
     }
 }
