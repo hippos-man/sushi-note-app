@@ -3,7 +3,6 @@ INSERT INTO users
     user_id,
     first_name,
     last_name,
-    email_address,
     password,
     is_active,
     created_date_time,
@@ -14,11 +13,10 @@ VALUES
     "john777",
     "John",
     "Smith",
-    "hoge@gmail.com",
     "password",
     true,
     "2020-07-07T01:01:01",
-    NULL
+    "2020-07-07T01:01:01"
     );
 
 
@@ -42,7 +40,7 @@ VALUES
     NULL,
     false,
     "2020-08-24T10:00:00",
-    NULL,
+    "2020-08-24T10:00:00",
     NULL,
     "john777"
 );

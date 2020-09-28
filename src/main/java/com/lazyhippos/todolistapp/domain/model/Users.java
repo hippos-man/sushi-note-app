@@ -10,7 +10,6 @@ public class Users {
     private String userId;
     private String firstName;
     private String lastName;
-    private String emailAddress;
     private String password;
     private Boolean isActive;
     private LocalDateTime createdDateTime;
@@ -19,12 +18,11 @@ public class Users {
     public Users() {
     }
 
-    public Users(String userId, String firstName, String lastName, String emailAddress, String password,
+    public Users(String userId, String firstName, String lastName, String password,
                  Boolean isActive, LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailAddress = emailAddress;
         this.password = password;
         this.isActive = isActive;
         this.createdDateTime = createdDateTime;
@@ -53,14 +51,6 @@ public class Users {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
