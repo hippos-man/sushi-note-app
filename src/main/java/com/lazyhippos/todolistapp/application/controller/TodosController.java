@@ -4,7 +4,6 @@ import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,11 @@ import java.util.List;
 @Controller
 public class TodosController {
 
-    @Autowired
-    private TodoService todoService;
+    private final TodoService todoService;
+
+    TodosController (TodoService todoService){
+        this.todoService = todoService;
+    }
 
     @PostMapping("/task/register")
     public String registerTask (@ModelAttribute TodoRequest request){
@@ -78,9 +80,7 @@ public class TodosController {
     @GetMapping("/task/detail/{todoId}")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
-        System.out.println("Retrieving todoID : " + todoId);
         Todos todo= todoService.retrieveOne(todoId);
-        System.out.println("Created date time is : " + todo.getCreatedDateTime());
         // TODO Extract this method to another class
         // Generate Update request from Entity
         TodoRequest request = new TodoRequest(
@@ -99,7 +99,6 @@ public class TodosController {
         }
 
         if(todo.getDeadlineDate() != null){
-            System.out.println("Fetched DeadLineDate : " + todo.getDeadlineDate());
             request.setDeadlineDate(todo.getDeadlineDate());
         }
 
