@@ -8,7 +8,7 @@
 <div class="container-main">
     <h2>Task Setting</h2>
         <div class="todo-detail">
-            <form role="form" action="#" th:action="@{'/update/' + ${request.todoId}}" th:object="${request}" method="post">
+            <form role="form" action="#" th:action="@{'/task/update/' + ${request.todoId}}" th:object="${request}" method="post">
                 Title:
                 <input type="text" th:field="*{title}" size="100"><br /><br />
                 <!-- TODO Show Label name once it's implemented -->
