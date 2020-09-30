@@ -47,11 +47,8 @@ public class TodosController {
     public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
-        System.out.println("Will update Todo ID : " + todoId);
-        System.out.println("title data from form is " + request.getTitle());
         // Update
         todoService.update(todoId, request, currentDatetime);
-        System.out.println("Redirect to index page");
         return "redirect:/";
     }
 
