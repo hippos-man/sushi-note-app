@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
-    // Show login form
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
+//    // Show login form
+//    @RequestMapping("/login")
+//    public String login() {
+//        return "login";
+//    }
 
     // Show login form with Error
     @RequestMapping("/login-error")
