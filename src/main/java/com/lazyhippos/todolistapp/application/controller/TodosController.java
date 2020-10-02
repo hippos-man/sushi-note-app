@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
+import com.lazyhippos.todolistapp.domain.model.RoleName;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
@@ -35,7 +36,8 @@ public class TodosController {
                 "password",
                 true,
                 LocalDateTime.parse("2020-09-09T01:01:01"),
-                LocalDateTime.parse("2020-09-09T01:01:01")
+                LocalDateTime.parse("2020-09-09T01:01:01"),
+                RoleName.USER
         );
         // Store new object
         todoService.store(request.getTitle(), currentDatetime, mockLoginUser.getUserId());
@@ -63,7 +65,8 @@ public class TodosController {
                 "password",
                 true,
                 LocalDateTime.parse("2020-09-09T01:01:01"),
-                null
+                null,
+                RoleName.USER
         );
 
         // Retrieve all Todos by user ID

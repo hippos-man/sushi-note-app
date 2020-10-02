@@ -6,7 +6,8 @@ INSERT INTO users
     password,
     is_active,
     created_date_time,
-    updated_date_time
+    updated_date_time,
+    role_name
     )
 VALUES
     (
@@ -16,7 +17,8 @@ VALUES
     "password",
     true,
     "2020-07-07T01:01:01",
-    "2020-07-07T01:01:01"
+    "2020-07-07T01:01:01",
+    "USER"
     );
 
 
