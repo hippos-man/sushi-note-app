@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
+import com.lazyhippos.todolistapp.domain.model.RoleName;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class UserService {
                 request.getPassword(),
                 true,
                 now,
-                now
+                now,
+                RoleName.USER
         );
         userJpaRepository.save(user);
     }
