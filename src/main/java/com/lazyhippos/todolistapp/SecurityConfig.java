@@ -12,23 +12,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception{
-//        httpSecurity
-//                .authorizeRequests()
-//                .antMatchers("/public/**").permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .failureUrl("/login")
-//                .permitAll();
-        httpSecurity.authorizeRequests()
+        httpSecurity
+                .authorizeRequests()
+                .antMatchers("/public/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .and()
-                .httpBasic();
+                .loginPage("/login")
+                .failureUrl("/login-error")
+                .permitAll();
     }
 
     @Override
