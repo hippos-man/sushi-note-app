@@ -31,15 +31,16 @@ public class TaskUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Optional<Users> user = userJpaRepository.findById(userId);
         if(!user.isPresent()){
+            System.out.println("User Not Found in DB");
             throw new UsernameNotFoundException("UserId : " + userId + " was not found in the database");
         }
+        System.out.println("His/Her First name is : "+ user.get().getFirstName());
         // For Authority List
         List<GrantedAuthority> grantedList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
         grantedList.add(authority);
-        // Encrypt Password
         UserDetails userDetails = (UserDetails)
-                new User(user.get().getUserId(), passwordEncoder.encode(user.get().getPassword()),grantedList);
+                new User(user.get().getUserId(), user.get().getPassword(),grantedList);
 
         return userDetails;
     }
