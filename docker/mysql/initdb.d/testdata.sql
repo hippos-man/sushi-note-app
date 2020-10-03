@@ -14,7 +14,7 @@ VALUES
     "john777",
     "John",
     "Smith",
-    "password",
+    "$2a$10$h5PwB29NCTL5BI03z8rireo5ghNvx5l.6jeckPEQM2ibuplr0b0OO",
     true,
     "2020-07-07T01:01:01",
     "2020-07-07T01:01:01",
