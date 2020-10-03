@@ -14,7 +14,6 @@ public class TodolistAppApplication {
         return new BCryptPasswordEncoder();
     }
 
-
     public static void main(String[] args) {
         SpringApplication.run(TodolistAppApplication.class, args);
     }
