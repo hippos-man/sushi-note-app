@@ -19,11 +19,9 @@ import java.util.Optional;
 public class TaskUserDetailsService implements UserDetailsService {
 
     private final UserJpaRepository userJpaRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    TaskUserDetailsService(UserJpaRepository userJpaRepository, PasswordEncoder passwordEncoder){
+    TaskUserDetailsService(UserJpaRepository userJpaRepository){
         this.userJpaRepository = userJpaRepository;
-        this.passwordEncoder =passwordEncoder;
     }
 
 
@@ -31,10 +29,8 @@ public class TaskUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Optional<Users> user = userJpaRepository.findById(userId);
         if(!user.isPresent()){
-            System.out.println("User Not Found in DB");
             throw new UsernameNotFoundException("UserId : " + userId + " was not found in the database");
         }
-        System.out.println("His/Her First name is : "+ user.get().getFirstName());
         // For Authority List
         List<GrantedAuthority> grantedList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority("USER");
