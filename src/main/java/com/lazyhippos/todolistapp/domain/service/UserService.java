@@ -23,7 +23,6 @@ public class UserService {
     public void register(UserRequest request, LocalDateTime now){
         // Encrypt Password
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        System.out.println("Password has been encrypted : " + encryptedPassword);
         Users user = new Users(
                 request.getUserId(),
                 request.getFirstName(),
