@@ -23,20 +23,21 @@ public class TaskUserDetailsService implements UserDetailsService {
         this.userJpaRepository = userJpaRepository;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Optional<Users> user = userJpaRepository.findById(userId);
-        if(!user.isPresent()){
+        Optional<Users> usersOptional = userJpaRepository.findById(userId);
+        if(!usersOptional.isPresent()){
             throw new UsernameNotFoundException("UserId : " + userId + " was not found in the database");
         }
-        String role = user.get().getRoleName().name();
-        // For Authority List
+        Users user = usersOptional.get();
+        String role =user.getRoleName().name();
+
         List<GrantedAuthority> grantedList = new ArrayList<GrantedAuthority>();
         GrantedAuthority authority = new SimpleGrantedAuthority(role);
         grantedList.add(authority);
+
         UserDetails userDetails = (UserDetails)
-                new User(user.get().getUserId(), user.get().getPassword(),grantedList);
+                new User(user.getUserId(), user.getPassword(),grantedList);
         return userDetails;
     }
 }
