@@ -30,13 +30,13 @@ public class TaskUserDetailsService implements UserDetailsService {
         if(!user.isPresent()){
             throw new UsernameNotFoundException("UserId : " + userId + " was not found in the database");
         }
+        String role = user.get().getRoleName().name();
         // For Authority List
         List<GrantedAuthority> grantedList = new ArrayList<GrantedAuthority>();
-        GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+        GrantedAuthority authority = new SimpleGrantedAuthority(role);
         grantedList.add(authority);
         UserDetails userDetails = (UserDetails)
                 new User(user.get().getUserId(), user.get().getPassword(),grantedList);
-
         return userDetails;
     }
 }
