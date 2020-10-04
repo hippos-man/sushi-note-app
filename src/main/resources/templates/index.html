@@ -21,6 +21,12 @@
         </ul>
     </div>
 </div>
-<div class="container-sub"></div>
+<div class="container-sub">
+    <div class="logout">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Log out">
+        </form>
+    </div>
+</div>
 </body>
 </html>
