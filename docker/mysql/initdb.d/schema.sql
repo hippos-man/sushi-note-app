@@ -5,7 +5,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     is_active BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
-    updated_date_time DATETIME NOT NULL
+    updated_date_time DATETIME NOT NULL,
+    role_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE todos (

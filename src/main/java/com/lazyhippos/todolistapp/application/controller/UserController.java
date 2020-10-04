@@ -28,10 +28,8 @@ public class UserController {
 
     @PostMapping("/user/register")
     public String register(@ModelAttribute UserRequest request){
-
         // Get current time
         LocalDateTime now = LocalDateTime.now();
-
         // Store new user
         userService.register(request, now);
         return "redirect:/";

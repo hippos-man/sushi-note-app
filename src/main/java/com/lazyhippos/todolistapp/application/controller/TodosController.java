@@ -2,7 +2,6 @@ package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
-import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Controller
 public class TodosController {
@@ -24,21 +25,12 @@ public class TodosController {
     }
 
     @PostMapping("/task/register")
-    public String registerTask (@ModelAttribute TodoRequest request){
+    public String registerTask (Principal principal, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
-        // Mock Login user TODO Replace once login function is implemented
-        Users mockLoginUser = new Users (
-                "john777",
-                "John",
-                "Smith",
-                "password",
-                true,
-                LocalDateTime.parse("2020-09-09T01:01:01"),
-                LocalDateTime.parse("2020-09-09T01:01:01")
-        );
+        String loginUserId = principal.getName();
         // Store new object
-        todoService.store(request.getTitle(), currentDatetime, mockLoginUser.getUserId());
+        todoService.store(request.getTitle(), currentDatetime, loginUserId);
         return "redirect:/";
     }
 
@@ -47,30 +39,16 @@ public class TodosController {
     public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
-        System.out.println("Will update Todo ID : " + todoId);
-        System.out.println("title data from form is " + request.getTitle());
         // Update
         todoService.update(todoId, request, currentDatetime);
-        System.out.println("Redirect to index page");
         return "redirect:/";
     }
 
     @GetMapping("/")
-    public String showTaskList(Model model){
-
-        // Mock Login user
-        Users mockLoginUser = new Users (
-                "john777",
-                "John",
-                "Smith",
-                "password",
-                true,
-                LocalDateTime.parse("2020-09-09T01:01:01"),
-                null
-        );
-
+    public String showTaskList(Principal principal, Model model){
+        String loginUserID = principal.getName();
         // Retrieve all Todos by user ID
-        List<Todos> todos = todoService.retrieveAll(mockLoginUser.getUserId());
+        List<Todos> todos = todoService.retrieveAll(loginUserID);
         // Add to Model
         model.addAttribute("todos", todos);
         model.addAttribute("todoForm", new TodoRequest());

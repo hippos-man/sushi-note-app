@@ -6,14 +6,15 @@
 </head>
 <body>
 <div class="container-main">
-    <h2>Login</h2>
-    <form>
-        User ID:<br>
-        <input type="text" size="30"><br>
-        Password:<br>
-        <input type="text" size="30"><br>
-        <input type="submit" value="Login">
+    <h2>Login page</h2>
+    <form th:action="@{/login}"  method="post">
+        <label for="username">User ID:</label>
+        <input type="text" id="username" name="username" size="30"><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" size="30"><br>
+        <input type="submit" id="submit" value="Login">
     </form>
+    <p th:if="${loginError}" class="error">Wrong password or UserID</p>
     <p>You haven't sigh up ?  <a th:href="@{/user/register}">Register now</a></p>
 </div>
 <div class="container-sub"></div>
