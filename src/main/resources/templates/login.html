@@ -14,8 +14,7 @@
         <input type="password" id="password" name="password" size="30"><br>
         <input type="submit" id="submit" value="Login">
     </form>
-    <p th:if="${loginError}" class="error">Wrong password or UserID</p>
-    <p>You haven't sigh up ?  <a th:href="@{/user/register}">Register now</a></p>
+    <p>You haven't sigh up ?  <a th:href="@{/user/sign-up}">Register now</a></p>
 </div>
 <div class="container-sub"></div>
 </body>
