@@ -59,32 +59,7 @@ public class TodosController {
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
-        // TODO Extract this method to another class
-        // Generate Update request from Entity
-        TodoRequest request = new TodoRequest(
-                todo.getTodoId(),
-                todo.getTitle(),
-             null,
-                null,
-                todo.getIsCompleted(),
-                null,
-                null,
-               null
-        );
-
-        if(todo.getDescription() != null) {
-            request.setDescription(todo.getDescription());
-        }
-
-        if(todo.getDeadlineDate() != null){
-            request.setDeadlineDate(todo.getDeadlineDate());
-        }
-
-        if(todo.getLabelId() != null) {
-            request.setLabelId(todo.getLabelId());
-        }
-
-        model.addAttribute("request", request);
+        model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
         return "todoDetail";
     }
 }

@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import com.lazyhippos.todolistapp.domain.model.Todos;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -95,5 +96,28 @@ public class TodoRequest implements Serializable {
 
     public void setLabelId(String labelId) {
         this.labelId = labelId;
+    }
+
+    public static TodoRequest generateTodoRequest(Todos entity){
+
+        TodoRequest request = new TodoRequest();
+        request.setCompleted(entity.getIsCompleted());
+
+        if(entity.getTitle() != null){
+            request.setTitle(entity.getTitle());
+        }
+        if(entity.getTodoId() != null){
+            request.setTodoId(entity.getTodoId());
+        }
+        if(entity.getDescription() != null) {
+            request.setDescription(entity.getDescription());
+        }
+        if(entity.getDeadlineDate() != null) {
+            request.setDeadlineDate(entity.getDeadlineDate());
+        }
+        if(entity.getLabelId() != null) {
+            request.setLabelId(entity.getLabelId());
+        }
+        return request;
     }
 }
