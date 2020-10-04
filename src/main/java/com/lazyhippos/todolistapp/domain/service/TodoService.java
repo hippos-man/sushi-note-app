@@ -36,8 +36,8 @@ public class TodoService {
                 null,
                 null,
                 false,
-                currentDateTime.toString(),
-                currentDateTime.toString(),
+                currentDateTime,
+                currentDateTime,
                 null,
                 userId
         );
@@ -54,14 +54,14 @@ public class TodoService {
         if (request.getDescription() != null){
             task.setDescription(request.getDescription());
         }
-        if (request.getDeadlineDate() != null && !request.getDeadlineDate().isEmpty()){
+        if (request.getDeadlineDate() != null){
             task.setDeadlineDate(request.getDeadlineDate());
         }
         if (request.getLabelId() != null && !request.getLabelId().isEmpty()){
             task.setLabelId(request.getLabelId());
         }
 
-        task.setUpdatedDateTime(now.toString());
+        task.setUpdatedDateTime(now);
 
         // Execute
         todoJpaRepository.save(task);

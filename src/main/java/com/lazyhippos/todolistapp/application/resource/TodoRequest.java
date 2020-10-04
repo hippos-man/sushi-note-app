@@ -1,5 +1,8 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import com.lazyhippos.todolistapp.domain.model.Todos;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -8,7 +11,8 @@ public class TodoRequest implements Serializable {
     private String todoId;
     private String title;
     private String description;
-    private String deadlineDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime deadlineDate;
     private boolean isCompleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
@@ -17,7 +21,7 @@ public class TodoRequest implements Serializable {
     public TodoRequest() {
     }
 
-    public TodoRequest(String todoId, String title, String description, String deadlineDate,
+    public TodoRequest(String todoId, String title, String description, LocalDateTime deadlineDate,
                        boolean isCompleted, LocalDateTime createdDateTime,
                        LocalDateTime updatedDateTime, String labelId) {
         this.todoId = todoId;
@@ -54,11 +58,11 @@ public class TodoRequest implements Serializable {
         this.description = description;
     }
 
-    public String getDeadlineDate() {
+    public LocalDateTime getDeadlineDate() {
         return deadlineDate;
     }
 
-    public void setDeadlineDate(String deadlineDate) {
+    public void setDeadlineDate(LocalDateTime deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 
@@ -92,5 +96,28 @@ public class TodoRequest implements Serializable {
 
     public void setLabelId(String labelId) {
         this.labelId = labelId;
+    }
+
+    public static TodoRequest generateTodoRequest(Todos entity){
+
+        TodoRequest request = new TodoRequest();
+        request.setCompleted(entity.getIsCompleted());
+
+        if(entity.getTitle() != null){
+            request.setTitle(entity.getTitle());
+        }
+        if(entity.getTodoId() != null){
+            request.setTodoId(entity.getTodoId());
+        }
+        if(entity.getDescription() != null) {
+            request.setDescription(entity.getDescription());
+        }
+        if(entity.getDeadlineDate() != null) {
+            request.setDeadlineDate(entity.getDeadlineDate());
+        }
+        if(entity.getLabelId() != null) {
+            request.setLabelId(entity.getLabelId());
+        }
+        return request;
     }
 }
