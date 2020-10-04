@@ -18,6 +18,9 @@ public class UserRequest {
         this.password = password;
     }
 
+    /**
+     * Warn: Don't delete Setter as it's required for Binding Form Values
+     * **/
     public String getUserId() {
         return userId;
     }
