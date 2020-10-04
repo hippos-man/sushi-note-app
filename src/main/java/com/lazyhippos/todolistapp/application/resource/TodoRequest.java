@@ -1,5 +1,7 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -8,7 +10,8 @@ public class TodoRequest implements Serializable {
     private String todoId;
     private String title;
     private String description;
-    private String deadlineDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime deadlineDate;
     private boolean isCompleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
@@ -17,7 +20,7 @@ public class TodoRequest implements Serializable {
     public TodoRequest() {
     }
 
-    public TodoRequest(String todoId, String title, String description, String deadlineDate,
+    public TodoRequest(String todoId, String title, String description, LocalDateTime deadlineDate,
                        boolean isCompleted, LocalDateTime createdDateTime,
                        LocalDateTime updatedDateTime, String labelId) {
         this.todoId = todoId;
@@ -54,11 +57,11 @@ public class TodoRequest implements Serializable {
         this.description = description;
     }
 
-    public String getDeadlineDate() {
+    public LocalDateTime getDeadlineDate() {
         return deadlineDate;
     }
 
-    public void setDeadlineDate(String deadlineDate) {
+    public void setDeadlineDate(LocalDateTime deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 
