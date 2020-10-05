@@ -32,13 +32,18 @@ public class TodosController {
         return "redirect:/to-do/all";
     }
 
-
     @PostMapping("/update/{todoId}")
     public String updateTodo(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Update
         todoService.update(todoId, request, currentDatetime);
+        return "redirect:/to-do/all";
+    }
+
+    @PostMapping("/complete/{todoId}")
+    public String completeTodo(@PathVariable("todoId") String todoId){
+        todoService.complete(todoId);
         return "redirect:/to-do/all";
     }
 

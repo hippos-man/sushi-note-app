@@ -66,4 +66,13 @@ public class TodoService {
         // Execute
         todoJpaRepository.save(task);
     }
+
+    public void complete(String todoId){
+        // Fetch entity which user complete
+        Todos todo = todoJpaRepository.getOne(todoId);
+        // Update isCompleted
+        todo.setIsCompleted(true);
+        // Execute
+        todoJpaRepository.save(todo);
+    }
 }
