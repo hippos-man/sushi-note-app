@@ -17,6 +17,9 @@
         <ul>
             <li th:each="todo: ${todos}">
                 <a th:href="@{'/to-do/' + ${todo.todoId} + '/detail'}" th:text="${todo.title}"></a>
+                <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
+                    <input type="submit" value="Complete">
+                </form>
             </li>
         </ul>
     </div>
