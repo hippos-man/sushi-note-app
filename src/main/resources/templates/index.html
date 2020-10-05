@@ -14,14 +14,24 @@
         </form>
     </div>
     <div class="container-todolist">
-        <ul>
-            <li th:each="todo: ${todos}">
-                <a th:href="@{'/to-do/' + ${todo.todoId} + '/detail'}" th:text="${todo.title}"></a>
-                <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+            <tr th:if="${todos.empty}">
+                <td>No Items Available</td>
+            </tr>
+            <tr th:each="todo: ${todos}">
+                <td>
+                    <a th:href="@{'/to-do/' + ${todo.todoId} + '/detail'}" th:text="${todo.title}"></a>
+                </td>
+                <td>
+                    <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
                     <input type="submit" value="Complete">
-                </form>
-            </li>
-        </ul>
+                </form></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div class="container-sub">
