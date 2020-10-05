@@ -5,16 +5,14 @@ import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
+@RequestMapping("/to-do")
 @Controller
 public class TodosController {
 
@@ -24,38 +22,47 @@ public class TodosController {
         this.todoService = todoService;
     }
 
-    @PostMapping("/task/register")
-    public String registerTask (Principal principal, @ModelAttribute TodoRequest request){
+    @PostMapping("/register")
+    public String registerTodo (Principal principal, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         String loginUserId = principal.getName();
         // Store new object
         todoService.store(request.getTitle(), currentDatetime, loginUserId);
-        return "redirect:/";
+        return "redirect:/to-do/all";
     }
 
-
-    @PostMapping("/task/update/{todoId}")
-    public String updateTask(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+    @PostMapping("/update/{todoId}")
+    public String updateTodo(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Update
         todoService.update(todoId, request, currentDatetime);
-        return "redirect:/";
+        return "redirect:/to-do/all";
     }
 
-    @GetMapping("/")
-    public String showTaskList(Principal principal, Model model){
+    @PostMapping("/complete/{todoId}")
+    public String completeTodo(@PathVariable("todoId") String todoId){
+        todoService.complete(todoId);
+        return "redirect:/to-do/all";
+    }
+
+    @GetMapping("/all")
+    public String listAll(Principal principal, Model model){
         String loginUserID = principal.getName();
-        // Retrieve all Todos by user ID
+        // Retrieve all tasks by User ID
         List<Todos> todos = todoService.retrieveAll(loginUserID);
+        // Remove completed tasks
+        List<Todos> incompleteTasks = todos.stream()
+                .filter(t -> !t.getIsCompleted())
+                .collect(Collectors.toList());
         // Add to Model
-        model.addAttribute("todos", todos);
+        model.addAttribute("todos", incompleteTasks);
         model.addAttribute("todoForm", new TodoRequest());
         return "index";
     }
 
-    @GetMapping("/task/detail/{todoId}")
+    @GetMapping("/{todoId}/detail")
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
