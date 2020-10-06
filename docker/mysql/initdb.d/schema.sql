@@ -17,7 +17,6 @@ CREATE TABLE todos (
     is_completed BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL,
-    label_id VARCHAR(50),
     user_id VARCHAR(50) NOT NULL
 );
 
