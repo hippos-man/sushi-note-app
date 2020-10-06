@@ -16,14 +16,13 @@ public class TodoRequest implements Serializable {
     private boolean isCompleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
-    private String labelId;
 
     public TodoRequest() {
     }
 
     public TodoRequest(String todoId, String title, String description, LocalDateTime deadlineDate,
                        boolean isCompleted, LocalDateTime createdDateTime,
-                       LocalDateTime updatedDateTime, String labelId) {
+                       LocalDateTime updatedDateTime) {
         this.todoId = todoId;
         this.title = title;
         this.description = description;
@@ -31,7 +30,6 @@ public class TodoRequest implements Serializable {
         this.isCompleted = isCompleted;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
-        this.labelId = labelId;
     }
 
     public String getTodoId() {
@@ -90,13 +88,6 @@ public class TodoRequest implements Serializable {
         this.updatedDateTime = updatedDateTime;
     }
 
-    public String getLabelId() {
-        return labelId;
-    }
-
-    public void setLabelId(String labelId) {
-        this.labelId = labelId;
-    }
 
     public static TodoRequest generateTodoRequest(Todos entity){
 
@@ -114,9 +105,6 @@ public class TodoRequest implements Serializable {
         }
         if(entity.getDeadlineDate() != null) {
             request.setDeadlineDate(entity.getDeadlineDate());
-        }
-        if(entity.getLabelId() != null) {
-            request.setLabelId(entity.getLabelId());
         }
         return request;
     }

@@ -15,7 +15,6 @@ public class Todos {
     private boolean isCompleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
-    private String labelId;
     private String userId;
 
     public Todos() {
@@ -23,7 +22,7 @@ public class Todos {
 
     public Todos(String todoId, String title, String description, LocalDateTime deadlineDate,
                  boolean isCompleted, LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
-                 String labelId, String userId) {
+                 String userId) {
         this.todoId = todoId;
         this.title = title;
         this.description = description;
@@ -31,7 +30,6 @@ public class Todos {
         this.isCompleted = isCompleted;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
-        this.labelId = labelId;
         this.userId = userId;
     }
 
@@ -89,14 +87,6 @@ public class Todos {
 
     public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
-    }
-
-    public String getLabelId() {
-        return labelId;
-    }
-
-    public void setLabelId(String labelId) {
-        this.labelId = labelId;
     }
 
     public String getUserId() {

@@ -41,29 +41,46 @@ INSERT INTO todos
     is_completed,
     created_date_time,
     updated_date_time,
-    label_id,
     user_id
 )
 VALUES
 (
     "fdjaofjaojfd",
-    "Go to the beach",
-    "A day off!! Wake up in the morning, and borrow the car from my friend. Let's go beach",
-    NULL,
+    "Go to Broken heads with my mates.",
+    "A day off!! Wake up in the morning, and borrow the car from my friend. Let's go beach to surf",
+    "2020-10-01T06:00:00",
     false,
     "2020-08-24T10:00:00",
     "2020-08-24T10:00:00",
-    NULL,
     "john777"
 ),
 (
     "gjjgkajghaljkgdja",
     "Go to my University from morning",
     "Final Exam starts from 8:00 A.M.",
-    NULL,
-    true,
-    "2020-08-24T10:00:00",
-    "2020-08-24T10:00:00",
-    NULL,
+    "2020-10-06T08:00:00",
+    false,
+    "2020-08-25T10:00:00",
+    "2020-08-25T10:00:00",
     "john777"
+),
+(
+    "jghjgdjaighfshggs",
+    "Final Exam for this semester !",
+    "Prepare well and be focus on the problem solving",
+    "2020-10-24T09:00:00",
+    false,
+    "2020-10-01T09:00:00",
+    "2020-10-01T09:00:00",
+    "john777"
+),
+(
+    "bnvdajkdjahgogiha",
+    "Final Exam for this semester !",
+    "Prepare well and be focus on the problem solving",
+    "2020-10-24T09:00:00",
+    false,
+    "2020-10-01T09:00:00",
+    "2020-10-01T09:00:00",
+    "hanako777"
 );

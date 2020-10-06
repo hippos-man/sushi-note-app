@@ -11,10 +11,6 @@
             <form role="form" action="#" th:action="@{'/to-do/update/' + ${request.todoId}}" th:object="${request}" method="post">
                 Title:
                 <input type="text" th:field="*{title}" size="100"><br /><br />
-                <!-- TODO Show Label name once it's implemented -->
-                Label:
-                <input type="text" th:field="*{labelId}"
-                       size="50"><br /><br />
                 DeadLine:
                 <input type="datetime-local"
                        th:field="*{deadlineDate}"><br /><br />
