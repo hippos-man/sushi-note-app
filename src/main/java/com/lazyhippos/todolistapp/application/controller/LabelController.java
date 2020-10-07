@@ -1,32 +1,24 @@
 package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.domain.model.Labels;
-import com.lazyhippos.todolistapp.domain.repository.LabelJpaRepository;
+import com.lazyhippos.todolistapp.application.resource.LabelRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
-import java.util.List;
-
-//@Controller
-@RestController
+@RequestMapping("/label")
+@Controller
 public class LabelController {
 
-    private final LabelJpaRepository labelJpaRepository;
-
-    LabelController(LabelJpaRepository jpaRepository){
-        this.labelJpaRepository = jpaRepository;
+    @PostMapping("/register")
+    public String register(){
+        return null;
     }
 
-//    @GetMapping("/label/all")
-//    public List<Labels> getLabels(Principal principal){
-//        // Retrieve Labels by Login user's ID
-//        return labelJpaRepository.findByUserId(principal.getName());
-//    }
-
-//    // TODO Label Register page
-//    public String showLabelDetail(){
-//        return "labelDetail";
-//    }
+    @GetMapping("/new")
+    public String showLabelRegister(Model model){
+        model.addAttribute("request", new LabelRequest());
+        return "labelRegister";
+    }
 }

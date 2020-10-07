@@ -1,6 +1,8 @@
 package com.lazyhippos.todolistapp.application.resource;
 
-public class UserRequest {
+import java.io.Serializable;
+
+public class UserRequest implements Serializable {
 
     private String userId;
     private String firstName;
