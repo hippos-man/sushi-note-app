@@ -43,6 +43,9 @@
             <tr>
                 <td>All Items</td>
             </tr>
+            <tr th:each="label: ${labels}">
+                <td><span th:text="${label.labelName}"></span></td>
+            </tr>
         </table>
     </div>
 </div>

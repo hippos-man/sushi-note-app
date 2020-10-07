@@ -84,3 +84,25 @@ VALUES
     "2020-10-01T09:00:00",
     "hanako777"
 );
+
+
+INSERT INTO labels
+(
+    label_id,
+    label_name,
+    description,
+    created_date_time,
+    updated_date_time,
+    user_id,
+    is_deleted
+)
+VALUES
+(
+    "jglajklghahd",
+    "Study",
+    "This label is for Uni thing",
+    "2020-10-01T09:00:00",
+    "2020-10-01T09:00:00",
+    "john777",
+    false
+);
