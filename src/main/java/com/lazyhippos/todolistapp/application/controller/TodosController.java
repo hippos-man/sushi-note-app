@@ -1,7 +1,9 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
+import com.lazyhippos.todolistapp.domain.model.Labels;
 import com.lazyhippos.todolistapp.domain.model.Todos;
+import com.lazyhippos.todolistapp.domain.service.LabelService;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +19,11 @@ import java.util.stream.Collectors;
 public class TodosController {
 
     private final TodoService todoService;
+    private final LabelService labelService;
 
-    TodosController (TodoService todoService){
+    TodosController (TodoService todoService, LabelService labelService){
         this.todoService = todoService;
+        this.labelService = labelService;
     }
 
     @PostMapping("/register")
@@ -56,8 +60,13 @@ public class TodosController {
         List<Todos> incompleteTasks = todos.stream()
                 .filter(t -> !t.getIsCompleted())
                 .collect(Collectors.toList());
+
+        // Retrieve all labels by User ID
+        List<Labels> labelsList = labelService.retrieveAll(loginUserID);
+
         // Add to Model
         model.addAttribute("todos", incompleteTasks);
+        model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
         return "index";
     }
