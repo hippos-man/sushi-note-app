@@ -16,6 +16,21 @@ public class Labels {
     private String userId;
     private Boolean isDeleted;
 
+    public Labels() {
+    }
+
+    public Labels(String labelId, String labelName, String description,
+                  LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
+                  String userId, Boolean isDeleted) {
+        this.labelId = labelId;
+        this.labelName = labelName;
+        this.description = description;
+        this.createdDateTime = createdDateTime;
+        this.updatedDateTime = updatedDateTime;
+        this.userId = userId;
+        this.isDeleted = isDeleted;
+    }
+
     public String getLabelId() {
         return labelId;
     }
