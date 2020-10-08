@@ -4,6 +4,7 @@ import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Labels;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.service.LabelService;
+import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +21,12 @@ public class TodosController {
 
     private final TodoService todoService;
     private final LabelService labelService;
+    private final TodoLabelService todoLabelService;
 
-    TodosController (TodoService todoService, LabelService labelService){
+    TodosController (TodoService todoService, LabelService labelService, TodoLabelService todoLabelService){
         this.todoService = todoService;
         this.labelService = labelService;
+        this.todoLabelService = todoLabelService;
     }
 
     @PostMapping("/register")
@@ -76,9 +79,14 @@ public class TodosController {
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
-        List<Labels> labels = labelService.retrieveAll(todo.getUserId());
+        List<Labels> allLabels = labelService.retrieveAll(todo.getUserId());
+        // Fetch all related labelId
+        List<String> labelIdList = todoLabelService.retrieveALlLabelId(todoId);
+        // TODO Retrive all label object by labelId
+
         model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
-        model.addAttribute("labels", labels);
+//        model.addAttribute("label", )
+        model.addAttribute("labelOption", allLabels);
         return "todoDetail";
     }
 }
