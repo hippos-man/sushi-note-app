@@ -2,11 +2,13 @@ package com.lazyhippos.todolistapp.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.time.LocalDateTime;
 
 @Entity
-public class TodoLabel {
-    // TODO Composite ID class
+@IdClass(TodoLabelId.class)
+public class TodoLabel{
+
     @Id
     private String todoId;
     @Id

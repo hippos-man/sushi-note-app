@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TodoLabelJpaRepository extends JpaRepository<TodoLabel, String> {
-    List<String> findByTodoId(String todoId);
+    List<TodoLabel> findByTodoId(String todoId);
 }

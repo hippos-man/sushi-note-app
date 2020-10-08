@@ -7,17 +7,19 @@
 <body>
 <div class="container-main">
     <h2>Task Setting</h2>
-        <div class="label-container" th:object="${labels}">
+        <div class="label-container" th:object="${labelOptionList}">
             Label:
             <!-- TODO Show all labels which connected to the to-do-->
             <ul>
-                <li></li>
+                <li th:object="${relatedLabels}"
+                    th:each="label : ${relatedLabels}"
+                    th:text="${label.labelName}"></li>
             </ul>
             <br>
             <br>
             <select>
-                <option th:each="label: ${labels}"
-                th:value="${label.labelName}" th:text="${label.labelName}"></option>
+                <option th:each="labelOption: ${labelOptionList}"
+                th:value="${labelOption.labelName}" th:text="${labelOption.labelName}"></option>
             </select>
             <button>Add</button>
         </div>
