@@ -75,7 +75,10 @@ public class TodosController {
     public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
+        // Retrieve all labels that login user created
+        List<Labels> labels = labelService.retrieveAll(todo.getUserId());
         model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
+        model.addAttribute("labels", labels);
         return "todoDetail";
     }
 }

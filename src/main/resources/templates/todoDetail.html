@@ -7,6 +7,18 @@
 <body>
 <div class="container-main">
     <h2>Task Setting</h2>
+        <div class="label-container" th:object="${labels}">
+            Label:
+            <br>
+            <br>
+            <select>
+                <option th:each="label: ${labels}"
+                th:value="${label.labelName}" th:text="${label.labelName}"></option>
+            </select>
+            <button>Add</button>
+        </div>
+        <br>
+        <br>
         <div class="todo-detail">
             <form role="form" action="#" th:action="@{'/to-do/update/' + ${request.todoId}}" th:object="${request}" method="post">
                 Title:
