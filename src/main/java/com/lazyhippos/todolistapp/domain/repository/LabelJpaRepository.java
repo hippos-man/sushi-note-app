@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LabelJpaRepository extends JpaRepository<Labels, String> {
     List<Labels> findByUserId(String userId);
+    List<Labels> findByLabelIdIn(List<String> labelIds);
 }
