@@ -1,34 +1,18 @@
 package com.lazyhippos.todolistapp.application.resource;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 public class LabelRequest implements Serializable {
 
-    private String labelId;
     private String labelName;
     private String description;
-    private LocalDateTime createdDateTime;
-    private LocalDateTime updatedDateTime;
-    private String userId;
-    private Boolean isDeleted;
 
     public LabelRequest() {
     }
 
-    public LabelRequest(String labelId, String labelName, String description, LocalDateTime createdDateTime, LocalDateTime updatedDateTime, String userId, Boolean isDeleted) {
-
-        this.labelId = labelId;
+    public LabelRequest(String labelName, String description) {
         this.labelName = labelName;
         this.description = description;
-        this.createdDateTime = createdDateTime;
-        this.updatedDateTime = updatedDateTime;
-        this.userId = userId;
-        this.isDeleted = isDeleted;
-    }
-
-    public String getLabelId() {
-        return labelId;
     }
 
     public String getLabelName() {
@@ -39,19 +23,11 @@ public class LabelRequest implements Serializable {
         return description;
     }
 
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
     }
 
-    public LocalDateTime getUpdatedDateTime() {
-        return updatedDateTime;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
