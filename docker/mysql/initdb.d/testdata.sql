@@ -106,3 +106,21 @@ VALUES
     "john777",
     false
 );
+
+
+INSERT INTO todo_label
+(
+    todo_id,
+    label_id,
+    created_date_time,
+    updated_date_time,
+    is_deleted
+)
+VALUES
+(
+    "fdjaofjaojfd",
+    "jglajklghahd",
+    "2020-10-01T10:00",
+    "2020-10-01T10:00",
+    false
+);
