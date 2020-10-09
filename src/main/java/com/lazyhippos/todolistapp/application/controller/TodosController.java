@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.application.resource.TodoLabelRequest;
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Labels;
 import com.lazyhippos.todolistapp.domain.model.TodoLabel;
@@ -82,17 +83,21 @@ public class TodosController {
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
         List<Labels> allLabels = labelService.retrieveAll(todo.getUserId());
+        // Generate Request
+        TodoLabelRequest request = new TodoLabelRequest(
+                allLabels,
+                todoId
+        );
         // Fetch all related labelId
         List<TodoLabel> todoLabelList = todoLabelService.retrieveALlLabelId(todoId);
         List<String> labelIdList = new ArrayList<>();
         for (TodoLabel todoLabel: todoLabelList) {
             labelIdList.add(todoLabel.getLabelId());
         }
-        // TODO Retrive all label object by labelId
         List<Labels> relatedLabels = labelService.retrieveByLabelIds(labelIdList);
         model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
         model.addAttribute("relatedLabels", relatedLabels);
-        model.addAttribute("labelOptionList", allLabels);
+        model.addAttribute("todoLabelRequest", request);
         return "todoDetail";
     }
 }
