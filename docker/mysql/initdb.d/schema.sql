@@ -17,7 +17,6 @@ CREATE TABLE todos (
     is_completed BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL,
-    label_id VARCHAR(50),
     user_id VARCHAR(50) NOT NULL
 );
 
@@ -29,4 +28,13 @@ CREATE TABLE labels (
     updated_date_time DATETIME NOT NULL,
     user_id VARCHAR(50) NOT NULL,
     is_deleted BOOLEAN NOT NULL
+);
+
+CREATE TABLE todo_label (
+    todo_id VARCHAR(50) NOT NULL,
+    label_id VARCHAR(50) NOT NULL,
+    created_date_time DATETIME NOT NULL,
+    updated_date_time DATETIME NOT NULL,
+    is_deleted BOOLEAN NOT NULL,
+    PRIMARY KEY (todo_id, label_id)
 );

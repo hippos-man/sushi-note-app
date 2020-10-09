@@ -2,33 +2,40 @@ package com.lazyhippos.todolistapp.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.time.LocalDateTime;
 
 @Entity
-public class Labels {
+@IdClass(TodoLabelId.class)
+public class TodoLabel{
 
     @Id
+    private String todoId;
+    @Id
     private String labelId;
-    private String labelName;
-    private String description;
+//    private String description;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
-    private String userId;
     private Boolean isDeleted;
 
-    public Labels() {
+    public TodoLabel() {
     }
 
-    public Labels(String labelId, String labelName, String description,
-                  LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
-                  String userId, Boolean isDeleted) {
+    public TodoLabel(String todoId, String labelId, LocalDateTime createdDateTime,
+                     LocalDateTime updatedDateTime, Boolean isDeleted) {
+        this.todoId = todoId;
         this.labelId = labelId;
-        this.labelName = labelName;
-        this.description = description;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
-        this.userId = userId;
         this.isDeleted = isDeleted;
+    }
+
+    public String getTodoId() {
+        return todoId;
+    }
+
+    public void setTodoId(String todoId) {
+        this.todoId = todoId;
     }
 
     public String getLabelId() {
@@ -37,22 +44,6 @@ public class Labels {
 
     public void setLabelId(String labelId) {
         this.labelId = labelId;
-    }
-
-    public String getLabelName() {
-        return labelName;
-    }
-
-    public void setLabelName(String labelName) {
-        this.labelName = labelName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDateTime getCreatedDateTime() {
@@ -69,14 +60,6 @@ public class Labels {
 
     public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Boolean getDeleted() {
