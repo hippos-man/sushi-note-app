@@ -13,7 +13,7 @@ public class TodoLabel{
     private String todoId;
     @Id
     private String labelId;
-    private String description;
+//    private String description;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
     private Boolean isDeleted;
@@ -21,11 +21,10 @@ public class TodoLabel{
     public TodoLabel() {
     }
 
-    public TodoLabel(String todoId, String labelId, String description, LocalDateTime createdDateTime,
+    public TodoLabel(String todoId, String labelId, LocalDateTime createdDateTime,
                      LocalDateTime updatedDateTime, Boolean isDeleted) {
         this.todoId = todoId;
         this.labelId = labelId;
-        this.description = description;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
         this.isDeleted = isDeleted;
@@ -45,14 +44,6 @@ public class TodoLabel{
 
     public void setLabelId(String labelId) {
         this.labelId = labelId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDateTime getCreatedDateTime() {

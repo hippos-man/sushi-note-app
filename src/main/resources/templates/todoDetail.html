@@ -7,9 +7,8 @@
 <body>
 <div class="container-main">
     <h2>Task Setting</h2>
-        <div class="label-container" th:object="${labelOptionList}">
+        <div class="label-container">
             Label:
-            <!-- TODO Show all labels which connected to the to-do-->
             <ul>
                 <li th:object="${relatedLabels}"
                     th:each="label : ${relatedLabels}"
@@ -17,11 +16,14 @@
             </ul>
             <br>
             <br>
-            <select>
-                <option th:each="labelOption: ${labelOptionList}"
-                th:value="${labelOption.labelName}" th:text="${labelOption.labelName}"></option>
-            </select>
-            <button>Add</button>
+            <form role="form" action="#" th:action="@{'/label/add'}" th:object="${todoLabelRequest}" method="post">
+                <select th:field="*{labelsList}">
+                    <option th:each=" label : ${todoLabelRequest.labelsList}"
+                    th:value="${label.labelId}" th:text="${label.labelName}"></option>
+                </select>
+                <input type="hidden" th:field="*{todoId}">
+                <button type="submit">Add</button>
+            </form>
         </div>
         <br>
         <br>
