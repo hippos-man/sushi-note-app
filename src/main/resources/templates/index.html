@@ -6,16 +6,21 @@
 </head>
 <body>
 <div class="container-main">
-    <h2>All tasks</h2>
+    <h1>To-do App</h1>
     <div class="submit-todo">
+        <h3>What are you gonna do ?</h3>
         <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
             <input type="text" th:field="*{title}" placeholder="What needs to be done?">
             <input type="submit" value="Add">
         </form>
     </div>
+    <br>
     <div class="container-todolist">
         <table>
             <thead>
+                <tr>
+                    <th>To-dos List</th>
+                </tr>
             </thead>
             <tbody>
             <tr th:if="${todos.empty}">
@@ -33,25 +38,33 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <br>
     <div class="container-label">
         <table>
             <thead>
+                <tr>
+                    <th>Labels</th>
+                </tr>
             </thead>
-            <tr>
-                <th><a th:href="@{'/label/new'}">New</a></th>
-            </tr>
-            <tr>
-                <th>Labels</th>
-            </tr>
             <tr>
                 <td>All Items</td>
             </tr>
             <tr th:each="label: ${labels}">
                 <td><span th:text="${label.labelName}"></span></td>
             </tr>
+            <tr>
+                <td>
+                    <a th:href="@{'/label/new'}">
+                        <button type="button">Create New Label</button>
+                    </a>
+                </td>
+            </tr>
         </table>
     </div>
 </div>
+<br>
+<br>
 <div class="container-sub">
     <div class="logout">
         <form th:action="@{/logout}" method="post">

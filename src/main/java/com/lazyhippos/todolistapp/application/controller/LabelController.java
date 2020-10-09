@@ -40,7 +40,6 @@ public class LabelController {
         LocalDateTime currentDateTime = LocalDateTime.now();
         // Retrieve TodoID
         String todoId = request.getTodoId();
-        // TODO Null pointer Exception
         String labelId = request.getLabelsList().get(0).getLabelId();
         // Store
         todoLabelService.store(todoId, labelId, currentDateTime);
