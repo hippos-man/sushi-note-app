@@ -38,7 +38,6 @@ public class TodoService {
                 false,
                 currentDateTime,
                 currentDateTime,
-                null,
                 userId
         );
         todoJpaRepository.save(todosEntity);
@@ -56,9 +55,6 @@ public class TodoService {
         }
         if (request.getDeadlineDate() != null){
             task.setDeadlineDate(request.getDeadlineDate());
-        }
-        if (request.getLabelId() != null && !request.getLabelId().isEmpty()){
-            task.setLabelId(request.getLabelId());
         }
 
         task.setUpdatedDateTime(now);
