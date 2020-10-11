@@ -39,8 +39,8 @@
             <br>
             <div class="create-label-container">
                 <h4>Create New Label:</h4>
-                <form class="new-label">
-                    <a th:href="@{'/label/new'}">
+                <form class="new-label" th:object="${request}">
+                    <a th:href="@{/label/new(todoId=${request.todoId})}">
                         <button type="button">Create New</button>
                     </a>
                 </form>
