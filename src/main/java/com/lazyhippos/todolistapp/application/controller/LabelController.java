@@ -4,13 +4,9 @@ import com.lazyhippos.todolistapp.application.resource.LabelRequest;
 import com.lazyhippos.todolistapp.application.resource.TodoLabelRequest;
 import com.lazyhippos.todolistapp.domain.service.LabelService;
 import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -31,9 +27,18 @@ public class LabelController {
     public String register(Principal principal, @ModelAttribute LabelRequest request){
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
-        labelService.store(request, currentDatetime, principal.getName());
-        return "redirect:/to-do/all";
+        String labelId = labelService.store(request, currentDatetime, principal.getName());
+        System.out.println("New Label ID : " + labelId);
+        String view = "redirect:/to-do/all";
+        if(request.getTodoId() != null && !request.getTodoId().isEmpty()){
+            System.out.println("Assign to the to-do. TODO ID : " + request.getTodoId());
+            todoLabelService.store(request.getTodoId(), labelId, currentDatetime);
+            view = "redirect:/to-do/" + request.getTodoId() + "/detail";
+        }
+        return view;
     }
+
+
 
     @PostMapping("/add")
     public String add(@ModelAttribute TodoLabelRequest request){
@@ -48,8 +53,8 @@ public class LabelController {
     }
 
     @GetMapping("/new")
-    public String showLabelRegister(Model model){
-        model.addAttribute("request", new LabelRequest());
+    public String showLabelRegister(Model model, @RequestParam(required = false) String todoId){
+            model.addAttribute("request", new LabelRequest(null, todoId, null));
         return "labelRegister";
     }
 }

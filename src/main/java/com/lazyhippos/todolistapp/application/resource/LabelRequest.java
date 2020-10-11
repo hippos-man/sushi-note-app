@@ -5,13 +5,15 @@ import java.io.Serializable;
 public class LabelRequest implements Serializable {
 
     private String labelName;
+    private String todoId;
     private String description;
 
     public LabelRequest() {
     }
 
-    public LabelRequest(String labelName, String description) {
+    public LabelRequest(String labelName, String todoId, String description) {
         this.labelName = labelName;
+        this.todoId = todoId;
         this.description = description;
     }
 
@@ -21,6 +23,14 @@ public class LabelRequest implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getTodoId() {
+        return todoId;
+    }
+
+    public void setTodoId(String todoId) {
+        this.todoId = todoId;
     }
 
     public void setLabelName(String labelName) {
