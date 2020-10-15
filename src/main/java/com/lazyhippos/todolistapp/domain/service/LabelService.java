@@ -37,8 +37,7 @@ public class LabelService {
                 request.getDescription(),
                 currentDatetime,
                 currentDatetime,
-                userId,
-                false
+                userId
         );
         labelJpaRepository.save(entity);
         return labelId;

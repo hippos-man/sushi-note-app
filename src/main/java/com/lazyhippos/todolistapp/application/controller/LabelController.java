@@ -45,6 +45,7 @@ public class LabelController {
         LocalDateTime currentDateTime = LocalDateTime.now();
         // Retrieve TodoID
         String todoId = request.getTodoId();
+        // TODO Array Size check
         String labelId = request.getLabelsList().get(0).getLabelId();
         // Store
         todoLabelService.store(todoId, labelId, currentDateTime);
