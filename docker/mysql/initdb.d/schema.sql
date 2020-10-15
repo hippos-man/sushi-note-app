@@ -26,8 +26,7 @@ CREATE TABLE labels (
     description VARCHAR(255),
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL,
-    user_id VARCHAR(50) NOT NULL,
-    is_deleted BOOLEAN NOT NULL
+    user_id VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE todo_label (
@@ -35,6 +34,5 @@ CREATE TABLE todo_label (
     label_id VARCHAR(50) NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL,
-    is_deleted BOOLEAN NOT NULL,
     PRIMARY KEY (todo_id, label_id)
 );
