@@ -93,8 +93,7 @@ INSERT INTO labels
     description,
     created_date_time,
     updated_date_time,
-    user_id,
-    is_deleted
+    user_id
 )
 VALUES
 (
@@ -103,8 +102,7 @@ VALUES
     "This label is for Uni thing",
     "2020-10-01T09:00:00",
     "2020-10-01T09:00:00",
-    "john777",
-    false
+    "john777"
 );
 
 
@@ -113,14 +111,12 @@ INSERT INTO todo_label
     todo_id,
     label_id,
     created_date_time,
-    updated_date_time,
-    is_deleted
+    updated_date_time
 )
 VALUES
 (
     "fdjaofjaojfd",
     "jglajklghahd",
     "2020-10-01T10:00",
-    "2020-10-01T10:00",
-    false
+    "2020-10-01T10:00"
 );

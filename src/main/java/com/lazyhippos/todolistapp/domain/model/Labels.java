@@ -14,21 +14,19 @@ public class Labels {
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
     private String userId;
-    private Boolean isDeleted;
 
     public Labels() {
     }
 
     public Labels(String labelId, String labelName, String description,
                   LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
-                  String userId, Boolean isDeleted) {
+                  String userId) {
         this.labelId = labelId;
         this.labelName = labelName;
         this.description = description;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
         this.userId = userId;
-        this.isDeleted = isDeleted;
     }
 
     public String getLabelId() {
@@ -79,11 +77,4 @@ public class Labels {
         this.userId = userId;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 }
