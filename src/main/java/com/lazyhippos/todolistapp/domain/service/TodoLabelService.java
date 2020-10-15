@@ -25,8 +25,7 @@ public class TodoLabelService {
                 todoId,
                 labelId,
                 now,
-                now,
-                false
+                now
         );
         todoLabelJpaRepository.save(entity);
     }
