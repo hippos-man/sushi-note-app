@@ -58,13 +58,15 @@ public class TodosController {
     }
 
     @GetMapping("/list")
-    public String showHome(@RequestParam(required = false) String label_id, Principal principal, Model model){
+    public String showHome(@RequestParam(required = false) String label_id,
+                           @RequestParam(required = false, defaultValue = "asc") String sort,
+                           Principal principal, Model model){
         String loginUserID = principal.getName();
         // TODO Sort by deadline date and created date
         List<Todos> todos;
         if(label_id == null || label_id.equals("all")){
             // Retrieve all tasks by User ID
-            todos = todoService.retrieveAll(loginUserID);
+            todos = todoService.retrieveAll(loginUserID, sort);
         } else {
             // Retrieve all todoId by Label ID
             List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
@@ -72,7 +74,7 @@ public class TodosController {
             for (TodoLabel todoLabel : todoLabelList){
                 todoIdList.add(todoLabel.getTodoId());
             }
-            todos = todoService.retrieveByTodoIdList(todoIdList);
+            todos = todoService.retrieveByTodoIdList(todoIdList, sort);
         }
         // Remove completed tasks
         List<Todos> incompleteTasks = todos.stream()

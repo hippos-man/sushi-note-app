@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TodoJpaRepository extends JpaRepository<Todos, String> {
-    List<Todos> findByUserId(String userId);
+    List<Todos> findByUserIdOrderByDeadlineDateAsc(String userId);
 }
