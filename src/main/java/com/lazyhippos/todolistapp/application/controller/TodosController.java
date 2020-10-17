@@ -39,7 +39,7 @@ public class TodosController {
         String loginUserId = principal.getName();
         // Store new object
         todoService.store(request.getTitle(), currentDatetime, loginUserId);
-        return "redirect:/to-do/all";
+        return "redirect:/to-do/list";
     }
 
     @PostMapping("/update/{todoId}")
@@ -48,20 +48,32 @@ public class TodosController {
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Update
         todoService.update(todoId, request, currentDatetime);
-        return "redirect:/to-do/all";
+        return "redirect:/to-do/list";
     }
 
     @PostMapping("/complete/{todoId}")
     public String completeTodo(@PathVariable("todoId") String todoId){
         todoService.complete(todoId);
-        return "redirect:/to-do/all";
+        return "redirect:/to-do/list";
     }
 
-    @GetMapping("/all")
-    public String listAll(Principal principal, Model model){
+    @GetMapping("/list")
+    public String showHome(@RequestParam(required = false) String label_id, Principal principal, Model model){
         String loginUserID = principal.getName();
-        // Retrieve all tasks by User ID
-        List<Todos> todos = todoService.retrieveAll(loginUserID);
+        // TODO Sort by deadline date and created date
+        List<Todos> todos;
+        if(label_id == null || label_id.equals("all")){
+            // Retrieve all tasks by User ID
+            todos = todoService.retrieveAll(loginUserID);
+        } else {
+            // Retrieve all todoId by Label ID
+            List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
+            List<String> todoIdList = new ArrayList<>();
+            for (TodoLabel todoLabel : todoLabelList){
+                todoIdList.add(todoLabel.getTodoId());
+            }
+            todos = todoService.retrieveByTodoIdList(todoIdList);
+        }
         // Remove completed tasks
         List<Todos> incompleteTasks = todos.stream()
                 .filter(t -> !t.getIsCompleted())
@@ -89,7 +101,7 @@ public class TodosController {
                 todoId
         );
         // Fetch all related labelId
-        List<TodoLabel> todoLabelList = todoLabelService.retrieveALlLabelId(todoId);
+        List<TodoLabel> todoLabelList = todoLabelService.retrieveAllLabelId(todoId);
         List<String> labelIdList = new ArrayList<>();
         for (TodoLabel todoLabel: todoLabelList) {
             labelIdList.add(todoLabel.getLabelId());

@@ -29,7 +29,7 @@ public class LabelController {
         LocalDateTime currentDatetime = LocalDateTime.now();
         String labelId = labelService.store(request, currentDatetime, principal.getName());
         System.out.println("New Label ID : " + labelId);
-        String view = "redirect:/to-do/all";
+        String view = "redirect:/to-do/list";
         if(request.getTodoId() != null && !request.getTodoId().isEmpty()){
             System.out.println("Assign to the to-do. TODO ID : " + request.getTodoId());
             todoLabelService.store(request.getTodoId(), labelId, currentDatetime);

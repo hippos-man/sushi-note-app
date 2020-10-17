@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/to-do/all", true)
+                .defaultSuccessUrl("/to-do/list", true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login")

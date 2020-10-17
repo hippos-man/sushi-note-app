@@ -22,6 +22,10 @@ public class TodoService {
         return todoJpaRepository.findByUserId(userId);
     }
 
+    public List<Todos> retrieveByTodoIdList(Iterable<String> todoIds) {
+        return todoJpaRepository.findAllById(todoIds);
+    }
+
     public Todos retrieveOne(String todoId){
         return todoJpaRepository.getOne(todoId);
     }

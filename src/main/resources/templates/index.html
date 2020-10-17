@@ -48,10 +48,10 @@
                 </tr>
             </thead>
             <tr>
-                <td>All Items</td>
+                <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
             </tr>
             <tr th:each="label: ${labels}">
-                <td><span th:text="${label.labelName}"></span></td>
+                <td><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a></td>
             </tr>
             <tr>
                 <td>
