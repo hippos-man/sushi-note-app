@@ -3,9 +3,11 @@ package com.lazyhippos.todolistapp.domain.service;
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,12 +20,21 @@ public class TodoService {
         this.todoJpaRepository = todoJpaRepository;
     }
 
-    public List<Todos> retrieveAll(String userId){
-        return todoJpaRepository.findByUserId(userId);
+    public List<Todos> retrieveAll(String userId, String sort){
+        List<Todos> list = new ArrayList<>();
+        if(sort != null && sort.equals("asc")){
+            list = todoJpaRepository.findByUserIdOrderByDeadlineDateAsc(userId);
+        }
+        return list;
     }
 
-    public List<Todos> retrieveByTodoIdList(Iterable<String> todoIds) {
-        return todoJpaRepository.findAllById(todoIds);
+    public List<Todos> retrieveByTodoIdList(Iterable<String> todoIds, String sort) {
+        List<Todos> list = new ArrayList<>();
+        if(sort != null && sort.equals("asc")){
+            // TODO Sort ASC
+            list = todoJpaRepository.findAllById(todoIds);
+        }
+        return list;
     }
 
     public Todos retrieveOne(String todoId){
