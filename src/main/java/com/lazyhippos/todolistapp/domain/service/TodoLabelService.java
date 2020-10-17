@@ -16,8 +16,12 @@ public class TodoLabelService {
         this.todoLabelJpaRepository = repository;
     }
 
-    public List<TodoLabel> retrieveALlLabelId(String todoId) {
+    public List<TodoLabel> retrieveAllLabelId(String todoId) {
         return todoLabelJpaRepository.findByTodoId(todoId);
+    }
+
+    public List<TodoLabel> retrieveTodoIdsByLabelId(String labelId){
+        return todoLabelJpaRepository.findAllByLabelId(labelId);
     }
 
     public void store(String todoId, String labelId, LocalDateTime now){
