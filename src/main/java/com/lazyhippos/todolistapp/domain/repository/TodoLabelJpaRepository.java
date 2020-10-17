@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TodoLabelJpaRepository extends JpaRepository<TodoLabel, String> {
     List<TodoLabel> findByTodoId(String todoId);
+    List<TodoLabel> findAllByLabelId(String labelId);
 }
