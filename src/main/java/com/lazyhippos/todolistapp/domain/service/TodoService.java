@@ -3,7 +3,6 @@ package com.lazyhippos.todolistapp.domain.service;
 import com.lazyhippos.todolistapp.application.resource.TodoRequest;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import com.lazyhippos.todolistapp.domain.repository.TodoJpaRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,7 +31,8 @@ public class TodoService {
         List<Todos> list = new ArrayList<>();
         if(sort != null && sort.equals("asc")){
             // TODO Sort ASC
-            list = todoJpaRepository.findAllById(todoIds);
+            list = todoJpaRepository.findByTodoIdInOrderByDeadlineDateAsc(todoIds);
+//            list = todoJpaRepository.findAllById(todoIds);
         }
         return list;
     }
