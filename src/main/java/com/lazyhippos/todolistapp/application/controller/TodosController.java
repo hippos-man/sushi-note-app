@@ -62,7 +62,6 @@ public class TodosController {
                            @RequestParam(required = false, defaultValue = "asc") String sort,
                            Principal principal, Model model){
         String loginUserID = principal.getName();
-        // TODO Sort by deadline date and created date
         List<Todos> todos;
         if(label_id == null || label_id.equals("all")){
             // Retrieve all tasks by User ID
