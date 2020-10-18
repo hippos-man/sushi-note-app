@@ -51,7 +51,9 @@
                 <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
             </tr>
             <tr th:each="label: ${labels}">
-                <td><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a></td>
+                <td><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
+                    <a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a>
+                </td>
             </tr>
             <tr>
                 <td>
