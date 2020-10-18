@@ -32,31 +32,6 @@ public class TodosController {
         this.todoLabelService = todoLabelService;
     }
 
-    @PostMapping("/register")
-    public String registerTodo (Principal principal, @ModelAttribute TodoRequest request){
-        // Fetch current datetime
-        LocalDateTime currentDatetime = LocalDateTime.now();
-        String loginUserId = principal.getName();
-        // Store new object
-        todoService.store(request.getTitle(), currentDatetime, loginUserId);
-        return "redirect:/to-do/list";
-    }
-
-    @PostMapping("/update/{todoId}")
-    public String updateTodo(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
-        // Fetch current datetime
-        LocalDateTime currentDatetime = LocalDateTime.now();
-        // Update
-        todoService.update(todoId, request, currentDatetime);
-        return "redirect:/to-do/list";
-    }
-
-    @PostMapping("/complete/{todoId}")
-    public String completeTodo(@PathVariable("todoId") String todoId){
-        todoService.complete(todoId);
-        return "redirect:/to-do/list";
-    }
-
     @GetMapping("/list")
     public String showHome(@RequestParam(required = false) String label_id,
                            @RequestParam(required = false, defaultValue = "asc") String sort,
@@ -112,5 +87,36 @@ public class TodosController {
         model.addAttribute("relatedLabels", relatedLabels);
         model.addAttribute("todoLabelRequest", request);
         return "todoDetail";
+    }
+
+    @GetMapping("/delete/{todoId}")
+    public String deleteTodo(@PathVariable("todoId") String todoId){
+        todoService.delete(todoId);
+        return "redirect:/to-do/list";
+    }
+
+    @PostMapping("/register")
+    public String registerTodo (Principal principal, @ModelAttribute TodoRequest request){
+        // Fetch current datetime
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        String loginUserId = principal.getName();
+        // Store new object
+        todoService.store(request.getTitle(), currentDatetime, loginUserId);
+        return "redirect:/to-do/list";
+    }
+
+    @PostMapping("/update/{todoId}")
+    public String updateTodo(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+        // Fetch current datetime
+        LocalDateTime currentDatetime = LocalDateTime.now();
+        // Update
+        todoService.update(todoId, request, currentDatetime);
+        return "redirect:/to-do/list";
+    }
+
+    @PostMapping("/complete/{todoId}")
+    public String completeTodo(@PathVariable("todoId") String todoId){
+        todoService.complete(todoId);
+        return "redirect:/to-do/list";
     }
 }
