@@ -30,9 +30,7 @@ public class TodoService {
     public List<Todos> retrieveByTodoIdList(Iterable<String> todoIds, String sort) {
         List<Todos> list = new ArrayList<>();
         if(sort != null && sort.equals("asc")){
-            // TODO Sort ASC
             list = todoJpaRepository.findByTodoIdInOrderByDeadlineDateAsc(todoIds);
-//            list = todoJpaRepository.findAllById(todoIds);
         }
         return list;
     }
@@ -85,5 +83,9 @@ public class TodoService {
         todo.setIsCompleted(true);
         // Execute
         todoJpaRepository.save(todo);
+    }
+
+    public void delete(String todoId){
+        todoJpaRepository.deleteById(todoId);
     }
 }
