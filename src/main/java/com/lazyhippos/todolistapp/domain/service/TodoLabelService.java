@@ -38,4 +38,7 @@ public class TodoLabelService {
     public void delete(String todoId, String labelId){
         todoLabelJpaRepository.deleteByTodoIdAndLabelId(todoId, labelId);
     }
+    public void deleteAllByLabelId(String labelId){
+        todoLabelJpaRepository.deleteAllByLabelId(labelId);
+    }
 }
