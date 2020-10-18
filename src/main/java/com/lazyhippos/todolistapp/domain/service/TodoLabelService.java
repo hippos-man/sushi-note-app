@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.domain.model.TodoLabel;
+import com.lazyhippos.todolistapp.domain.model.TodoLabelId;
 import com.lazyhippos.todolistapp.domain.repository.TodoLabelJpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,12 @@ public class TodoLabelService {
                 now
         );
         todoLabelJpaRepository.save(entity);
+    }
+
+    public void delete(String todoId, String labelId){
+        todoLabelJpaRepository.deleteByTodoIdAndLabelId(todoId, labelId);
+    }
+    public void deleteAllByLabelId(String labelId){
+        todoLabelJpaRepository.deleteAllByLabelId(labelId);
     }
 }

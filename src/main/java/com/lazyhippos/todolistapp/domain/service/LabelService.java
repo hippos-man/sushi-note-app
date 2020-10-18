@@ -42,4 +42,8 @@ public class LabelService {
         labelJpaRepository.save(entity);
         return labelId;
     }
+
+    public void delete(String labelId){
+        labelJpaRepository.deleteById(labelId);
+    }
 }

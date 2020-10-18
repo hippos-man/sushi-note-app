@@ -19,7 +19,11 @@
                     <tr th:object="${relatedLabels}"
                         th:each="label : ${relatedLabels}">
                         <td th:text="${label.labelName}"></td>
-                        <td><button type="submit">Delete</button></td>
+                        <td>
+                            <a th:href="@{'/label/remove'(todoId=${todoLabelRequest.todoId}, labelId=${label.labelId})}">
+                                <button>Remove</button>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -27,7 +31,8 @@
             <br>
             <div class="add-label-container">
                 <h4>Add label:</h4>
-                <form class="existing-label" role="form" action="#" th:action="@{'/label/add'}" th:object="${todoLabelRequest}" method="post">
+                <form class="existing-label" role="form" action="#" th:action="@{'/label/add'}"
+                      th:object="${todoLabelRequest}" method="post">
                     <select th:field="*{labelsList}">
                         <option th:each=" label : ${todoLabelRequest.labelsList}"
                                 th:value="${label.labelId}" th:text="${label.labelName}"></option>
@@ -59,8 +64,15 @@
                 <input type="text" th:field="*{description}" size="100"><br /><br />
                 <input type="submit" value="Update"><br />
             </form>
+            <br>
+            <br>
+            <a th:href="@{'/to-do/delete/' + ${request.todoId}}" th:object="${request}">
+                <button>Delete</button>
+            </a>
         </div>
 </div>
+<br>
+<br>
 <div class="container-sub">
     <button>
         <a th:href="${'/to-do/list'}">Go back</a>
