@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -49,6 +50,14 @@ public class LabelController {
         String labelId = request.getLabelsList().get(0).getLabelId();
         // Store
         todoLabelService.store(todoId, labelId, currentDateTime);
+        String view = "redirect:/to-do/" + todoId + "/detail";
+        return view;
+    }
+
+    @Transactional
+    @GetMapping("/remove")
+    public String remove(@RequestParam String todoId, @RequestParam String labelId){
+        todoLabelService.delete(todoId, labelId);
         String view = "redirect:/to-do/" + todoId + "/detail";
         return view;
     }
