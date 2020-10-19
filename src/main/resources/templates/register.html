@@ -14,18 +14,22 @@
                 <tr>
                     <td>User ID:</td>
                     <td><input type="text" th:field="*{userId}" size="30"></td>
+                    <td><span th:errors="*{userId}"></span></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
                     <td><input type="password" th:field="*{password}" size="30"></td>
+                    <td><span th:errors="*{password}"></span></td>
                 </tr>
                 <tr>
                     <td>First Name:</td>
                     <td><input type="text" th:field="*{firstName}" size="30"></td>
+                    <td><span th:errors="*{firstName}"></span></td>
                 </tr>
                 <tr>
                     <td>Last Name:</td>
                     <td><input type="text" th:field="*{lastName}" size="30"></td>
+                    <td><span th:errors="*{lastName}"></span></td>
                 </tr>
                 <tr>
                     <td><button type="submit">Register</button></td>

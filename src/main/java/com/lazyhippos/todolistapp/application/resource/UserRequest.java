@@ -7,7 +7,7 @@ public class UserRequest implements Serializable {
     @NotBlank
     @Size(max = 50)
     private String userId;
-    @NotNull
+    @NotBlank
     @Size(max = 50)
     private String firstName;
     @NotBlank
