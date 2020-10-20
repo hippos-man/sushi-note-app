@@ -10,8 +10,10 @@ import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
 import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class TodosController {
     @GetMapping("/list")
     public String showHome(@RequestParam(required = false) String label_id,
                            @RequestParam(required = false, defaultValue = "asc") String sort,
-                           Principal principal, Model model){
+                           Principal principal, Model model, @RequestParam(defaultValue = "false") Boolean isError){
         String loginUserID = principal.getName();
         List<Todos> todos;
         if(label_id == null || label_id.equals("all")){
@@ -62,6 +64,10 @@ public class TodosController {
         model.addAttribute("todos", incompleteTasks);
         model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
+        if(isError){
+            model.addAttribute("errorMessage", "Try Again");
+        }
+
         return "index";
     }
 
@@ -96,12 +102,18 @@ public class TodosController {
     }
 
     @PostMapping("/register")
-    public String registerTodo (Principal principal, @ModelAttribute TodoRequest request){
+    public String registerTodo (Principal principal,
+                                @Valid @ModelAttribute(name = "todoForm") TodoRequest todoForm,
+                                BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            String queryParameter = "?isError=true";
+            return "redirect:/to-do/list" + queryParameter;
+        }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         String loginUserId = principal.getName();
         // Store new object
-        todoService.store(request.getTitle(), currentDatetime, loginUserId);
+        todoService.store(todoForm.getTitle(), currentDatetime, loginUserId);
         return "redirect:/to-do/list";
     }
 
