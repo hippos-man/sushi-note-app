@@ -9,15 +9,26 @@
 <div class="container-main">
     <h2>Create new label</h2>
     <form role="form" action="#" th:action="@{/label/register}" th:object="${request}" method="post">
-        Lebel Name:<br>
-        <input type="text" th:field="*{labelName}" size="30"><br>
-        Description:<br>
-        <input type="text" th:field="*{description}" size="50"><br>
-        <input type="hidden" th:field="*{todoId}">
-        <br>
-        <input type="submit" value="Create">
+        <table>
+            <tr>
+                <td>Label Name:</td>
+                <td><input type="text" th:field="*{labelName}"></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><input type="text" th:field="*{description}"></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" th:field="*{todoId}"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Create"></td>
+            </tr>
+        </table>
     </form>
 </div>
+<br>
+<br>
 <div class="container-sub">
     <button>
         <a th:href="@{/to-do/list}">Go back</a>
