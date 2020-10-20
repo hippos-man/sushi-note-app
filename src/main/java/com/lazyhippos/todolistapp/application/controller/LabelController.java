@@ -6,9 +6,11 @@ import com.lazyhippos.todolistapp.domain.service.LabelService;
 import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -25,7 +27,14 @@ public class LabelController {
     }
 
     @PostMapping("/register")
-    public String register(Principal principal, @ModelAttribute LabelRequest request){
+    public String register(Principal principal,
+                           @Valid @ModelAttribute(name = "request") LabelRequest request,
+                           BindingResult bindingResult,
+                           Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("request", request);
+            return "labelRegister";
+        }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         String labelId = labelService.store(request, currentDatetime, principal.getName());
