@@ -51,7 +51,11 @@ public class LabelController {
 
 
     @PostMapping("/add")
-    public String add(@ModelAttribute TodoLabelRequest request){
+    public String add(@Valid @ModelAttribute(name = "request") TodoLabelRequest request,
+                      BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "redirect:/to-do/" + request.getTodoId() + "/detail"  + "?isError=true";
+        }
         LocalDateTime currentDateTime = LocalDateTime.now();
         // Retrieve TodoID
         String todoId = request.getTodoId();
