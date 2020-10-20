@@ -64,6 +64,7 @@ public class TodosController {
         model.addAttribute("todos", incompleteTasks);
         model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
+        // Show Error message
         if(isError){
             model.addAttribute("errorMessage", "Try Again");
         }
@@ -72,7 +73,9 @@ public class TodosController {
     }
 
     @GetMapping("/{todoId}/detail")
-    public String showTaskDetail(@PathVariable("todoId") String todoId, Model model){
+    public String showTaskDetail(@PathVariable("todoId") String todoId,
+                                 Model model,
+                                 @RequestParam(defaultValue = "false") Boolean isError){
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
@@ -92,6 +95,9 @@ public class TodosController {
         model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
         model.addAttribute("relatedLabels", relatedLabels);
         model.addAttribute("todoLabelRequest", request);
+        if(isError){
+            model.addAttribute("hasError", "Try Again");
+        }
         return "todoDetail";
     }
 
@@ -118,7 +124,13 @@ public class TodosController {
     }
 
     @PostMapping("/update/{todoId}")
-    public String updateTodo(@PathVariable("todoId") String todoId, @ModelAttribute TodoRequest request){
+    public String updateTodo(@PathVariable("todoId") String todoId,
+                             @Valid @ModelAttribute TodoRequest request,
+                             BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            System.out.println(bindingResult.getAllErrors());
+            return "redirect:/to-do/" + todoId + "/detail"+ "?isError=true";
+        }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
         // Update
