@@ -14,6 +14,7 @@ public class TodoRequest implements Serializable {
     @NotBlank
     @Size(max = 300)
     private String title;
+    @Size(max = 1500)
     private String description;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime deadlineDate;
