@@ -6,8 +6,9 @@
 </head>
 <body>
     <div class="container-main">
-        <h1>Something Wrong!</h1>
-        <p>Error occurs in the process.</p>
+        <h1>System error occurred.</h1>
+        <h2 th:if="${status}" th:text="${status} + ' ' + ${error}"></h2>
+        <p>Something wrong with the process.</p>
         <p>Please try again later.</p>
         <br>
         <button>
