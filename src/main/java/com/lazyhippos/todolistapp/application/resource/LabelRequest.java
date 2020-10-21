@@ -1,11 +1,16 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class LabelRequest implements Serializable {
-
+    @NotBlank
+    @Size(max = 50)
     private String labelName;
+    @NotBlank
     private String todoId;
+    @Size(max = 1500)
     private String description;
 
     public LabelRequest() {

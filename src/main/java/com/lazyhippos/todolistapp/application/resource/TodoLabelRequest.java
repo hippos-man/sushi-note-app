@@ -2,11 +2,15 @@ package com.lazyhippos.todolistapp.application.resource;
 
 import com.lazyhippos.todolistapp.domain.model.Labels;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class TodoLabelRequest {
-   private List<Labels> labelsList;
-   private String todoId;
+    @Size(min = 1 )
+    private List<Labels> labelsList;
+    @NotBlank
+    private String todoId;
 
     public TodoLabelRequest() {
     }

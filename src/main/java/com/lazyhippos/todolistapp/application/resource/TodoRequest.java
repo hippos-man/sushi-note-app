@@ -3,13 +3,18 @@ package com.lazyhippos.todolistapp.application.resource;
 import com.lazyhippos.todolistapp.domain.model.Todos;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class TodoRequest implements Serializable {
 
     private String todoId;
+    @NotBlank
+    @Size(max = 300)
     private String title;
+    @Size(max = 1500)
     private String description;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime deadlineDate;

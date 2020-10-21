@@ -1,12 +1,20 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 public class UserRequest implements Serializable {
-
+    @NotBlank
+    @Size(max = 50)
     private String userId;
+    @NotBlank
+    @Size(max = 50)
     private String firstName;
+    @NotBlank
+    @Size(max = 50)
     private String lastName;
+    @NotBlank
+    @Size(min = 8, max = 50)
     private String password;
 
     public UserRequest() {
