@@ -13,13 +13,13 @@ public class DefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error";
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception{
-        if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class)
+    public ModelAndView defaultErrorHandler(HttpServletRequest httpServletRequest, Exception exception) throws Exception{
+        if(AnnotationUtils.findAnnotation(exception.getClass(), ResponseStatus.class)
         != null){
-            throw e;
+            throw exception;
         }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("exception", e);
+        modelAndView.addObject("exception", exception);
         modelAndView.addObject("url", httpServletRequest.getRequestURL());
         modelAndView.setViewName(DEFAULT_ERROR_VIEW);
         return modelAndView;
