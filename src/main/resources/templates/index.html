@@ -10,8 +10,15 @@
     <div class="submit-todo">
         <h3>What are you gonna do ?</h3>
         <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
-            <input type="text" th:field="*{title}" placeholder="What needs to be done?">
-            <input type="submit" value="Add">
+            <table>
+                <tr>
+                    <td><span th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
+                </tr>
+                <tr>
+                    <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
+                    <td><input type="submit" value="Add"></td>
+                </tr>
+            </table>
         </form>
     </div>
     <br>

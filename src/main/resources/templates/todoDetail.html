@@ -7,6 +7,9 @@
 <body>
 <div class="container-main">
     <h2>Task Setting</h2>
+        <div class="error-message">
+            <p th:if="${hasError}" th:text="${hasError}"></p>
+        </div>
         <div class="label-container">
             <div class="related-label-container">
             <table>
@@ -55,14 +58,23 @@
         <br>
         <div class="todo-container">
             <form role="form" action="#" th:action="@{'/to-do/update/' + ${request.todoId}}" th:object="${request}" method="post">
-                Title:
-                <input type="text" th:field="*{title}" size="100"><br /><br />
-                DeadLine:
-                <input type="datetime-local"
-                       th:field="*{deadlineDate}"><br /><br />
-                Description:
-                <input type="text" th:field="*{description}" size="100"><br /><br />
-                <input type="submit" value="Update"><br />
+                <table>
+                    <tr>
+                        <td>To-do Title:</td>
+                        <td><input type="text" th:field="*{title}"><br />
+                    </tr>
+                    <tr>
+                        <td>DeadLine Date:</td>
+                        <td><input type="datetime-local" th:field="*{deadlineDate}"></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td><input type="text" th:field="*{description}"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Update"></td>
+                    </tr>
+                </table>
             </form>
             <br>
             <br>

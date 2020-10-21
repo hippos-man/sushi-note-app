@@ -4,15 +4,24 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 public class Users {
     @Id
+    @NotBlank
     private String userId;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String password;
+    @NotNull
     private Boolean isActive;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;

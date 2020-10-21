@@ -2,19 +2,23 @@ package com.lazyhippos.todolistapp.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
 public class Todos {
 
     @Id
+    @NotBlank
     private String todoId;
+    @NotBlank
     private String title;
     private String description;
     private LocalDateTime deadlineDate;
     private boolean isCompleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
+    @NotBlank
     private String userId;
 
     public Todos() {

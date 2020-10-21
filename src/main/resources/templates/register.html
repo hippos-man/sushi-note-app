@@ -8,16 +8,33 @@
 <body>
     <div class="container-main">
         <h2>Sign up</h2>
+        <p th:if="${validationError}" th:text="${validationError}"></p>
         <form role="form" action="#" th:action="@{/user/register}" th:object="${request}" method="post">
-            User ID:<br>
-            <input type="text" th:field="*{userId}" size="30"><br>
-            First Name:<br>
-            <input type="text" th:field="*{firstName}" size="20"><br>
-            Last Name:<br>
-            <input type="text" th:field="*{lastName}" size="20"><br>
-            Password:<br>
-            <input type="password" th:field="*{password}" size="20"><br>
-            <input type="submit" value="Register">
+            <table>
+                <tr>
+                    <td>User ID:</td>
+                    <td><input type="text" th:field="*{userId}" size="30"></td>
+                    <td><span th:errors="*{userId}"></span></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" th:field="*{password}" size="30"></td>
+                    <td><span th:errors="*{password}"></span></td>
+                </tr>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" th:field="*{firstName}" size="30"></td>
+                    <td><span th:errors="*{firstName}"></span></td>
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td><input type="text" th:field="*{lastName}" size="30"></td>
+                    <td><span th:errors="*{lastName}"></span></td>
+                </tr>
+                <tr>
+                    <td><button type="submit">Register</button></td>
+                </tr>
+            </table>
         </form>
         <button>
             <a th:href="@{/login}">Go back</a>
