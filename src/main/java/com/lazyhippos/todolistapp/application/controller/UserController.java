@@ -19,6 +19,8 @@ public class UserController {
 
     private final UserService userService;
 
+    private final String USER_REGISTER_VIEW = "userRegister";
+
     UserController(UserService userService) {
         this.userService = userService;
     }
@@ -26,7 +28,7 @@ public class UserController {
     @GetMapping("/sign-up")
     public String showUserRegisterPage(Model model){
         model.addAttribute("request", new UserRequest());
-        return "register";
+        return USER_REGISTER_VIEW;
     }
 
 
@@ -36,7 +38,7 @@ public class UserController {
             System.out.println("Binding Result Error: " + bindingResult.getAllErrors());
             model.addAttribute("request", request);
             model.addAttribute("validationError", "Input value is not valid.");
-            return "register";
+            return USER_REGISTER_VIEW;
         }
         // Get current time
         LocalDateTime now = LocalDateTime.now();

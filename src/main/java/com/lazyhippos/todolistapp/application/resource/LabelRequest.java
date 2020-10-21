@@ -8,7 +8,7 @@ public class LabelRequest implements Serializable {
     @NotBlank
     @Size(max = 50)
     private String labelName;
-    @NotBlank
+    @Size(max = 100)
     private String todoId;
     @Size(max = 1500)
     private String description;
