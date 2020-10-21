@@ -20,6 +20,7 @@ public class LabelController {
 
     private final LabelService labelService;
     private final TodoLabelService todoLabelService;
+    private final String LABEL_REGISTER_VIEW = "labelRegister";
 
     LabelController(LabelService labelService, TodoLabelService todoLabelService){
         this.labelService = labelService;
@@ -33,7 +34,7 @@ public class LabelController {
                            Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("request", request);
-            return "labelRegister";
+            return LABEL_REGISTER_VIEW;
         }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
@@ -83,7 +84,7 @@ public class LabelController {
     @GetMapping("/new")
     public String showLabelRegister(Model model, @RequestParam(required = false) String todoId){
             model.addAttribute("request", new LabelRequest(null, todoId, null));
-        return "labelRegister";
+        return LABEL_REGISTER_VIEW;
     }
 
 
