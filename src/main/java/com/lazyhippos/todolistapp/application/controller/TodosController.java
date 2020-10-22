@@ -59,7 +59,7 @@ public class TodosController {
         List<Todos> incompleteTasks = todos.stream()
                 .filter(t -> !t.getIsCompleted())
                 .collect(Collectors.toList());
-
+        // Retrieve All Labels that the user has
         List<Labels> labelsList = labelService.retrieveAll(loginUserID);
 
         model.addAttribute("todos", incompleteTasks);
@@ -67,7 +67,7 @@ public class TodosController {
         model.addAttribute("todoForm", new TodoRequest());
         // Show Error message
         if(isError){
-            model.addAttribute("errorMessage", "Try Again");
+            model.addAttribute("errorMessage", "Something wrong");
         }
 
         return INDEX_VIEW;
