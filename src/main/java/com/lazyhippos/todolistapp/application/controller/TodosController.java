@@ -39,21 +39,24 @@ public class TodosController {
                            @RequestParam(required = false, defaultValue = "asc") String sort,
                            Principal principal, Model model,
                            @RequestParam(defaultValue = "false") Boolean isError){
+
+        final String INDEX_VIEW = "index";
+
         String loginUserID = principal.getName();
         List<Todos> todos;
         if(label_id == null || label_id.equals("all")){
-            // Retrieve all tasks by User ID
             todos = todoService.retrieveAll(loginUserID, sort);
         } else {
-            // Retrieve all todoId by Label ID
+            // Retrieve all To-do by Label ID
             List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
             List<String> todoIdList = new ArrayList<>();
-            for (TodoLabel todoLabel : todoLabelList){
-                todoIdList.add(todoLabel.getTodoId());
-            }
+            todoLabelList.forEach(
+                    todoLabel -> todoIdList
+                            .add(todoLabel.getTodoId())
+            );
             todos = todoService.retrieveByTodoIdList(todoIdList, sort);
         }
-        // Remove completed tasks
+        // Remove Completed tasks
         List<Todos> incompleteTasks = todos.stream()
                 .filter(t -> !t.getIsCompleted())
                 .collect(Collectors.toList());
@@ -68,13 +71,14 @@ public class TodosController {
             model.addAttribute("errorMessage", "Try Again");
         }
 
-        return "index";
+        return INDEX_VIEW;
     }
 
     @GetMapping("/{todoId}/detail")
     public String showTaskDetail(@PathVariable("todoId") String todoId,
                                  Model model,
                                  @RequestParam(defaultValue = "false") Boolean isError){
+        final String TODO_EDIT_VIEW = "todoDetail";
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
@@ -97,7 +101,7 @@ public class TodosController {
         if(isError){
             model.addAttribute("hasError", "Try Again");
         }
-        return "todoDetail";
+        return TODO_EDIT_VIEW;
     }
 
     @GetMapping("/delete/{todoId}")
