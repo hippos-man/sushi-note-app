@@ -37,7 +37,8 @@ public class TodosController {
     @GetMapping("/list")
     public String showHome(@RequestParam(required = false) String label_id,
                            @RequestParam(required = false, defaultValue = "asc") String sort,
-                           Principal principal, Model model, @RequestParam(defaultValue = "false") Boolean isError){
+                           Principal principal, Model model,
+                           @RequestParam(defaultValue = "false") Boolean isError){
         String loginUserID = principal.getName();
         List<Todos> todos;
         if(label_id == null || label_id.equals("all")){
@@ -57,10 +58,8 @@ public class TodosController {
                 .filter(t -> !t.getIsCompleted())
                 .collect(Collectors.toList());
 
-        // Retrieve all labels by User ID
         List<Labels> labelsList = labelService.retrieveAll(loginUserID);
 
-        // Add to Model
         model.addAttribute("todos", incompleteTasks);
         model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
@@ -128,7 +127,6 @@ public class TodosController {
                              @Valid @ModelAttribute TodoRequest request,
                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            System.out.println(bindingResult.getAllErrors());
             return "redirect:/to-do/" + todoId + "/detail"+ "?isError=true";
         }
         // Fetch current datetime
