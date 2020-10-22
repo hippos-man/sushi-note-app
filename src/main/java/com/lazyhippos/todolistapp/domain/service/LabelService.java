@@ -20,8 +20,7 @@ public class LabelService {
 
 
     public List<Labels> retrieveAll(String userId){
-        List<Labels> labelsList = labelJpaRepository.findByUserId(userId);
-        return labelsList;
+        return labelJpaRepository.findByUserId(userId);
     }
 
     public List<Labels> retrieveByLabelIds(List<String> labelIds){
