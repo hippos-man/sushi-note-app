@@ -37,23 +37,22 @@ public class TodosController {
     @GetMapping("/list")
     public String showHome(@RequestParam(required = false) String label_id,
                            @RequestParam(required = false, defaultValue = "asc") String sort,
-                           Principal principal, Model model,
-                           @RequestParam(defaultValue = "false") Boolean isError){
+                           @RequestParam(defaultValue = "false") Boolean isError,
+                           Principal principal, Model model
+                           ){
 
         final String INDEX_VIEW = "index";
+        final String LABEL_STRING_ALL = "all";
 
         String loginUserID = principal.getName();
         List<Todos> todos;
-        if(label_id == null || label_id.equals("all")){
+
+        if(label_id == null || label_id.equals(LABEL_STRING_ALL)){
             todos = todoService.retrieveAll(loginUserID, sort);
         } else {
             // Retrieve all To-do by Label ID
             List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
-            List<String> todoIdList = new ArrayList<>();
-            todoLabelList.forEach(
-                    todoLabel -> todoIdList
-                            .add(todoLabel.getTodoId())
-            );
+            List<String> todoIdList = retrieveTodoIds(todoLabelList);
             todos = todoService.retrieveByTodoIdList(todoIdList, sort);
         }
         // Remove Completed tasks
@@ -76,8 +75,8 @@ public class TodosController {
 
     @GetMapping("/{todoId}/detail")
     public String showTaskDetail(@PathVariable("todoId") String todoId,
-                                 Model model,
-                                 @RequestParam(defaultValue = "false") Boolean isError){
+                                 @RequestParam(defaultValue = "false") Boolean isError,
+                                 Model model){
         final String TODO_EDIT_VIEW = "todoDetail";
         // Retrieve the object by To-do ID
         Todos todo= todoService.retrieveOne(todoId);
@@ -145,4 +144,16 @@ public class TodosController {
         todoService.complete(todoId);
         return "redirect:/to-do/list";
     }
+
+    static List<String> retrieveTodoIds(List<TodoLabel> todoLabelList){
+        List<String> todoIds = new ArrayList<>();
+        if(todoLabelList != null) {
+            todoLabelList.forEach(
+                    todoLabel -> todoIds
+                            .add(todoLabel.getTodoId())
+            );
+        }
+        return todoIds;
+    }
+
 }
