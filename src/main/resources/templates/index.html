@@ -35,7 +35,7 @@
             </tr>
             <tr th:each="todo: ${todos}">
                 <td>
-                    <a th:href="@{'/to-do/' + ${todo.todoId} + '/detail'}" th:text="${todo.title}"></a>
+                    <a th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
                 </td>
                 <td>
                     <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
