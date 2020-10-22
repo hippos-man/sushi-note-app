@@ -42,7 +42,7 @@ public class LabelController {
         String view = "redirect:/to-do/list";
         if(request.getTodoId() != null && !request.getTodoId().isEmpty()){
             todoLabelService.store(request.getTodoId(), labelId, currentDatetime);
-            view = "redirect:/to-do/" + request.getTodoId() + "/detail";
+            view = "redirect:/to-do/" + request.getTodoId() + "/edit";
         }
         return view;
     }
@@ -53,7 +53,7 @@ public class LabelController {
     public String add(@Valid @ModelAttribute(name = "request") TodoLabelRequest request,
                       BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:/to-do/" + request.getTodoId() + "/detail"  + "?isError=true";
+            return "redirect:/to-do/" + request.getTodoId() + "/edit"  + "?isError=true";
         }
         LocalDateTime currentDateTime = LocalDateTime.now();
         // Retrieve TodoID
@@ -62,14 +62,14 @@ public class LabelController {
         String labelId = request.getLabelsList().get(0).getLabelId();
         // Store
         todoLabelService.store(todoId, labelId, currentDateTime);
-        return "redirect:/to-do/" + todoId + "/detail";
+        return "redirect:/to-do/" + todoId + "/edit";
     }
 
     @Transactional
     @GetMapping("/remove")
     public String remove(@RequestParam String todoId, @RequestParam String labelId){
         todoLabelService.delete(todoId, labelId);
-        return "redirect:/to-do/" + todoId + "/detail";
+        return "redirect:/to-do/" + todoId + "/edit";
     }
     @Transactional
     @GetMapping("/delete")

@@ -51,7 +51,7 @@ public class TodosController {
             todos = todoService.retrieveAll(loginUserID, sort);
         } else {
             // Retrieve all To-do by Label ID
-            List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
+            List<TodoLabel> todoLabelList = todoLabelService.retrieveAllByLabelId(label_id);
             List<String> todoIdList = retrieveTodoIds(todoLabelList);
             todos = todoService.retrieveByTodoIdList(todoIdList, sort);
         }
@@ -73,30 +73,27 @@ public class TodosController {
         return INDEX_VIEW;
     }
 
-    @GetMapping("/{todoId}/detail")
-    public String showTaskDetail(@PathVariable("todoId") String todoId,
+    @GetMapping("/{todoId}/edit")
+    public String showTodoEdit(@PathVariable("todoId") String todoId,
                                  @RequestParam(defaultValue = "false") Boolean isError,
                                  Model model){
-        final String TODO_EDIT_VIEW = "todoDetail";
-        // Retrieve the object by To-do ID
+        final String TODO_EDIT_VIEW = "todoEdit";
+        // Retrieve the to-do by ID
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
         List<Labels> allLabels = labelService.retrieveAll(todo.getUserId());
-        // Generate Request
-        TodoLabelRequest request = new TodoLabelRequest(
+        // Generate To-doLabel Request
+        TodoLabelRequest todoLabelRequest = new TodoLabelRequest(
                 allLabels,
                 todoId
         );
-        // Fetch all related labelId
-        List<TodoLabel> todoLabelList = todoLabelService.retrieveAllLabelId(todoId);
-        List<String> labelIdList = new ArrayList<>();
-        for (TodoLabel todoLabel: todoLabelList) {
-            labelIdList.add(todoLabel.getLabelId());
-        }
+        // Fetch all Related LabelIDs
+        List<String> labelIdList = todoLabelService.retrieveLabelIds(todoId);
+        // Retrieve All Related Label Objects
         List<Labels> relatedLabels = labelService.retrieveByLabelIds(labelIdList);
-        model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
+        model.addAttribute("todoRequest", TodoRequest.generateTodoRequest(todo));
         model.addAttribute("relatedLabels", relatedLabels);
-        model.addAttribute("todoLabelRequest", request);
+        model.addAttribute("todoLabelRequest", todoLabelRequest);
         if(isError){
             model.addAttribute("hasError", "Try Again");
         }
@@ -130,7 +127,7 @@ public class TodosController {
                              @Valid @ModelAttribute TodoRequest request,
                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "redirect:/to-do/" + todoId + "/detail"+ "?isError=true";
+            return "redirect:/to-do/" + todoId + "/edit"+ "?isError=true";
         }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
