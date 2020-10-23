@@ -37,68 +37,67 @@ public class TodosController {
     @GetMapping("/list")
     public String showHome(@RequestParam(required = false) String label_id,
                            @RequestParam(required = false, defaultValue = "asc") String sort,
-                           Principal principal, Model model, @RequestParam(defaultValue = "false") Boolean isError){
+                           @RequestParam(defaultValue = "false") Boolean isError,
+                           Principal principal, Model model
+                           ){
+
+        final String INDEX_VIEW = "index";
+        final String LABEL_STRING_ALL = "all";
+
         String loginUserID = principal.getName();
         List<Todos> todos;
-        if(label_id == null || label_id.equals("all")){
-            // Retrieve all tasks by User ID
+
+        if(label_id == null || label_id.equals(LABEL_STRING_ALL)){
             todos = todoService.retrieveAll(loginUserID, sort);
         } else {
-            // Retrieve all todoId by Label ID
-            List<TodoLabel> todoLabelList = todoLabelService.retrieveTodoIdsByLabelId(label_id);
-            List<String> todoIdList = new ArrayList<>();
-            for (TodoLabel todoLabel : todoLabelList){
-                todoIdList.add(todoLabel.getTodoId());
-            }
+            // Retrieve all To-do by Label ID
+            List<TodoLabel> todoLabelList = todoLabelService.retrieveAllByLabelId(label_id);
+            List<String> todoIdList = retrieveTodoIds(todoLabelList);
             todos = todoService.retrieveByTodoIdList(todoIdList, sort);
         }
-        // Remove completed tasks
+        // Remove Completed tasks
         List<Todos> incompleteTasks = todos.stream()
                 .filter(t -> !t.getIsCompleted())
                 .collect(Collectors.toList());
-
-        // Retrieve all labels by User ID
+        // Retrieve All Labels that the user has
         List<Labels> labelsList = labelService.retrieveAll(loginUserID);
 
-        // Add to Model
         model.addAttribute("todos", incompleteTasks);
         model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
         // Show Error message
         if(isError){
-            model.addAttribute("errorMessage", "Try Again");
+            model.addAttribute("errorMessage", "Something wrong");
         }
 
-        return "index";
+        return INDEX_VIEW;
     }
 
-    @GetMapping("/{todoId}/detail")
-    public String showTaskDetail(@PathVariable("todoId") String todoId,
-                                 Model model,
-                                 @RequestParam(defaultValue = "false") Boolean isError){
-        // Retrieve the object by To-do ID
+    @GetMapping("/{todoId}/edit")
+    public String showTodoEdit(@PathVariable("todoId") String todoId,
+                                 @RequestParam(defaultValue = "false") Boolean isError,
+                                 Model model){
+        final String TODO_EDIT_VIEW = "todoEdit";
+        // Retrieve the to-do by ID
         Todos todo= todoService.retrieveOne(todoId);
         // Retrieve all labels that login user created
         List<Labels> allLabels = labelService.retrieveAll(todo.getUserId());
-        // Generate Request
-        TodoLabelRequest request = new TodoLabelRequest(
+        // Generate To-doLabel Request
+        TodoLabelRequest todoLabelRequest = new TodoLabelRequest(
                 allLabels,
                 todoId
         );
-        // Fetch all related labelId
-        List<TodoLabel> todoLabelList = todoLabelService.retrieveAllLabelId(todoId);
-        List<String> labelIdList = new ArrayList<>();
-        for (TodoLabel todoLabel: todoLabelList) {
-            labelIdList.add(todoLabel.getLabelId());
-        }
+        // Fetch all Related LabelIDs
+        List<String> labelIdList = todoLabelService.retrieveLabelIds(todoId);
+        // Retrieve All Related Label Objects
         List<Labels> relatedLabels = labelService.retrieveByLabelIds(labelIdList);
-        model.addAttribute("request", TodoRequest.generateTodoRequest(todo));
+        model.addAttribute("todoRequest", TodoRequest.generateTodoRequest(todo));
         model.addAttribute("relatedLabels", relatedLabels);
-        model.addAttribute("todoLabelRequest", request);
+        model.addAttribute("todoLabelRequest", todoLabelRequest);
         if(isError){
             model.addAttribute("hasError", "Try Again");
         }
-        return "todoDetail";
+        return TODO_EDIT_VIEW;
     }
 
     @GetMapping("/delete/{todoId}")
@@ -128,8 +127,7 @@ public class TodosController {
                              @Valid @ModelAttribute TodoRequest request,
                              BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            System.out.println(bindingResult.getAllErrors());
-            return "redirect:/to-do/" + todoId + "/detail"+ "?isError=true";
+            return "redirect:/to-do/" + todoId + "/edit"+ "?isError=true";
         }
         // Fetch current datetime
         LocalDateTime currentDatetime = LocalDateTime.now();
@@ -143,4 +141,16 @@ public class TodosController {
         todoService.complete(todoId);
         return "redirect:/to-do/list";
     }
+
+    static List<String> retrieveTodoIds(List<TodoLabel> todoLabelList){
+        List<String> todoIds = new ArrayList<>();
+        if(todoLabelList != null) {
+            todoLabelList.forEach(
+                    todoLabel -> todoIds
+                            .add(todoLabel.getTodoId())
+            );
+        }
+        return todoIds;
+    }
+
 }
