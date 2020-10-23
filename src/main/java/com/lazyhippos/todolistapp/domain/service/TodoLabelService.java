@@ -6,6 +6,7 @@ import com.lazyhippos.todolistapp.domain.repository.TodoLabelJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,11 +18,20 @@ public class TodoLabelService {
         this.todoLabelJpaRepository = repository;
     }
 
-    public List<TodoLabel> retrieveAllLabelId(String todoId) {
+    public List<String> retrieveLabelIds(String todoId){
+        List<TodoLabel> todoLabelList = retrieveAllByTodoId(todoId);
+        List<String> labelIdList = new ArrayList<>();
+        todoLabelList.forEach(
+                todoLabel -> labelIdList.add(todoLabel.getLabelId())
+        );
+        return labelIdList;
+    }
+
+    public List<TodoLabel> retrieveAllByTodoId(String todoId) {
         return todoLabelJpaRepository.findByTodoId(todoId);
     }
 
-    public List<TodoLabel> retrieveTodoIdsByLabelId(String labelId){
+    public List<TodoLabel> retrieveAllByLabelId(String labelId){
         return todoLabelJpaRepository.findAllByLabelId(labelId);
     }
 

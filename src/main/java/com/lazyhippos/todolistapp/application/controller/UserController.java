@@ -35,7 +35,6 @@ public class UserController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute(name = "request") UserRequest request, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
-            System.out.println("Binding Result Error: " + bindingResult.getAllErrors());
             model.addAttribute("request", request);
             model.addAttribute("validationError", "Input value is not valid.");
             return USER_REGISTER_VIEW;
