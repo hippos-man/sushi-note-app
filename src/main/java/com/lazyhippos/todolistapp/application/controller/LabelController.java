@@ -34,6 +34,22 @@ public class LabelController {
         return LABEL_REGISTER_VIEW;
     }
 
+    @Transactional
+    @GetMapping("/remove")
+    public String remove(@RequestParam String todoId, @RequestParam String labelId){
+        todoLabelService.delete(todoId, labelId);
+        return BuildRedirectPathToTodoEditPage(todoId);
+    }
+    @Transactional
+    @GetMapping("/delete")
+    public String delete(@RequestParam String labelId){
+        // Delete the connection between to-do & label
+        todoLabelService.deleteAllByLabelId(labelId);
+        // Delete the label
+        labelService.delete(labelId);
+        return REDIRECT_TO_INDEX;
+    }
+
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute(name = "request") LabelRequest request,
                            Principal principal,
@@ -55,37 +71,27 @@ public class LabelController {
     }
 
 
-
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute(name = "request") TodoLabelRequest request,
                       BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return "redirect:/to-do/" + request.getTodoId() + "/edit"  + "?isError=true";
-        }
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        // Retrieve TodoID
         String todoId = request.getTodoId();
-        // TODO Array Size check
+        String errorQuery = "?isError=true";
+
+        if(bindingResult.hasErrors()){
+            return BuildRedirectPathToTodoEditPage(todoId) + errorQuery;
+        }
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if(request.getLabelsList().isEmpty()){
+            return BuildRedirectPathToTodoEditPage(todoId) + errorQuery;
+        }
+
         String labelId = request.getLabelsList().get(0).getLabelId();
         // Store
         todoLabelService.store(todoId, labelId, currentDateTime);
         return BuildRedirectPathToTodoEditPage(todoId);
     }
-
-    @Transactional
-    @GetMapping("/remove")
-    public String remove(@RequestParam String todoId, @RequestParam String labelId){
-        todoLabelService.delete(todoId, labelId);
-        return BuildRedirectPathToTodoEditPage(todoId);
-    }
-    @Transactional
-    @GetMapping("/delete")
-    public String delete(@RequestParam String labelId){
-        todoLabelService.deleteAllByLabelId(labelId);
-        labelService.delete(labelId);
-        return REDIRECT_TO_INDEX;
-    }
-
 
     static String BuildRedirectPathToTodoEditPage(String todoId) {
         return "redirect:/to-do/" + todoId +"/edit";
