@@ -8,15 +8,15 @@
 <body>
 <div class="container-main">
     <div class="container-logo">
-        <img>
+        <img th:src="@{/images/login_icon_logo_640x640.png}">
     </div>
     <div class="container-login-form">
         <h1>Login</h1>
         <form th:action="@{/login}"  method="post">
             <label for="username">User ID:</label>
-            <input type="text" id="username" name="username" size="30"><br>
+            <input type="text" id="username" name="username"><br>
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" size="30"><br>
+            <input type="password" id="password" name="password"><br>
             <input type="submit" id="submit" value="Login">
         </form>
         <p>You haven't sigh up ?  <a th:href="@{/user/sign-up}">Register now</a></p>
