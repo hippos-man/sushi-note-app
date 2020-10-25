@@ -1,0 +1,38 @@
+div.container-logo {
+    margin:auto;
+    width: 560px;
+}
+
+
+div.login-form{
+    margin: auto;
+    width: 560px;
+    border: solid #e6e6e6;;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 100px;
+}
+
+h1 {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+}
+
+table {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+td {
+    text-align: center;
+}
+
+p.sign-up {
+    text-align: center;
+}
