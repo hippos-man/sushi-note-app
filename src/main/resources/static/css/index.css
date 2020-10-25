@@ -1,0 +1,17 @@
+.container-main {
+    display: flex;
+    justify-content: center;
+}
+
+.container-main > div {
+    margin: 10px;
+}
+
+th {
+    text-align: left;
+}
+
+form.logout > input{
+    position: absolute;
+    right: 10%;
+}
