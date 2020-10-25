@@ -10,22 +10,18 @@
 <div class="container-main">
     <div class="label-container">
         <div class="label-list">
-        <table>
-            <thead>
-            <tr>
-                <td><h3>Labels</h3></td>
-            </tr>
-            </thead>
-            <tr>
-                <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
-                <td></td>
-            </tr>
-            <tr th:each="label: ${labels}">
-                <td><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
-                </td>
-                <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a></td>
-            </tr>
-        </table>
+            <h3>Labels</h3>
+            <table>
+                <tr>
+                    <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
+                    <td></td>
+                </tr>
+                <tr th:each="label: ${labels}">
+                    <td class="label-name"><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
+                    </td>
+                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a></td>
+                </tr>
+            </table>
         </div>
         <div class="new-label-button">
             <a th:href="@{'/label/new'}">
@@ -43,12 +39,11 @@
                     </tr>
                     <tr>
                         <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
-                        <td><input type="submit" value="Add"></td>
+                        <td class="add-button"><input type="submit" value="Add"></td>
                     </tr>
                 </table>
             </form>
         </div>
-        <br>
         <div class="todo-list">
             <table>
                 <thead>
@@ -72,18 +67,15 @@
                 </tbody>
             </table>
         </div>
-        <br>
-        <br>
     </div>
 </div>
-<br>
-<br>
 <div class="footer">
     <div class="logout">
         <form class="logout" th:action="@{/logout}" method="post">
-            <input type="submit" value="Log out">
+            <input id="log-out" type="submit" value="Log out">
         </form>
     </div>
+    <div class="dummy"></div>
 </div>
 </body>
 </html>
