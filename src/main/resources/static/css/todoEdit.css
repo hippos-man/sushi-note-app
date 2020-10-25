@@ -1,0 +1,58 @@
+body {
+    margin:0;
+    display: flex;
+    flex-direction: column;
+}
+
+div.global-header {
+    height: 50px;
+}
+
+div.container-main {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    min-width: 600px;
+}
+
+div.container-sub {
+    margin: auto;
+    min-width: 600px;
+}
+
+div.label-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+div.related-label-container > table {
+    text-align: left;
+}
+
+div.todo-update-button {
+    margin-top:20px;
+}
+
+div.container-sub {
+    display: flex;
+}
+
+div.todo-delete-button {
+    margin-top : 20px;
+    text-align: right;
+}
+
+td.label-remove-button {
+    padding-left: 10px;
+}
+
+td.label-name {
+    text-align: center;
+    border : 1px solid #A9A9A9;
+    border-radius: 10%;
+}
+
+td.create-new-label {
+    padding-left: 10px;
+}
