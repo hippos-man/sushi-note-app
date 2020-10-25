@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todos List</title>
+    <link href='https://fonts.googleapis.com/css?family=Alike Angular' rel='stylesheet'>
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
+<div class="global-header">
+
+</div>
 <div class="container-main">
-    <div class="label-container">
-        <div class="label-list">
+    <div class="left-container">
+        <div class="user-container">
+            <img th:src="@{/images/user_logo_640x640.png}">
+        </div>
+        <div class="label-container">
+            <div class="label-list">
             <h3>Labels</h3>
             <table>
                 <tr>
@@ -22,11 +30,12 @@
                     <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a></td>
                 </tr>
             </table>
-        </div>
-        <div class="new-label-button">
-            <a th:href="@{'/label/new'}">
-                <button type="button">Create New Label</button>
-            </a>
+            </div>
+            <div class="new-label-button">
+                <a th:href="@{'/label/new'}">
+                    <button type="button">Create New Label</button>
+                </a>
+            </div>
         </div>
     </div>
     <div class="todo-container">
