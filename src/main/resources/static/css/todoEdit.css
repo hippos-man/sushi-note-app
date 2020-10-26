@@ -56,3 +56,21 @@ td.label-name {
 td.create-new-label {
     padding-left: 10px;
 }
+
+table.todo-table {
+    width: 100%;
+}
+
+td.todo-input-form > input {
+    width: 100%;
+}
+
+td.todo-input-form > input[type="datetime-local"] {
+    max-width: 200px;
+}
+
+td.todo-input-attribute {
+   width: 150px;
+}
+
+
