@@ -13,6 +13,11 @@ div.container-main {
     flex-direction: column;
     margin: auto;
     min-width: 600px;
+    border: 2px solid #bbb1b1;
+}
+
+h2 {
+    margin:10px;
 }
 
 div.container-sub {
@@ -29,6 +34,11 @@ div.label-container {
 table.related-label-table {
     text-align: left;
     border-spacing: 0 10px;
+    margin:10px;
+}
+
+div.todo-container {
+    margin: 10px;
 }
 
 div.todo-update-button {
@@ -81,4 +91,7 @@ td.todo-input-attribute {
     vertical-align: top;
 }
 
+nav {
+    margin-top:10px;
+}
 

@@ -1,7 +1,3 @@
-div.global-header {
-    height: 50px;
-}
-
 body {
     font-family: 'Alike Angular';
 }
@@ -11,8 +7,16 @@ body {
     justify-content: center;
 }
 
+div.global-header {
+    height: 50px;
+}
+
 .container-main > div {
     margin: 20px;
+}
+
+div.todo-container {
+    border: 2px solid #bbb1b1;
 }
 
 th {
@@ -31,7 +35,11 @@ img {
     text-align: center;
 }
 
-.left-container > div {
+div.user-container {
+     margin: 20px;
+}
+
+div.label-container {
     margin: 20px;
 }
 
