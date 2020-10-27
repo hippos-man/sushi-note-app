@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+}
+
+div.container-main {
+    margin:auto;
+    width:560px;
+}
+
+div.container-sub {
+    margin:auto;
+    width: 560px;
+}
