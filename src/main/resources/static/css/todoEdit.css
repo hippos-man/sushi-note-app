@@ -26,8 +26,9 @@ div.label-container {
     margin-bottom: 20px;
 }
 
-div.related-label-container > table {
+table.related-label-table {
     text-align: left;
+    border-spacing: 0 10px;
 }
 
 div.todo-update-button {
@@ -61,16 +62,23 @@ table.todo-table {
     width: 100%;
 }
 
-td.todo-input-form > input {
+td.todo-input-form > input[type="text"] {
     width: 100%;
+    min-height: 25px;
 }
 
 td.todo-input-form > input[type="datetime-local"] {
     max-width: 200px;
 }
 
+td.todo-input-form > textarea {
+    width: 100%;
+    min-height: 100px;
+}
+
 td.todo-input-attribute {
-   width: 150px;
+    width: 125px;
+    vertical-align: top;
 }
 
 
