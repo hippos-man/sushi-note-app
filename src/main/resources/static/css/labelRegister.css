@@ -2,12 +2,39 @@ body {
     margin: 0;
 }
 
-div.container-main {
-    margin:auto;
-    width:560px;
+div.global-header {
+    height: 50px;
 }
 
-div.container-sub {
+h2 {
+    text-align: center;
+}
+
+div.container-main {
     margin:auto;
-    width: 560px;
+    width:400px;
+    border: 1px solid;
+}
+
+div.label-container {
+    margin:10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+div.navigation {
+    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    margin-top : 10px;
+    max-width: 200px;
 }

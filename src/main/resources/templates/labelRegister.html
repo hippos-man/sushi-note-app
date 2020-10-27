@@ -9,34 +9,24 @@
 <body>
 <div class="global-header"></div>
 <div class="container-main">
-    <h2>Create Label</h2>
-    <form role="form" action="#" th:action="@{/label/register}" th:object="${request}" method="post">
-        <table>
-            <tr>
-                <td>Label Name:</td>
-                <td><input type="text" th:field="*{labelName}"></td>
-                <td><span th:errors="*{labelName}"></span></td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td><input type="text" th:field="*{description}"></td>
-                <td><span th:errors="*{description}"></span></td>
-            </tr>
-            <tr>
-                <td><input type="hidden" th:field="*{todoId}"></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Create"></td>
-            </tr>
-        </table>
-    </form>
-</div>
-<br>
-<br>
-<div class="container-sub">
-    <button>
-        <a th:href="@{/to-do/list}">Go back</a>
-    </button>
+    <div class="label-container">
+        <h2>Create Label</h2>
+        <form role="form" action="#" th:action="@{/label/register}" th:object="${request}" method="post">
+            <span th:errors="*{labelName}"></span>
+            <label for="labelName">Name</label>
+            <input type="text" id="labelName"th:field="*{labelName}">
+            <span th:errors="*{description}"></span>
+            <label for="labelDescription">Description</label>
+            <input type="text" id="labelDescription" th:field="*{description}">
+            <input type="hidden" th:field="*{todoId}">
+            <input type="submit" value="Create">
+        </form>
+    </div>
+    <div class="navigation">
+        <a th:href="@{/to-do/list}">
+            <button>Go back</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>
