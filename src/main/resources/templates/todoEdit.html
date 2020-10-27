@@ -79,7 +79,6 @@
                             <td class="todo-input-form">
                                 <textarea th:field="*{description}" placeholder="Add a more detailed description..."></textarea>
                             </td>
-<!--                        <td class="todo-input-form"><input type="text" th:field="*{description}"></td>-->
                     </tr>
                 </table>
                 <div class="todo-update-button">
@@ -92,14 +91,12 @@
                 <button>Delete</button>
             </a>
         </div>
+        <nav>
+            <a th:href="${'/to-do/list'}">
+                <button>Go back</button>
+            </a>
+        </nav>
     </div>
-</div>
-<div class="container-sub">
-    <nav>
-        <a th:href="${'/to-do/list'}">
-        <button>Go back</button>
-        </a>
-    </nav>
 </div>
 </body>
 </html>
