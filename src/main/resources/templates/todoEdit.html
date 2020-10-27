@@ -15,13 +15,16 @@
     </div>
     <div class="label-container">
         <div class="related-label-container">
-            <table>
+            <table class="related-label-table">
                 <thead>
                 <tr>
-                    <th>Label:</th>
+                    <th>LABELS</th>
                 </tr>
                 </thead>
                 <tbody>
+                    <tr th:if="${relatedLabels.size() == 0}">
+                        <td>No labels is set</td>
+                    </tr>
                     <tr th:object="${relatedLabels}"
                         th:each="label : ${relatedLabels}">
                         <td class="label-name" th:text="${label.labelName}"></td>
@@ -65,7 +68,7 @@
                 <table class="todo-table">
                     <tr>
                         <td class="todo-input-attribute">To-do Title:</td>
-                        <td class="todo-input-form"><input type="text" th:field="*{title}"><br />
+                        <td class="todo-input-form"><input type="text" th:field="*{title}" placeholder="What needs to be done ?"><br />
                     </tr>
                     <tr>
                         <td class="todo-input-attribute">DeadLine Date:</td>
@@ -73,7 +76,10 @@
                     </tr>
                     <tr>
                         <td class="todo-input-attribute">Description:</td>
-                        <td class="todo-input-form"><input type="text" th:field="*{description}"></td>
+                            <td class="todo-input-form">
+                                <textarea th:field="*{description}" placeholder="Add a more detailed description..."></textarea>
+                            </td>
+<!--                        <td class="todo-input-form"><input type="text" th:field="*{description}"></td>-->
                     </tr>
                 </table>
                 <div class="todo-update-button">
