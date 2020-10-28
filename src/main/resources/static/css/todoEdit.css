@@ -17,7 +17,16 @@ div.container-main {
 }
 
 h2 {
-    margin:10px;
+    margin:20px;
+}
+
+div.error-message > p {
+    color: red;
+    margin: 20px;
+}
+
+div.todo-edit-input {
+    margin: 20px;
 }
 
 div.container-sub {
@@ -28,7 +37,7 @@ div.container-sub {
 div.label-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin: 20px;
 }
 
 table.related-label-table {
@@ -50,7 +59,7 @@ div.container-sub {
 }
 
 div.todo-delete-button {
-    margin-top : 20px;
+    margin : 20px;
     text-align: right;
 }
 
@@ -92,6 +101,6 @@ td.todo-input-attribute {
 }
 
 nav {
-    margin-top:10px;
+    margin:50px 20px 20px 20px;
 }
 
