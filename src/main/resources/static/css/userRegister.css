@@ -1,0 +1,47 @@
+.container-main {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+    border: 2px solid #bbb1b1;
+}
+
+.user-image {
+    margin: auto;
+}
+
+img {
+    margin: 20px;
+    width: 100%;
+    max-width: 100px;
+    border-radius:50%;
+}
+
+h2 {
+    text-align: center;
+}
+
+div.error-message {
+    margin: 20px;
+}
+
+form.signup-form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    justify-content: space-between;
+    min-height: 250px;
+    height: 100%;
+}
+
+nav {
+    margin: 35px 20px 20px 20px;
+}
+
+.dummy {
+    min-height: 20px;
+}
+
+span.error-message {
+    color: red;
+}

@@ -2,19 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - To-do app</title>
+    <link th:href="@{/css/login.css}" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container-main">
-    <h2>Login page</h2>
-    <form th:action="@{/login}"  method="post">
-        <label for="username">User ID:</label>
-        <input type="text" id="username" name="username" size="30"><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" size="30"><br>
-        <input type="submit" id="submit" value="Login">
-    </form>
-    <p>You haven't sigh up ?  <a th:href="@{/user/sign-up}">Register now</a></p>
+    <div class="container-logo">
+        <img th:src="@{/images/login_icon_logo_640x640.png}">
+    </div>
+    <div class="main-login">
+        <div class="login-form">
+            <h1>Login</h1>
+            <form th:action="@{/login}"  method="post">
+                <table>
+                    <tr>
+                        <td><input type="text" id="username" name="username" placeholder="User ID"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="password" id="password" name="password" placeholder="Password"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" id="submit" value="Login"></td>
+                    </tr>
+                </table>
+            </form>
+            <p class="sign-up">You haven't sigh up ?  <a th:href="@{/user/sign-up}">Register now</a></p>
+        </div>
+    </div>
+
 </div>
 <div class="container-sub"></div>
 </body>
