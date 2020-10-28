@@ -2,83 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todos List</title>
+    <link href='https://fonts.googleapis.com/css?family=Alike Angular' rel='stylesheet'>
+    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
+<div class="global-header">
+
+</div>
 <div class="container-main">
-    <h1>To-do App</h1>
-    <div class="submit-todo">
-        <h3>What are you gonna do ?</h3>
-        <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
+    <div class="left-container">
+        <div class="user-container">
+            <img th:src="@{/images/user_logo_640x640.png}">
+        </div>
+        <div class="label-container">
+            <div class="label-list">
+            <h3>Labels</h3>
             <table>
                 <tr>
-                    <td><span th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
+                    <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
+                    <td></td>
                 </tr>
-                <tr>
-                    <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
-                    <td><input type="submit" value="Add"></td>
+                <tr th:each="label: ${labels}">
+                    <td class="label-name"><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
+                    </td>
+                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a></td>
                 </tr>
             </table>
-        </form>
+            </div>
+            <div class="new-label-button">
+                <a th:href="@{'/label/new'}">
+                    <button type="button">Create New Label</button>
+                </a>
+            </div>
+        </div>
+        <div class="logout">
+            <form class="logout" th:action="@{/logout}" method="post">
+                <input id="log-out" type="submit" value="Log out">
+            </form>
+        </div>
     </div>
-    <br>
-    <div class="container-todolist">
-        <table>
-            <thead>
-                <tr>
-                    <th>To-dos List</th>
+    <div class="todo-container">
+        <div class="todo-form">
+            <h3 th:if="${listName}" th:text="${listName}">All Tasks</h3>
+            <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
+                <table>
+                    <tr>
+                        <td><span th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
+                        <td class="add-button"><input type="submit" value="Add"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="todo-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Upcoming</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${todos.empty}">
+                    <td>No Items Available</td>
                 </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${todos.empty}">
-                <td>No Items Available</td>
-            </tr>
-            <tr th:each="todo: ${todos}">
-                <td>
-                    <a th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
-                </td>
-                <td>
-                    <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
-                    <input type="submit" value="Complete">
-                </form></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <br>
-    <br>
-    <div class="container-label">
-        <table>
-            <thead>
-                <tr>
-                    <th>Labels</th>
+                <tr th:each="todo: ${todos}">
+                    <td class="todo-title">
+                        <a th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
+                    </td>
+                    <td class="complete-button">
+                        <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
+                        <input type="submit" value="Complete">
+                    </form></td>
                 </tr>
-            </thead>
-            <tr>
-                <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
-            </tr>
-            <tr th:each="label: ${labels}">
-                <td><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
-                    <a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a th:href="@{'/label/new'}">
-                        <button type="button">Create New Label</button>
-                    </a>
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
-<br>
-<br>
-<div class="container-sub">
-    <div class="logout">
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Log out">
-        </form>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

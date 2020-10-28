@@ -45,6 +45,7 @@ public class TodosController {
         final String LABEL_STRING_ALL = "all";
 
         String loginUserID = principal.getName();
+        String listName = "All Items";
         List<Todos> todos;
 
         if(label_id == null || label_id.equals(LABEL_STRING_ALL)){
@@ -61,10 +62,15 @@ public class TodosController {
                 .collect(Collectors.toList());
         // Retrieve All Labels that the user has
         List<Labels> labelsList = labelService.retrieveAll(loginUserID);
-
+        for (Labels label: labelsList) {
+            if(label.getLabelId().equals(label_id)) {
+                listName = label.getLabelName();
+            }
+        }
         model.addAttribute("todos", incompleteTasks);
         model.addAttribute("labels", labelsList);
         model.addAttribute("todoForm", new TodoRequest());
+        model.addAttribute("listName", listName);
         // Show Error message
         if(isError){
             model.addAttribute("errorMessage", "Something wrong");

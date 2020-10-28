@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+div.container-main {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto auto auto;
+    min-width: 600px;
+    border: 2px solid #bbb1b1;
+}
+
+div.todo-title-container {
+    margin: 10px;
+}
+
+div.todo-title-box {
+    margin: 20px 20px 0 20px;
+    min-height: 20px;
+}
+
+div.label-container {
+    margin: 10px 10px 0 10px;
+}
+
+div.label-box {
+    margin:20px;
+}
+
+div.error-message {
+    min-height: 5px;
+    margin : 5px 10px 0 10px;
+}
+
+div.error-message > p {
+    color: red;
+    margin: 0 20px 0 20px;
+}
+
+div.todo-edit-input {
+    margin: 20px;
+}
+
+div.container-sub {
+    margin: auto;
+    min-width: 600px;
+}
+
+div.todo-container {
+    margin: 0 10px 10px 10px;
+}
+
+div.todo-update-button {
+    margin-top:20px;
+}
+
+div.container-sub {
+    display: flex;
+}
+
+div.todo-delete-button {
+    margin : 40px 20px 20px 20px;
+    text-align: right;
+}
+
+td.label-remove-button {
+    padding-left: 10px;
+}
+
+td.label-name {
+    text-align: center;
+    border : 1px solid #A9A9A9;
+    border-radius: 10%;
+    background-color: greenyellow;
+}
+
+div.todo-edit-input > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+input#deadlineDate {
+    margin-bottom: 15px;
+}
+
+textarea#title {
+    width: 100%;
+    min-height: 20px;
+    font-size: 20px;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+textarea#description {
+    min-height: 100px;
+    margin-bottom: 40px;
+    font-size: 16px;
+}
+
+input#submit {
+    width: 300px;
+    margin: auto;
+}
+
+nav {
+    margin:50px 20px 20px 20px;
+}
+

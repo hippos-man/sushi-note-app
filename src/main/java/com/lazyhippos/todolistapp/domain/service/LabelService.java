@@ -27,6 +27,7 @@ public class LabelService {
         return labelJpaRepository.findByLabelIdIn(labelIds);
     }
 
+
     public String store(LabelRequest request, LocalDateTime currentDatetime, String userId){
         // Generate UUID
         String labelId = UUID.randomUUID().toString();
