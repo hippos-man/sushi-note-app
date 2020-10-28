@@ -1,22 +1,27 @@
 body {
-    margin:0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-}
-
-div.global-header {
-    height: 50px;
 }
 
 div.container-main {
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin: 25px auto auto auto;
     min-width: 600px;
     border: 2px solid #bbb1b1;
 }
 
 h2 {
+    margin:20px;
+}
+
+
+div.label-container {
+    margin: 10px 10px 0 10px;
+}
+
+div.label-box {
     margin:20px;
 }
 
@@ -34,20 +39,8 @@ div.container-sub {
     min-width: 600px;
 }
 
-div.label-container {
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
-}
-
-table.related-label-table {
-    text-align: left;
-    border-spacing: 0 10px;
-    margin:10px;
-}
-
 div.todo-container {
-    margin: 10px;
+    margin: 0 10px 10px 10px;
 }
 
 div.todo-update-button {
@@ -59,7 +52,7 @@ div.container-sub {
 }
 
 div.todo-delete-button {
-    margin : 20px;
+    margin : 40px 20px 20px 20px;
     text-align: right;
 }
 
@@ -73,31 +66,28 @@ td.label-name {
     border-radius: 10%;
 }
 
-td.create-new-label {
-    padding-left: 10px;
+div.todo-edit-input > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
 }
 
-table.todo-table {
-    width: 100%;
+input#deadlineDate {
+    margin-bottom: 15px;
 }
 
-td.todo-input-form > input[type="text"] {
-    width: 100%;
-    min-height: 25px;
+textarea#title {
+    min-height: 20px;
+    font-size: 20px;
+    height: 100%;
+    margin-bottom: 15px;
 }
 
-td.todo-input-form > input[type="datetime-local"] {
-    max-width: 200px;
-}
-
-td.todo-input-form > textarea {
-    width: 100%;
+textarea#description {
     min-height: 100px;
-}
-
-td.todo-input-attribute {
-    width: 125px;
-    vertical-align: top;
+    margin-bottom: 40px;
+    font-size: 16px;
 }
 
 nav {

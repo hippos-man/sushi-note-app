@@ -7,83 +7,67 @@
     <link th:href="@{/css/todoEdit.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div class="global-header"></div>
 <div class="container-main">
-    <h2>Todo Edit Page</h2>
     <div class="error-message">
         <p th:if="${hasError}" th:text="${hasError}"></p>
     </div>
     <div class="label-container">
-        <div class="related-label-container">
-            <table class="related-label-table">
-                <thead>
-                <tr>
-                    <th>LABELS</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${relatedLabels.size() == 0}">
-                        <td>No labels is set</td>
-                    </tr>
-                    <tr th:object="${relatedLabels}"
-                        th:each="label : ${relatedLabels}">
-                        <td class="label-name" th:text="${label.labelName}"></td>
-                        <td class="label-remove-button">
-                            <a th:href="@{'/label/remove'(todoId=${todoLabelRequest.todoId}, labelId=${label.labelId})}">
-                                <button>Remove</button>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form class="existing-label" role="form" action="#" th:action="@{'/label/add'}"
-                                  th:object="${todoLabelRequest}" method="post">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <select th:field="*{labelsList}">
-                                                <option th:each=" label : ${todoLabelRequest.labelsList}"
-                                                        th:value="${label.labelId}" th:text="${label.labelName}"></option>
-                                            </select>
-                                        </td>
-                                        <td><button type="submit">Add</button></td>
-                                    </tr>
-                                </table>
-                                <input type="hidden" th:field="*{todoId}">
-                            </form>
-                        </td>
-                        <td class="create-new-label">
-                            <a th:object="${todoRequest}" th:href="@{/label/new(todoId=${todoRequest.todoId})}">
+            <div class="label-box">
+                <h4>LABELS</h4>
+                <table class="related-label-table">
+                    <tbody>
+                        <tr th:if="${relatedLabels.size() == 0}">
+                            <td>No labels is set</td>
+                        </tr>
+                        <tr th:object="${relatedLabels}"
+                            th:each="label : ${relatedLabels}">
+                            <td class="label-name" th:text="${label.labelName}"></td>
+                            <td class="label-remove-button">
+                                <a th:href="@{'/label/remove'(todoId=${todoLabelRequest.todoId}, labelId=${label.labelId})}">
+                                    <button>Remove</button>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form class="existing-label" role="form" action="#" th:action="@{'/label/add'}"
+                                      th:object="${todoLabelRequest}" method="post">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <select th:field="*{labelsList}">
+                                                    <option th:each=" label : ${todoLabelRequest.labelsList}"
+                                                            th:value="${label.labelId}" th:text="${label.labelName}"></option>
+                                                </select>
+                                            </td>
+                                            <td><button type="submit">Add</button></td>
+                                        </tr>
+                                    </table>
+                                    <input type="hidden" th:field="*{todoId}">
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="create-new-label">
+                                <a th:object="${todoRequest}" th:href="@{/label/new(todoId=${todoRequest.todoId})}">
                                     <button type="button">Create New</button>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
     </div>
     <div class="todo-container">
         <div class="todo-edit-input">
             <form role="form" action="#" th:action="@{'/to-do/update/' + ${todoRequest.todoId}}" th:object="${todoRequest}" method="post">
-                <table class="todo-table">
-                    <tr>
-                        <td class="todo-input-attribute">To-do Title:</td>
-                        <td class="todo-input-form"><input type="text" th:field="*{title}" placeholder="What needs to be done ?"><br />
-                    </tr>
-                    <tr>
-                        <td class="todo-input-attribute">DeadLine Date:</td>
-                        <td class="todo-input-form"><input type="datetime-local" th:field="*{deadlineDate}"></td>
-                    </tr>
-                    <tr>
-                        <td class="todo-input-attribute">Description:</td>
-                            <td class="todo-input-form">
-                                <textarea th:field="*{description}" placeholder="Add a more detailed description..."></textarea>
-                            </td>
-                    </tr>
-                </table>
-                <div class="todo-update-button">
-                    <input type="submit" value="Update">
-                </div>
+                <label for="title">Title</label>
+                <textarea id="title" th:field="*{title}" placeholder="What needs to be done ?"></textarea>
+                <label for="deadlineDate">Deadline</label>
+                <input type="datetime-local" id="deadlineDate" th:field="*{deadlineDate}">
+                <label for="description">Description</label>
+                <textarea th:field="*{description}" id="description" placeholder="Add a more detailed description..."></textarea>
+                <input type="submit" value="Update">
             </form>
         </div>
         <div class="todo-delete-button">
