@@ -45,7 +45,7 @@
     </div>
     <div class="todo-container">
         <div class="todo-form">
-            <h3>All Tasks</h3>
+            <h3 th:if="${listName}" th:text="${listName}">All Tasks</h3>
             <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
                 <table>
                     <tr>
@@ -62,7 +62,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Today</th>
+                        <th>Upcoming</th>
                     </tr>
                 </thead>
                 <tbody>
