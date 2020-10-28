@@ -11,6 +11,15 @@
     <div class="error-message">
         <p th:if="${hasError}" th:text="${hasError}"></p>
     </div>
+    <div class="todo-title-container">
+        <div class="todo-title-box">
+            <h4>TITLE</h4>
+            <textarea id="title" form="todo-form"
+                      th:object="${todoRequest}"
+                      th:field="*{title}"
+                      placeholder="What needs to be done ?"></textarea>
+        </div>
+    </div>
     <div class="label-container">
             <div class="label-box">
                 <h4>LABELS</h4>
@@ -60,14 +69,14 @@
     </div>
     <div class="todo-container">
         <div class="todo-edit-input">
-            <form role="form" action="#" th:action="@{'/to-do/update/' + ${todoRequest.todoId}}" th:object="${todoRequest}" method="post">
-                <label for="title">Title</label>
-                <textarea id="title" th:field="*{title}" placeholder="What needs to be done ?"></textarea>
+            <form id="todo-form" role="form" action="#" th:action="@{'/to-do/update/' + ${todoRequest.todoId}}" th:object="${todoRequest}" method="post">
+<!--                <label for="title">Title</label>-->
+<!--                <textarea id="title" th:field="*{title}" placeholder="What needs to be done ?"></textarea>-->
                 <label for="deadlineDate">Deadline</label>
                 <input type="datetime-local" id="deadlineDate" th:field="*{deadlineDate}">
                 <label for="description">Description</label>
                 <textarea th:field="*{description}" id="description" placeholder="Add a more detailed description..."></textarea>
-                <input type="submit" value="Update">
+                <input type="submit" id="submit" value="Update">
             </form>
         </div>
         <div class="todo-delete-button">
