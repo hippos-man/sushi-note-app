@@ -3,7 +3,6 @@ div.container-logo {
     width: 560px;
 }
 
-
 div.login-form{
     margin: auto;
     width: 560px;
@@ -21,18 +20,40 @@ img {
 h1 {
     display: block;
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
 }
 
-table {
-    margin-right: auto;
-    margin-left: auto;
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    min-height: 110px;
+    margin: auto;
+    justify-content: space-between;
 }
 
-td {
-    text-align: center;
+input[type=text], input[type=password] {
+    font-size: 15px;
+}
+
+input[type=submit] {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 30px;
 }
 
 p.sign-up {
     text-align: center;
+}
+
+.blue-btn {
+    background-color: dodgerblue;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border:none;
+}
+
+.blue-btn:hover {
+    background-color: royalblue;
 }

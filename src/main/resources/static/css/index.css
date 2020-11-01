@@ -1,5 +1,5 @@
 body {
-    font-family: 'Alike Angular';
+    font-family: Tahoma, Geneva, sans-serif;
 }
 
 .container-main {
@@ -51,6 +51,17 @@ div.label-container {
     margin: 20px;
 }
 
+a.label-title {
+    text-decoration: none;
+    color: black;
+}
+
+a.label-title:hover {
+    font-size: 15px;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 .todo-container > div {
     margin: 20px;
 }
@@ -67,6 +78,21 @@ div.label-container {
     padding: 10px;
 }
 
+a.todo-title {
+    text-decoration: none;
+    color: black;
+}
+
+tr.todo-title:hover {
+    background-color: #FAFAD2;
+}
+
+a.todo-title:hover {
+    font-size: 20px;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 .todo-list > table > tbody > tr > td.complete-button {
     border-top: 1px solid #A9A9A9;
     border-bottom: 1px solid #A9A9A9;
@@ -79,6 +105,7 @@ td.complete-button {
 
 input[type=text] {
     width: 100%;
+    min-width: 200px;
     height: 25px;
 }
 
@@ -99,4 +126,19 @@ div.footer {
 }
 td.label-name {
     min-width: 100px;
+}
+
+.blue-btn {
+    background-color: dodgerblue;
+    border: gray 1px;
+    border-radius: 5%;
+    min-width: 80px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border:none;
+}
+
+.blue-btn:hover {
+    background-color: royalblue;
 }
