@@ -54,7 +54,7 @@
             <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
                 <table>
                     <tr>
-                        <td><span th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
+                        <td><span class="error-message"th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
                     </tr>
                     <tr>
                         <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>

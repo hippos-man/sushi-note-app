@@ -156,6 +156,7 @@ td.label-name {
     background-color: dodgerblue;
     border: gray 1px;
     border-radius: 5%;
+    min-height: 30px;
     min-width: 80px;
     color: white;
     font-size: 16px;
@@ -188,4 +189,8 @@ input#log-out {
 
 input#log-out:hover {
     font-weight: bold;
+}
+
+span.error-message {
+    color: red;
 }
