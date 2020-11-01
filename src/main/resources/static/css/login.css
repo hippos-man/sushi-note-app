@@ -6,7 +6,6 @@ div.container-logo {
 div.login-form{
     margin: auto;
     width: 560px;
-    border: solid #e6e6e6;;
 }
 
 img {
@@ -56,4 +55,13 @@ p.sign-up {
 
 .blue-btn:hover {
     background-color: royalblue;
+}
+
+a.register-now {
+    text-decoration: none;
+    color: blue;
+}
+
+a.register-now:hover {
+    font-size: 20px;
 }
