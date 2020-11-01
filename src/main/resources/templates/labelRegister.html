@@ -17,15 +17,13 @@
             <input type="text" id="labelName"th:field="*{labelName}">
             <span th:errors="*{description}"></span>
             <label for="labelDescription">Description</label>
-            <input type="text" id="labelDescription" th:field="*{description}">
+            <textarea id="labelDescription" th:field="*{description}"></textarea>
             <input type="hidden" th:field="*{todoId}">
-            <input type="submit" value="Create">
+            <input class="blue-btn" type="submit" value="Create">
         </form>
     </div>
     <div class="navigation">
-        <a th:href="@{/to-do/list}">
-            <button>Go back</button>
-        </a>
+        <a class="back-button" th:href="@{/to-do/list}">Go back</a>
     </div>
 </div>
 </body>
