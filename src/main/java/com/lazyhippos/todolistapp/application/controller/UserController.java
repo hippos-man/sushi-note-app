@@ -21,6 +21,8 @@ public class UserController {
 
     private final String USER_REGISTER_VIEW = "userRegister";
 
+    private final String LOGIN_VIEW = "login";
+
     UserController(UserService userService) {
         this.userService = userService;
     }
@@ -43,6 +45,6 @@ public class UserController {
         LocalDateTime now = LocalDateTime.now();
         // Store new user
         userService.register(request, now);
-        return "redirect:/";
+        return LOGIN_VIEW;
     }
 }
