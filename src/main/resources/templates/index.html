@@ -14,26 +14,31 @@
 <div class="container-main">
     <div class="left-container">
         <div class="user-container">
-            <img th:src="@{/images/user_logo_640x640.png}">
+            <img id="user-icon" th:src="@{/images/user_logo_640x640.png}" alt="user icon">
+            <!-- TODO Replace to Login User ID -->
+            <span class="user-id">Foo</span>
         </div>
         <div class="label-container">
             <div class="label-list">
             <h3>Labels</h3>
             <table>
                 <tr>
-                    <td><a th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
+                    <td><a class="label-title" th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
                     <td></td>
                 </tr>
                 <tr th:each="label: ${labels}">
-                    <td class="label-name"><a th:href="@{'/to-do/list'(label_id=${label.labelId})}"><span th:text="${label.labelName}"></span></a>
+                    <td class="label-name"><a class="label-title" th:href="@{'/to-do/list'(label_id=${label.labelId})}">
+                        <span th:text="${label.labelName}"></span></a>
                     </td>
-                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}"><button>Delete</button></a></td>
+                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}">
+                        <img class="delete-btn" src="#" alt="delete button" th:src="@{/images/rubbish_bin_48x48.png}"></a>
+                    </td>
                 </tr>
             </table>
             </div>
             <div class="new-label-button">
                 <a th:href="@{'/label/new'}">
-                    <button type="button">Create New Label</button>
+                    <button class="add-label-btn" type="button">+</button>
                 </a>
             </div>
         </div>
@@ -49,11 +54,11 @@
             <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
                 <table>
                     <tr>
-                        <td><span th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
+                        <td><span class="error-message"th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
                     </tr>
                     <tr>
                         <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
-                        <td class="add-button"><input type="submit" value="Add"></td>
+                        <td class="add-button"><input class="blue-btn" type="submit" value="Add"></td>
                     </tr>
                 </table>
             </form>
@@ -69,13 +74,13 @@
                 <tr th:if="${todos.empty}">
                     <td>No Items Available</td>
                 </tr>
-                <tr th:each="todo: ${todos}">
+                <tr class="todo-title" th:each="todo: ${todos}">
                     <td class="todo-title">
-                        <a th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
+                        <a class="todo-title" th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
                     </td>
                     <td class="complete-button">
                         <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
-                        <input type="submit" value="Complete">
+                        <input id="complete-btn"type="submit" value="&#10003;">
                     </form></td>
                 </tr>
                 </tbody>

@@ -1,13 +1,15 @@
+body {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
 div.container-logo {
     margin:auto;
     width: 560px;
 }
 
-
 div.login-form{
     margin: auto;
     width: 560px;
-    border: solid #e6e6e6;;
 }
 
 img {
@@ -21,18 +23,50 @@ img {
 h1 {
     display: block;
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
 }
 
-table {
-    margin-right: auto;
-    margin-left: auto;
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    min-height: 110px;
+    margin: auto;
+    justify-content: space-between;
 }
 
-td {
-    text-align: center;
+input[type=text], input[type=password] {
+    font-size: 15px;
+}
+
+input[type=submit] {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 30px;
 }
 
 p.sign-up {
     text-align: center;
+}
+
+.blue-btn {
+    background-color: dodgerblue;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border:none;
+    opacity: 0.6;
+}
+
+.blue-btn:hover {
+    opacity: 1;
+}
+
+a.register-now {
+    text-decoration: none;
+    color: blue;
+}
+
+a.register-now:hover {
+    font-size: 20px;
 }
