@@ -99,10 +99,9 @@ tr.todo-title:hover {
 }
 
 a.todo-title:hover {
-    font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .todo-list > table > tbody > tr > td.complete-button {
@@ -127,6 +126,7 @@ input#complete-btn {
     background-color: forestgreen;
     opacity: 0.6;
     cursor: pointer;
+    border: none;
 }
 
 input#complete-btn:hover {
@@ -170,11 +170,13 @@ td.label-name {
 }
 
 .add-label-btn {
-    border-radius: 50%;
     background-color: dodgerblue;
     color: white;
     cursor: pointer;
     opacity: 0.6;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .add-label-btn:hover {

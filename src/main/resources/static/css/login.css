@@ -55,10 +55,11 @@ p.sign-up {
     font-size: 15px;
     cursor: pointer;
     border:none;
+    opacity: 0.6;
 }
 
 .blue-btn:hover {
-    background-color: royalblue;
+    opacity: 1;
 }
 
 a.register-now {
