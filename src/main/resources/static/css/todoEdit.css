@@ -2,6 +2,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    font-family: Tahoma, Geneva, sans-serif;
 }
 
 div.container-main {
@@ -9,7 +10,6 @@ div.container-main {
     flex-direction: column;
     margin: 25px auto auto auto;
     min-width: 600px;
-    border: 2px solid #bbb1b1;
 }
 
 div.todo-title-container {
@@ -67,6 +67,10 @@ div.todo-delete-button {
 
 td.label-remove-button {
     padding-left: 10px;
+}
+
+select#labelsList {
+    font-size: 16px;
 }
 
 td.label-name {
