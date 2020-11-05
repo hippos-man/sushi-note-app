@@ -1,0 +1,201 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+h4 {
+    margin: 0 10px 0 0;
+}
+
+div.label-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+div.container-main {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto auto auto;
+    min-width: 600px;
+}
+
+div.todo-title-container {
+    margin: 10px;
+}
+
+div.todo-title-box {
+    margin: 20px 20px 0 20px;
+    min-height: 20px;
+}
+
+div.label-container {
+    margin: 0 10px 0 10px;
+}
+
+div.label-box {
+    margin: 0 20px 0 20px;
+}
+
+div.error-message {
+    min-height: 5px;
+    margin : 5px 10px 0 10px;
+}
+
+div.error-message > p {
+    color: red;
+    margin: 0 20px 0 20px;
+}
+
+div.todo-edit-input {
+    margin: 20px;
+}
+
+div.container-sub {
+    margin: auto;
+    min-width: 600px;
+}
+
+div.todo-container {
+    margin: 0 10px 10px 10px;
+}
+
+div.todo-update-button {
+    margin-top:20px;
+}
+
+div.container-sub {
+    display: flex;
+}
+
+div.todo-delete-button {
+    margin : 30px 20px 20px 20px;
+    text-align: right;
+}
+
+td.label-remove-button {
+    padding-left: 10px;
+}
+
+select#labelsList {
+    font-size: 16px;
+}
+
+td.label-name {
+    text-align: center;
+    border : 1px solid #A9A9A9;
+    border-radius: 10%;
+    background-color: #ff9f1a;
+    color: white;
+    font-size: 18px;
+}
+
+div.todo-edit-input > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+input#deadlineDate {
+    margin-bottom: 15px;
+    max-width: 200px;
+}
+
+textarea#title {
+    width: 100%;
+    min-height: 20px;
+    font-size: 20px;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+textarea#description {
+    min-height: 100px;
+    margin-bottom: 40px;
+    font-size: 16px;
+}
+
+input#submit {
+    width: 300px;
+    margin: auto;
+}
+
+nav {
+    margin:30px 20px 20px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.back-button {
+    text-decoration: none;
+    padding:10px;
+    color: white;
+    font-size: 16px;
+    border-radius: 10%;
+    background-color: dimgrey;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.back-button:hover {
+    opacity: 1;
+}
+
+.simple-btn {
+    border: gray 1px;
+    border-radius: 5%;
+    min-height: 30px;
+    min-width: 80px;
+    font-size: 16px;
+    cursor: pointer;
+    border:none;
+    opacity: 0.6;
+}
+.blue {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.red {
+    background-color: red;
+    color: white;
+}
+
+.simple-btn:hover {
+    opacity: 1;
+}
+
+.small {
+    min-height: 22px;
+}
+
+.plus-btn {
+    color: white;
+    background-color: #A9A9A9;
+    border: none;
+    border-radius: 10%;
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: 20px;
+    min-width: 60px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.plus-btn:hover {
+    opacity: 1;
+}
+
+.remove-btn {
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.remove-btn:hover {
+    opacity: 1;
+}
