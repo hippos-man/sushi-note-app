@@ -1,0 +1,73 @@
+body {
+    margin: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+div.global-header {
+    height: 50px;
+}
+
+h2 {
+    text-align: center;
+}
+
+div.container-main {
+    margin:auto;
+    width:400px;
+}
+
+div.label-container {
+    margin:20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+div.navigation {
+    margin: 50px 10px 10px 30px;
+}
+
+.blue-btn {
+    background-color: dodgerblue;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border:none;
+    opacity: 0.8;
+    margin-top : 20px;
+    width: 100%;
+    min-height: 30px;
+}
+
+.blue-btn:hover {
+    opacity: 1;
+}
+
+input#labelName {
+    font-size: 18px;
+}
+
+textarea {
+    min-height: 40px;
+}
+
+.back-button {
+    text-decoration: none;
+    padding:10px;
+    color: white;
+    font-size: 16px;
+    border-radius: 10%;
+    background-color: dimgrey;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.back-button:hover {
+    opacity: 1;
+}
