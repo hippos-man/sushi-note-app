@@ -1,72 +1,74 @@
 body {
+    margin: 0;
     font-family: Tahoma, Geneva, sans-serif;
 }
 
-div.container-logo {
-    margin:auto;
-    width: 560px;
+a {
+    text-decoration: none;
+    color: black;
 }
 
-div.login-form{
-    margin: auto;
-    width: 560px;
+img.header-logo {
+    width: 40px;
+    height: 40px;
 }
 
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+header.login-head {
     width: 100%;
-    max-width: 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    border: solid #f2f2f2;
+    border-width: 0 0 1px 0;
 }
 
-h1 {
-    display: block;
-    text-align: center;
-    font-size: 20px;
+h2.login__logo, div.login__toSignin {
+    padding: 16px 32px;
+    margin:0;
 }
 
-form {
+a.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+div.login__toSignin {
+    display: flex;
+    align-items: center;
+}
+
+div.login__main {
+    width: 100%;
+}
+
+div.login__form {
+    width: 360px;
+    padding:24px;
     display: flex;
     flex-direction: column;
-    max-width: 300px;
-    min-height: 110px;
-    margin: auto;
-    justify-content: space-between;
+    margin: 0 auto;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    text-align: center;
+}
+
+div.login__form > h2 {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+form.login__form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+p.login__title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
 }
 
 input[type=text], input[type=password] {
-    font-size: 15px;
-}
-
-input[type=submit] {
-    margin-top: 20px;
-    margin-bottom: 10px;
-    height: 30px;
-}
-
-p.sign-up {
-    text-align: center;
-}
-
-.blue-btn {
-    background-color: dodgerblue;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    border:none;
-    opacity: 0.6;
-}
-
-.blue-btn:hover {
-    opacity: 1;
-}
-
-a.register-now {
-    text-decoration: none;
-    color: blue;
-}
-
-a.register-now:hover {
-    font-size: 20px;
+    width: 100%;
 }
