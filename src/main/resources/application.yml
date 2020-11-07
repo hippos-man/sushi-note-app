@@ -10,8 +10,3 @@ spring:
     url: jdbc:mysql://localhost:3314/todolist_db
     username: root
     password: rootpassword
-#  security:
-#    user:
-#      name: user
-#      password: password
-#      roles:
