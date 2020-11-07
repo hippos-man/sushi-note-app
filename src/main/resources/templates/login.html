@@ -7,23 +7,53 @@
     <link th:href="@{/css/login.css}" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-<div class="container-main">
-    <div class="container-logo">
-        <img th:src="@{/images/login_icon_logo_640x640.png}">
+    <div class="login">
+        <header class="login-head">
+            <h2 class="login__logo">
+                <a class="header__logo" th:href="@{/to-do/list}">
+                    <img class="header-logo" th:src="@{/images/mock_header_logo_48x48.png}">
+                    <span>Sushi note</span>
+                </a>
+            </h2>
+            <div class="login__toSignin">
+                <a class="login__toSigninLink" href="#">Sign up</a>
+            </div>
+        </header>
+        <section class="login__body">
+            <div class="login__main">
+                <div class="login__form">
+                    <div class="login__title-container">
+                        <p class="login__title">LOGIN</p>
+                    </div>
+                    <h2 class="text-center">Login with User ID</h2>
+                    <form class="login__form" th:action="@{/login}"  method="post">
+                        <input type="text" id="username" name="username" placeholder="User ID">
+                        <input type="password" id="password" name="password" placeholder="Password">
+                        <input class="blue-btn" type="submit" id="submit" value="LOGIN">
+                    </form>
+                </div>
+            </div>
+        </section>
     </div>
-    <div class="main-login">
-        <div class="login-form">
-            <h1>Login</h1>
-            <form th:action="@{/login}"  method="post">
-                <input type="text" id="username" name="username" placeholder="User ID">
-                <input type="password" id="password" name="password" placeholder="Password">
-                <input class="blue-btn" type="submit" id="submit" value="LOGIN">
-            </form>
-            <p class="sign-up">You haven't sigh up ?  <a class="register-now" th:href="@{/user/sign-up}">Register now</a></p>
-        </div>
-    </div>
-
-</div>
-<div class="container-sub"></div>
 </body>
+<!--<body>-->
+<!--<div class="container-main">-->
+<!--    <div class="container-logo">-->
+<!--        <img th:src="@{/images/login_icon_logo_640x640.png}">-->
+<!--    </div>-->
+<!--    <div class="main-login">-->
+<!--        <div class="login-form">-->
+<!--            <h1>Login</h1>-->
+<!--            <form th:action="@{/login}"  method="post">-->
+<!--                <input type="text" id="username" name="username" placeholder="User ID">-->
+<!--                <input type="password" id="password" name="password" placeholder="Password">-->
+<!--                <input class="blue-btn" type="submit" id="submit" value="LOGIN">-->
+<!--            </form>-->
+<!--            <p class="sign-up">You haven't sigh up ?  <a class="register-now" th:href="@{/user/sign-up}">Register now</a></p>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--</div>-->
+<!--<div class="container-sub"></div>-->
+<!--</body>-->
 </html>
