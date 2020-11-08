@@ -25,8 +25,8 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
         Users user = new Users(
                 request.getUserId(),
-                request.getFirstName(),
-                request.getLastName(),
+                request.getDisplayName(),
+                request.getEmailAddress(),
                 encryptedPassword,
                 true,
                 now,

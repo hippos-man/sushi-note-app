@@ -14,7 +14,7 @@ img.header-logo {
     margin-right: 5px;
 }
 
-header.login-head {
+header.signup-head {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -23,7 +23,7 @@ header.login-head {
     border-width: 0 0 1px 0;
 }
 
-h2.login__logo, div.login__toSignin {
+h2.signup__logo, div.signup__toLogin {
     padding: 16px 32px;
     margin:0;
 }
@@ -33,42 +33,48 @@ a.header__logo {
     align-items: center;
 }
 
-div.login__toSignin {
+div.signup__toLogin {
     display: flex;
     align-items: center;
 }
 
-div.login__main {
-    width: 100%;
+h2.signup__title {
+    font-size: 36px;
 }
 
-div.login__form {
-    width: 360px;
-    padding:24px;
+div.signup__main {
+    width: 50%;
+}
+
+.signup__body {
     display: flex;
-    flex-direction: column;
+    width: 100%;
     margin: 0 auto;
+    max-width: 940px;
+}
+
+div.signup__form {
+    width: 360px;
+    margin: 0 auto;
+    padding: 24px;
     border: 1px solid #e6e6e6;
     border-radius: 4px;
+}
+
+p.register__title {
+    margin-bottom: 30px;
     text-align: center;
-}
-
-div.login__form > h2 {
-    font-size: 16px;
-    font-weight: normal;
-}
-
-form.login__form {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    width: 100%;
-}
-
-p.login__title {
     font-size: 22px;
     font-weight: bold;
-    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup__introduction {
+    margin-top: 40px;
 }
 
 input[type=text], input[type=password] {
@@ -77,13 +83,14 @@ input[type=text], input[type=password] {
     padding: 5px 10px;
 }
 
-form.login__form > input {
-    margin-bottom:10px;
+form.signup-form > input {
+    margin-bottom:20px;
 }
 
 input[type=submit] {
     margin: auto;
 }
+
 
 .btn-large {
     width: 150px;
