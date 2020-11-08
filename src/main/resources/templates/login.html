@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - To-do app</title>
+    <title>Login - Sushi note</title>
     <link th:href="@{/css/login.css}" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <div class="login">
     <header class="login-head">
         <h2 class="login__logo">
-            <a class="header__logo" href="#" th:href="@{/to-do/list}">
-                <img class="header-logo" th:src="@{/images/mock_header_logo_48x48.png}">
+            <a class="header__logo" href="#">
+                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
                 <span>Sushi note</span>
             </a>
         </h2>
@@ -26,7 +26,7 @@
                     <p class="login__title">LOGIN</p>
                 </div>
                 <h2 class="text-center">Login with User ID</h2>
-                <form class="login__form" action="#" th:action="@{/login}" method="post">
+                <form class="login__form" action="#" th:action="@{/login}"  method="post">
                     <input type="text" id="username" name="username" placeholder="User ID">
                     <input type="password" id="password" name="password" placeholder="Password">
                     <input class="btn-large" type="submit" id="submit" value="LOGIN">

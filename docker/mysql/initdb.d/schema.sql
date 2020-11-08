@@ -1,7 +1,7 @@
 CREATE TABLE users (
     user_id VARCHAR(50) PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
+    display_name VARCHAR (50),
+    email_address VARCHAR (255),
     password VARCHAR(255) NOT NULL,
     is_active BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
