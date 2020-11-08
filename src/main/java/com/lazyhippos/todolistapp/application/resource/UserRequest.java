@@ -7,12 +7,14 @@ public class UserRequest implements Serializable {
     @NotBlank
     @Size(max = 50)
     private String userId;
+
     @NotBlank
     @Size(max = 50)
-    private String firstName;
+    private String displayName;
+
     @NotBlank
-    @Size(max = 50)
-    private String lastName;
+    private String emailAddress;
+
     @NotBlank
     @Size(min = 8, max = 50)
     private String password;
@@ -20,11 +22,13 @@ public class UserRequest implements Serializable {
     public UserRequest() {
     }
 
-    public UserRequest(String userId, String firstName, String lastName,
-                       String password) {
+    public UserRequest(@NotBlank @Size(max = 50) String userId,
+                       @NotBlank @Size(max = 50) String displayName,
+                       @NotBlank String emailAddress,
+                       @NotBlank @Size(min = 8, max = 50) String password) {
         this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.displayName = displayName;
+        this.emailAddress = emailAddress;
         this.password = password;
     }
 
@@ -39,20 +43,20 @@ public class UserRequest implements Serializable {
         this.userId = userId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {

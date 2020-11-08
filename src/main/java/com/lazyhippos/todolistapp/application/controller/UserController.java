@@ -19,7 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
-    private final String USER_REGISTER_VIEW = "userRegister";
+    private final String USER_REGISTER_VIEW = "signup";
 
     private final String LOGIN_VIEW = "login";
 
