@@ -57,7 +57,36 @@
                 </ul>
             </div>
             <div class="timelineCategory__body">
-                <div class="timelineCategory__item__wrapper">
+                <div class="timelineCategory__item__wrapper" th:each="article : ${articles}">
+                    <div class="timelineCategory__item">
+                        <a class="gridNote__link" href="#"></a>
+                        <div class="timelineHeader">
+                            <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
+                            <div class="timelineHeader__authorName">
+                                <a href="#" th:text="${article.userId}">John</a>
+                            </div>
+                            <span>&nbsp;&middot;&nbsp;</span>
+                            <div class="timelineHeader__post-date" th:text="${article.updatedDateTime}"></div>
+                        </div>
+                        <div class="gridNote__body">
+                            <div class="textNote">
+                                <h3 class="textNote__title" th:text="${article.title}"></h3>
+                                <p class="textNote__description" th:text="${article.textBody}"></p>
+                            </div>
+                        </div>
+                        <div class="gridNote__footer">
+                            <div class="gridNote__footer__upvote">
+                                <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                                <div class="upvote-count">34</div>
+                            </div>
+                            <div class="gridNote__footer__comment">
+                                <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                                <div class="comment-count">10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timelineCategory__item__wrapper dummy__item">
                     <div class="timelineCategory__item">
                         <a class="gridNote__link" href="#"></a>
                         <div class="timelineHeader">
@@ -86,384 +115,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="timelineCategory__item__wrapper">
-                    <div class="timelineCategory__item">
-                        <a class="gridNote__link" href="#"></a>
-                        <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
-                            <div class="timelineHeader__authorName">
-                                <a href="#">John</a>
-                            </div>
-                            <span>&nbsp;&middot;&nbsp;</span>
-                            <div class="timelineHeader__post-date">May 20</div>
-                        </div>
-                        <div class="gridNote__body">
-                            <div class="textNote">
-                                <h3 class="textNote__title">Where is the best Onsen hot Spring in Japan ?</h3>
-                                <p class="textNote__description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                            </div>
-                        </div>
-                        <div class="gridNote__footer">
-                            <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
-                                <div class="upvote-count">34</div>
-                            </div>
-                            <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
-                                <div class="comment-count">10</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </main>
         <!--            <aside class="side-bar"></aside>-->
