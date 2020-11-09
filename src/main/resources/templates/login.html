@@ -10,13 +10,13 @@
 <div class="login">
     <header class="login-head">
         <h2 class="login__logo">
-            <a class="header__logo" href="#">
+            <a class="header__logo" href="#" th:href="@{/}">
                 <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
                 <span>Sushi note</span>
             </a>
         </h2>
         <div class="login__toSignin">
-            <a class="login__toSigninLink" href="#" th:href="@{/user/sign-up}">Sign up</a>
+            <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
         </div>
     </header>
     <section class="login__body">
