@@ -10,17 +10,17 @@
 <div class="home">
     <header class="home-head">
         <h2 class="home__logo">
-            <a class="header__logo" href="./index.html">
+            <a class="header__logo" href="#" th:href="@{/}">
                 <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
                 <span>Sushi note</span>
             </a>
         </h2>
         <nav class="nav__bar__top">
             <div class="home__toLogin">
-                <a class="home__toLoginLink" href="./login.html">Login</a>
+                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
             </div>
             <div class="home__toSignin">
-                <a class="home__toSigninLink" href="./signup.html">Sign up</a>
+                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
             </div>
         </nav>
     </header>
@@ -61,7 +61,7 @@
                     <div class="timelineCategory__item">
                         <a class="gridNote__link" href="#"></a>
                         <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" src="../static/images/user.svg">
+                            <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
                             <div class="timelineHeader__authorName">
                                 <a href="#">John</a>
                             </div>
@@ -76,11 +76,11 @@
                         </div>
                         <div class="gridNote__footer">
                             <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" src="/static/images/clap.svg">
+                                <img class="upvote-icon" th:src="@{/images/clap.svg}">
                                 <div class="upvote-count">34</div>
                             </div>
                             <div class="gridNote__footer__comment">
-                                <img class="comment-icon" src="/static/images/speech-bubble.svg">
+                                <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
                                 <div class="comment-count">10</div>
                             </div>
                         </div>

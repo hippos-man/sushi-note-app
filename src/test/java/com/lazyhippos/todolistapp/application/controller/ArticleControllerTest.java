@@ -1,8 +1,5 @@
 package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.domain.service.LabelService;
-import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
-import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

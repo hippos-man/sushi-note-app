@@ -1,37 +1,20 @@
 package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.application.resource.TodoLabelRequest;
-import com.lazyhippos.todolistapp.application.resource.TodoRequest;
-import com.lazyhippos.todolistapp.domain.model.Labels;
-import com.lazyhippos.todolistapp.domain.model.TodoLabel;
-import com.lazyhippos.todolistapp.domain.model.Todos;
-import com.lazyhippos.todolistapp.domain.service.LabelService;
-import com.lazyhippos.todolistapp.domain.service.TodoLabelService;
-import com.lazyhippos.todolistapp.domain.service.TodoService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class ArticleController {
 
-    private final TodoService todoService;
-    private final LabelService labelService;
-    private final TodoLabelService todoLabelService;
-
-    ArticleController(TodoService todoService, LabelService labelService, TodoLabelService todoLabelService){
-        this.todoService = todoService;
-        this.labelService = labelService;
-        this.todoLabelService = todoLabelService;
-    }
+//    private final TodoService todoService;
+//    private final LabelService labelService;
+//    private final TodoLabelService todoLabelService;
+//
+//    ArticleController(TodoService todoService, LabelService labelService, TodoLabelService todoLabelService){
+//        this.todoService = todoService;
+//        this.labelService = labelService;
+//        this.todoLabelService = todoLabelService;
+//    }
 
     @GetMapping("/")
     public String showHomePage() {

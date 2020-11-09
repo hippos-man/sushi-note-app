@@ -1,27 +1,20 @@
 package com.lazyhippos.todolistapp.domain.model;
 
+import javax.management.relation.Role;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 public class Users {
+
     @Id
-    @NotBlank
     private String userId;
-    @NotBlank
-    private String firstName;
-    @NotBlank
-    private String lastName;
-    @NotBlank
+    private String displayName;
+    private String emailAddress;
     private String password;
-    @NotNull
     private Boolean isActive;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
@@ -31,12 +24,12 @@ public class Users {
     public Users() {
     }
 
-    public Users(String userId, String firstName, String lastName, String password,
+    public Users(String userId, String displayName, String emailAddress, String password,
                  Boolean isActive, LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
                  RoleName roleName) {
         this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.displayName = displayName;
+        this.emailAddress = emailAddress;
         this.password = password;
         this.isActive = isActive;
         this.createdDateTime = createdDateTime;
@@ -52,20 +45,20 @@ public class Users {
         this.userId = userId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
