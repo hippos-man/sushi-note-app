@@ -1,28 +1,29 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.domain.model.Articles;
+import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class ArticleController {
 
-//    private final TodoService todoService;
-//    private final LabelService labelService;
-//    private final TodoLabelService todoLabelService;
-//
-//    ArticleController(TodoService todoService, LabelService labelService, TodoLabelService todoLabelService){
-//        this.todoService = todoService;
-//        this.labelService = labelService;
-//        this.todoLabelService = todoLabelService;
-//    }
+    private final ArticleService articleService;
+    private final String INDEX_VIEW = "index";
+
+    public ArticleController (ArticleService articleService){
+        this.articleService = articleService;
+    }
 
     @GetMapping("/")
-    public String showHomePage() {
-        final String INDEX_VIEW = "index";
+    public String showHomePage (Model model) {
         // Fetch all articles which is available
-
+        List<Articles> articles = articleService.retrieveAll();
         // Set to Model
-
+        model.addAttribute("articles", articles);
         // Dispatch Home page
         return INDEX_VIEW;
     }
