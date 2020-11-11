@@ -1,7 +1,9 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.domain.model.Articles;
+import com.lazyhippos.todolistapp.domain.model.Topics;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
+import com.lazyhippos.todolistapp.domain.service.TopicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +14,23 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final TopicService topicService;
     private final String INDEX_VIEW = "index";
 
-    public ArticleController (ArticleService articleService){
+    public ArticleController (ArticleService articleService, TopicService topicService){
         this.articleService = articleService;
+        this.topicService = topicService;
     }
 
     @GetMapping("/")
     public String showHomePage (Model model) {
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
+        // Fetch all topics which is available
+        List<Topics> topics = topicService.retrieveAll();
         // Set to Model
         model.addAttribute("articles", articles);
+        model.addAttribute("topics", topics);
         // Dispatch Home page
         return INDEX_VIEW;
     }
