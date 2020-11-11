@@ -3,90 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todos List</title>
-    <link href='https://fonts.googleapis.com/css?family=Alike Angular' rel='stylesheet'>
+    <title>HOME - Sushi note</title>
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div class="global-header">
-
-</div>
-<div class="container-main">
-    <div class="left-container">
-        <div class="user-container">
-            <img id="user-icon" th:src="@{/images/user_logo_640x640.png}" alt="user icon">
-            <!-- TODO Replace to Login User ID -->
-            <span class="user-id">Foo</span>
-        </div>
-        <div class="label-container">
-            <div class="label-list">
-            <h3>Labels</h3>
-            <table>
-                <tr>
-                    <td><a class="label-title" th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
-                    <td></td>
-                </tr>
-                <tr th:each="label: ${labels}">
-                    <td class="label-name"><a class="label-title" th:href="@{'/to-do/list'(label_id=${label.labelId})}">
-                        <span th:text="${label.labelName}"></span></a>
-                    </td>
-                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}">
-                        <img class="delete-btn" src="#" alt="delete button" th:src="@{/images/rubbish_bin_48x48.png}"></a>
-                    </td>
-                </tr>
-            </table>
+<div class="home">
+    <header class="home-head">
+        <h2 class="home__logo">
+            <a class="header__logo" href="#" th:href="@{/}">
+                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
+                <span>Sushi note</span>
+            </a>
+        </h2>
+        <nav class="nav__bar__top">
+            <div class="home__toLogin">
+                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
             </div>
-            <div class="new-label-button">
-                <a th:href="@{'/label/new'}">
-                    <button class="add-label-btn" type="button">+</button>
-                </a>
+            <div class="home__toSignin">
+                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
             </div>
-        </div>
-        <div class="logout">
-            <form class="logout" th:action="@{/logout}" method="post">
-                <input id="log-out" type="submit" value="Log out">
-            </form>
-        </div>
-    </div>
-    <div class="todo-container">
-        <div class="todo-form">
-            <h3 th:if="${listName}" th:text="${listName}">All Tasks</h3>
-            <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
-                <table>
-                    <tr>
-                        <td><span class="error-message"th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
-                        <td class="add-button"><input class="blue-btn" type="submit" value="Add"></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div class="todo-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Upcoming</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${todos.empty}">
-                    <td>No Items Available</td>
-                </tr>
-                <tr class="todo-title" th:each="todo: ${todos}">
-                    <td class="todo-title">
-                        <a class="todo-title" th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
-                    </td>
-                    <td class="complete-button">
-                        <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
-                        <input id="complete-btn"type="submit" value="&#10003;">
-                    </form></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        </nav>
+    </header>
+    <div class="home-main">
+        <nav class="left-nav">
+            <div class="topicMenu__container">
+                <div class="topicMenu__section">
+                    <a class="category__link" href="#" th:href="@{'/'}">
+                        <img class="tag-img" th:src="@{/images/tag.svg}">
+                        <button class="topicMenu__title">All</button>
+                    </a>
+                </div>
+                <div class="topicMenu__section" th:each="topic : ${topics}">
+                    <a class="category__link" href="#" th:href="@{'/categories/' + ${topic.topicId}}">
+                        <img class="tag-img" th:src="@{/images/tag.svg}">
+                        <button class="topicMenu__title" th:text="${topic.topicName}"></button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <main class="home__body">
+            <h1 class="timelineCategory__title" th:text="${activeCategoryName}">Recommendation</h1>
+            <div class="timelineCategory__headerNav">
+                <ul>
+                    <li class="buttonGroup__item">
+                        <button class="btn-small is-active">Latest</button>
+                    </li>
+                    <li class="buttonGroup__item">
+                        <button class="btn-small">Popular</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="timelineCategory__body">
+                <p th:if="${articles.empty}">No items is found in the category</p>
+                <div class="timelineCategory__item__wrapper" th:each="article : ${articles}">
+                    <div class="timelineCategory__item">
+                        <a class="gridNote__link" href="#"></a>
+                        <div class="timelineHeader">
+                            <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
+                            <div class="timelineHeader__authorName">
+                                <a href="#" th:text="${article.userId}">John</a>
+                            </div>
+                            <span>&nbsp;&middot;&nbsp;</span>
+                            <div class="timelineHeader__post-date" th:text="${article.updatedDateTime}"></div>
+                        </div>
+                        <div class="gridNote__body">
+                            <div class="textNote">
+                                <h3 class="textNote__title" th:text="${article.title}"></h3>
+                                <p class="textNote__description" th:text="${article.textBody}"></p>
+                            </div>
+                        </div>
+                        <div class="gridNote__footer">
+                            <div class="gridNote__footer__upvote">
+                                <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                                <div class="upvote-count">34</div>
+                            </div>
+                            <div class="gridNote__footer__comment">
+                                <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                                <div class="comment-count">10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--            <aside class="side-bar"></aside>-->
     </div>
 </div>
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Todos List</title>-->
+<!--    <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="global-header">-->
+
+<!--</div>-->
+<!--<div class="container-main">-->
+<!--    <div class="left-container">-->
+<!--        <div class="user-container">-->
+<!--            <img id="user-icon" th:src="@{/images/user_logo_640x640.png}" alt="user icon">-->
+<!--            &lt;!&ndash; TODO Replace to Login User ID &ndash;&gt;-->
+<!--            <span class="user-id">Foo</span>-->
+<!--        </div>-->
+<!--        <div class="label-container">-->
+<!--            <div class="label-list">-->
+<!--            <h3>Labels</h3>-->
+<!--            <table>-->
+<!--                <tr>-->
+<!--                    <td><a class="label-title" th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>-->
+<!--                    <td></td>-->
+<!--                </tr>-->
+<!--                <tr th:each="label: ${labels}">-->
+<!--                    <td class="label-name"><a class="label-title" th:href="@{'/to-do/list'(label_id=${label.labelId})}">-->
+<!--                        <span th:text="${label.labelName}"></span></a>-->
+<!--                    </td>-->
+<!--                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}">-->
+<!--                        <img class="delete-btn" src="#" alt="delete button" th:src="@{/images/rubbish_bin_48x48.png}"></a>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--            </div>-->
+<!--            <div class="new-label-button">-->
+<!--                <a th:href="@{'/label/new'}">-->
+<!--                    <button class="add-label-btn" type="button">+</button>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="logout">-->
+<!--            <form class="logout" th:action="@{/logout}" method="post">-->
+<!--                <input id="log-out" type="submit" value="Log out">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="todo-container">-->
+<!--        <div class="todo-form">-->
+<!--            <h3 th:if="${listName}" th:text="${listName}">All Tasks</h3>-->
+<!--            <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">-->
+<!--                <table>-->
+<!--                    <tr>-->
+<!--                        <td><span class="error-message"th:if="${errorMessage}" th:text="${errorMessage}"></span></td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>-->
+<!--                        <td class="add-button"><input class="blue-btn" type="submit" value="Add"></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="todo-list">-->
+<!--            <table>-->
+<!--                <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Upcoming</th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr th:if="${todos.empty}">-->
+<!--                    <td>No Items Available</td>-->
+<!--                </tr>-->
+<!--                <tr class="todo-title" th:each="todo: ${todos}">-->
+<!--                    <td class="todo-title">-->
+<!--                        <a class="todo-title" th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>-->
+<!--                    </td>-->
+<!--                    <td class="complete-button">-->
+<!--                        <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">-->
+<!--                        <input id="complete-btn"type="submit" value="&#10003;">-->
+<!--                    </form></td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
