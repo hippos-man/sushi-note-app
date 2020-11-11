@@ -18,4 +18,8 @@ public class ArticleService {
     public List<Articles> retrieveAll() {
         return articleJpaRepository.findAll();
     }
+
+    public List<Articles> retrieveByTopicId(String topicId) {
+        return articleJpaRepository.findByTopicId(topicId);
+    }
 }

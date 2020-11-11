@@ -35,6 +35,19 @@ public class ArticleController {
         return INDEX_VIEW;
     }
 
+    @GetMapping("/categories/{topicId}")
+    public String showCategoryPage (@PathVariable("topicId") String topicId, Model model) {
+        // Fetch all by Topic ID
+        List<Articles> articles = articleService.retrieveByTopicId(topicId);
+        // Fetch all topics which is available
+        List<Topics> topics = topicService.retrieveAll();
+        // Set to Model
+        model.addAttribute("articles", articles);
+        model.addAttribute("topics", topics);
+        // Dispatch Home page
+        return INDEX_VIEW;
+    }
+
 
 //    @GetMapping("/")
 //    public String showHome(@RequestParam(required = false) String label_id,
