@@ -27,7 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/sign-up")
+    @GetMapping("/signup")
     public String showUserRegisterPage(Model model){
         model.addAttribute("request", new UserRequest());
         return USER_REGISTER_VIEW;
