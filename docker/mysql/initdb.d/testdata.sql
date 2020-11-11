@@ -21,8 +21,8 @@ false, "2020-11-07T12:01:00", "2020-11-07T12:01:00"),
 
 
 INSERT INTO topics ( topic_id, user_id, topic_name, is_active, created_date_time, updated_date_time)
-VALUES ( "1", "admin", "Gourmet", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
-       ( "2", "admin", "Sports", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
-       ( "3", "admin", "Music", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
-       ( "4", "admin", "Technology", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
-       ( "5", "admin", "Career", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00");
+VALUES ( "gourmet", "admin", "Gourmet", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
+       ( "sports", "admin", "Sports", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
+       ( "music", "admin", "Music", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
+       ( "technology", "admin", "Technology", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),
+       ( "career", "admin", "Career", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00");
