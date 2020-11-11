@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class ArticleController {
@@ -31,6 +34,7 @@ public class ArticleController {
         // Set to Model
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
+        model.addAttribute("activeCategoryName", "Recommendation");
         // Dispatch Home page
         return INDEX_VIEW;
     }
@@ -41,9 +45,13 @@ public class ArticleController {
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
+        // Map Topic Name and ID Pairs
+        Map<String,String> topicMap = topics.stream().collect
+                (Collectors.toMap(Topics::getTopicId, Topics::getTopicName));
         // Set to Model
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
+        model.addAttribute("activeCategoryName", topicMap.get(topicId));
         // Dispatch Home page
         return INDEX_VIEW;
     }

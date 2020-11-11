@@ -67,6 +67,13 @@ button.topicMenu__title {
     padding: 12px;
 }
 
+a.category__link {
+    display: flex;
+}
+img.tag-img {
+    width: 20px;
+}
+
 main.home__body {
     width: 100%;
     padding: 24px 0;
