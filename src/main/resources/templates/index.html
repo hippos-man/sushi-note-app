@@ -30,17 +30,8 @@
                 <div class="topicMenu__section">
                     <button class="topicMenu__title">All</button>
                 </div>
-                <div class="topicMenu__section">
-                    <button class="topicMenu__title">Sports</button>
-                </div>
-                <div class="topicMenu__section">
-                    <button class="topicMenu__title">Music</button>
-                </div>
-                <div class="topicMenu__section">
-                    <button class="topicMenu__title">Learning</button>
-                </div>
-                <div class="topicMenu__section">
-                    <button class="topicMenu__title">Gaming</button>
+                <div class="topicMenu__section" th:each="topic : ${topics}">
+                    <button class="topicMenu__title" th:text="${topic.topicName}"></button>
                 </div>
             </div>
         </nav>
