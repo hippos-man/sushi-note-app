@@ -16,11 +16,17 @@
             </a>
         </h2>
         <nav class="nav__bar__top">
-            <div class="home__toLogin">
+            <div th:if="${!isLogin}" class="home__toLogin">
                 <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
             </div>
-            <div class="home__toSignin">
+            <div th:if="${!isLogin}" class="home__toSignin">
                 <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
+            </div>
+            <div th:if="${isLogin}" class="nav__user-icon">
+                <img class="nav__user-icon" th:src="@{/images/user.svg}">
+            </div>
+            <div th:if="${isLogin}" class="nav__add__note">
+                <a class="add__note" href="#">Add note</a>
             </div>
         </nav>
     </header>
