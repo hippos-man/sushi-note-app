@@ -2,19 +2,19 @@ package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.domain.service.UserService;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.time.LocalDateTime;
 
-@RequestMapping("/user")
 @Controller
 public class UserController {
 
@@ -29,9 +29,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/signup")
-    public String showUserRegisterPage(Model model, Principal principal){
-        if (principal != null) {
+    @GetMapping("/user/signup")
+    public String showUserRegisterPage(Model model){
+        if (isAuthenticated()) {
             return REDIRECT + SLASH;
         }
         model.addAttribute("request", new UserRequest());
@@ -39,10 +39,10 @@ public class UserController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public String register(@Valid @ModelAttribute(name = "request") UserRequest request,
-                           BindingResult bindingResult, Model model, Principal principal){
-        if (principal != null) {
+                           BindingResult bindingResult, Model model){
+        if (isAuthenticated()) {
             return REDIRECT + SLASH;
         }
 
@@ -56,5 +56,23 @@ public class UserController {
         // Store new user
         userService.register(request, now);
         return LOGIN_VIEW;
+    }
+
+    @GetMapping("/login")
+    public String getUserLoginPage() {
+        if (isAuthenticated()) {
+            System.out.println("This user has already logged in");
+            return REDIRECT + SLASH;
+        }
+        return LOGIN_VIEW;
+    }
+
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.
+                isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
     }
 }
