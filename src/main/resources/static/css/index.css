@@ -174,3 +174,16 @@ aside {
     width: 250px;
     padding: 24px 0;
 }
+
+div.logout {
+    padding: 12px;
+    margin-top: 100px;
+}
+
+#logout {
+    cursor: pointer;
+    border: none;
+    padding: 8px;
+    font-size: 16px;
+    background-color: white;
+}
