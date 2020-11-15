@@ -45,6 +45,11 @@
                         <button class="topicMenu__title" th:text="${topic.topicName}"></button>
                     </a>
                 </div>
+                <div th:if="${isLogin}" class="logout">
+                    <form class="logout" th:action="@{/logout}" method="post">
+                        <input id="logout" type="submit" value="Log out">
+                    </form>
+                </div>
             </div>
         </nav>
         <main class="home__body">
