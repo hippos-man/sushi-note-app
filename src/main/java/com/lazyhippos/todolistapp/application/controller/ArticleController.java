@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,17 @@ public class ArticleController {
     }
 
     @GetMapping("/")
-    public String showHomePage (Model model) {
+    public String showHomePage (Model model, Principal principal) {
+        Boolean isLogin = false;
+        if(principal != null) {
+            isLogin = true;
+        }
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
+        model.addAttribute("isLogin", isLogin);
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", "Recommendation");
@@ -40,7 +46,11 @@ public class ArticleController {
     }
 
     @GetMapping("/categories/{topicId}")
-    public String showCategoryPage (@PathVariable("topicId") String topicId, Model model) {
+    public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
+        Boolean isLogin = false;
+        if(principal != null) {
+            isLogin = true;
+        }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
         // Fetch all topics which is available
@@ -49,6 +59,7 @@ public class ArticleController {
         Map<String,String> topicMap = topics.stream().collect
                 (Collectors.toMap(Topics::getTopicId, Topics::getTopicName));
         // Set to Model
+        model.addAttribute("isLogin", isLogin);
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", topicMap.get(topicId));

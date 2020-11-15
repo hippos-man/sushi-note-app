@@ -21,18 +21,18 @@ public class UserService {
     }
 
     public void register(UserRequest request, LocalDateTime now){
-//        // Encrypt Password
-//        String encryptedPassword = passwordEncoder.encode(request.getPassword());
-//        Users user = new Users(
-//                request.getUserId(),
-//                request.getDisplayName(),
-//                request.getEmailAddress(),
-//                encryptedPassword,
-//                true,
-//                now,
-//                now,
-//                RoleName.USER
-//        );
-//        userJpaRepository.save(user);
+        String encryptedPassword = passwordEncoder
+                .encode(request.getPassword());
+        Users newUser = new Users(
+                request.getUserId(),
+                request.getDisplayName(),
+                request.getEmailAddress(),
+                encryptedPassword,
+                true,
+                now,
+                now,
+                RoleName.USER
+        );
+        userJpaRepository.save(newUser);
     }
 }
