@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @RequestMapping("/user")
@@ -18,24 +19,33 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private final UserService userService;
-
+    private final String REDIRECT = "redirect:";
     private final String USER_REGISTER_VIEW = "signup";
-
     private final String LOGIN_VIEW = "login";
+    private final String SLASH = "/";
+
 
     UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/signup")
-    public String showUserRegisterPage(Model model){
+    public String showUserRegisterPage(Model model, Principal principal){
+        if (principal != null) {
+            return REDIRECT + SLASH;
+        }
         model.addAttribute("request", new UserRequest());
         return USER_REGISTER_VIEW;
     }
 
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute(name = "request") UserRequest request, BindingResult bindingResult, Model model){
+    public String register(@Valid @ModelAttribute(name = "request") UserRequest request,
+                           BindingResult bindingResult, Model model, Principal principal){
+        if (principal != null) {
+            return REDIRECT + SLASH;
+        }
+
         if (bindingResult.hasErrors()){
             model.addAttribute("request", request);
             model.addAttribute("validationError", "Input value is not valid.");
