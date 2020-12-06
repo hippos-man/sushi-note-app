@@ -35,4 +35,8 @@ public class UserService {
         );
         userJpaRepository.save(newUser);
     }
+
+    public Users retrieveAuthorProfile(String userId) {
+        return userJpaRepository.getOne(userId);
+    }
 }
