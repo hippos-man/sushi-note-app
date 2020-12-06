@@ -1,0 +1,96 @@
+/* Common Header Area */
+body {
+    margin: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+img.header-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+header.home-head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    border: solid #f2f2f2;
+    border-width: 0 0 1px 0;
+}
+
+h2.home__logo, div.home__toSignin, div.home__toLogin, div.nav__user-icon, .nav__add__note {
+    padding: 16px 32px;
+    margin: auto 0;
+}
+
+a.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+div.home__toSignin, div.home__toLogin {
+    display: flex;
+    align-items: center;
+}
+
+nav.nav__bar__top {
+    display: flex;
+    flex-direction: row;
+}
+
+div.nav__user-icon {
+    cursor: pointer;
+}
+
+img.nav__user-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Common Header Area */
+
+
+/* Start Main CSS */
+
+main {
+    padding-bottom: 50px;
+}
+
+article {
+    width: 620px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+figure {
+    margin: 0;
+}
+
+.article__author {
+    display: flex;
+}
+
+h1.article__title {
+    margin-top: 72px;
+}
+
+div.article__body > p {
+    font-size: 18px;
+    line-height: 36px;
+    margin-top: 36px;
+    margin-bottom: 36px;
+}
+
+.articleHeader__name, .articleHeader__date {
+    font-size: 14px;
+}
+
+div.articleHeader__avator {
+    margin-right: 10px;
+}
