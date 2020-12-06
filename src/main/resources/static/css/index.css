@@ -148,6 +148,10 @@ img.timelineHeader__user-icon {
     font-size: 16px;
 }
 
+.textNote__title:hover {
+    text-decoration: underline;
+}
+
 .textNote__description {
     font-size: 15px;
 }
