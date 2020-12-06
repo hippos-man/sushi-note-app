@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Article</title>
+    <link th:href="@{/css/newArticle.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="article-detail">
+    <header class="home-head">
+        <h2 class="home__logo">
+            <a class="header__logo" href="#" th:href="@{/}">
+                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
+                <span>Sushi note</span>
+            </a>
+        </h2>
+        <nav class="nav__bar__top">
+            <div th:if="${!isLogin}" class="home__toLogin">
+                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
+            </div>
+            <div th:if="${!isLogin}" class="home__toSignin">
+                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
+            </div>
+            <div th:if="${isLogin}" class="nav__user-icon">
+                <img class="nav__user-icon" th:src="@{/images/user.svg}">
+            </div>
+            <div th:if="${isLogin}" class="nav__add__note">
+                <a class="add__note" href="#">Add note</a>
+            </div>
+        </nav>
+    </header>
+    <main class="">
+        <h1>New Article</h1>
+        <main class="article__main">
+            <div class="article__form">
+                <div class="register__title-container">
+                    <p class="register__title">Create New article</p>
+                </div>
+                <form class="article-form" role="form" action="#" th:object="${request}" method="post">
+                    <label for="title">Title</label>
+                    <br>
+                    <input type="text" id="title" th:field="*{title}" placeholder="Enter title">
+                    <br>
+                    <label for="topicId">Topic</label>
+                    <br>
+                    <input type="text" id="topicId" th:field="*{topicId}" placeholder="Enter Topic ID">
+                    <br>
+                    <label for="body">Body</label>
+                    <br>
+                    <textarea type="text" id="body" th:field="*{textBody}" placeholder="Share you thought"></textarea>
+                    <div class="dummy"></div>
+                    <input class="btn-large"type="submit" value="Create">
+                </form>
+            </div>
+        </main>
+    </main>
+</div>
+</body>
+</html>
