@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -101,7 +103,15 @@ public class ArticleController {
 
     @GetMapping("/drafts/new")
     public String showAddArticlePage(Model model) {
+
+        List<Topics> topics = topicService.retrieveAll();
+        Map<String, String> topicMap = new HashMap<>();
+        for (Topics topic : topics) {
+            topicMap.put(topic.getTopicId(), topic.getTopicName());
+        }
+
         model.addAttribute("isLogin",true);
+        model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest());
         return NEW_ARTICLE_VIEW;
     }
