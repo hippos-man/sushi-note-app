@@ -26,7 +26,7 @@
                 <img class="nav__user-icon" th:src="@{/images/user.svg}">
             </div>
             <div th:if="${isLogin}" class="nav__add__note">
-                <a class="add__note" href="#">Add note</a>
+                <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>
             </div>
         </nav>
     </header>

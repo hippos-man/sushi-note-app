@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
 import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Topics;
@@ -24,6 +25,7 @@ public class ArticleController {
     private final UserService userService;
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
+    private final String NEW_ARTICLE_VIEW = "newArticle";
 
     public ArticleController (ArticleService articleService, TopicService topicService, UserService userService){
         this.articleService = articleService;
@@ -95,5 +97,12 @@ public class ArticleController {
         model.addAttribute("activeCategoryName", topicMap.get(topicId));
         // Dispatch Home page
         return INDEX_VIEW;
+    }
+
+    @GetMapping("/drafts/new")
+    public String showAddArticlePage(Model model) {
+        model.addAttribute("isLogin",true);
+        model.addAttribute("request", new ArticleRequest());
+        return NEW_ARTICLE_VIEW;
     }
 }
