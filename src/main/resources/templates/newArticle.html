@@ -37,7 +37,7 @@
                 <div class="register__title-container">
                     <p class="register__title">Create New article</p>
                 </div>
-                <form class="article-form" role="form" action="#" th:object="${request}" method="post">
+                <form class="article-form" role="form" action="#" th:action="@{/article/create}" th:object="${request}" method="post">
                     <label for="title">Title</label>
                     <br>
                     <input type="text" id="title" th:field="*{title}" placeholder="Enter title">

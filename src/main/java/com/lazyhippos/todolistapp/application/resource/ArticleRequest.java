@@ -47,4 +47,14 @@ public class ArticleRequest {
     public void setTextBody(String textBody) {
         this.textBody = textBody;
     }
+
+    @Override
+    public String toString() {
+        return "ArticleRequest{" +
+                "userId='" + userId + '\'' +
+                ", topicId='" + topicId + '\'' +
+                ", title='" + title + '\'' +
+                ", textBody='" + textBody + '\'' +
+                '}';
+    }
 }

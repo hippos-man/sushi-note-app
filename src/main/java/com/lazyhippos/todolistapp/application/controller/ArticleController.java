@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +28,8 @@ public class ArticleController {
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
+    private final String REDIRECT = "redirect:";
+    private final String SLASH = "/";
 
     public ArticleController (ArticleService articleService, TopicService topicService, UserService userService){
         this.articleService = articleService;
@@ -114,5 +116,15 @@ public class ArticleController {
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest());
         return NEW_ARTICLE_VIEW;
+    }
+
+    @PostMapping("/article/create")
+    public String create(@ModelAttribute("request") ArticleRequest request){
+        // Get current time
+        LocalDateTime now = LocalDateTime.now();
+        // DEBUG
+        System.out.println("New Article Request= " + request.toString());
+        articleService.save(request, now);
+        return REDIRECT + SLASH;
     }
 }
