@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
+import com.lazyhippos.todolistapp.application.resource.ArticleResponse;
 import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Topics;
@@ -63,10 +64,24 @@ public class ArticleController {
         if(principal != null) {
             isLogin = true;
         }
-        // Fetch article by article ID
+        // Fetch article by article ID from DB
         Articles article = articleService
                 .retrieveByArticleId(articleId)
                 .orElse(null);
+
+        // Set article information to Response Entity
+        String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
+        ArticleResponse articleResponse = new ArticleResponse(
+                article.getArticleId(),
+                article.getUserId(),
+                article.getTopicId(),
+                article.getTitle(),
+                articleHtml,
+                article.getIsDeleted(),
+                article.getUpdatedDateTime(),
+                article.getCreatedDateTime()
+        );
+
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
         UserProfile author = new UserProfile(
@@ -76,7 +91,7 @@ public class ArticleController {
         );
         // Set to Model
         model.addAttribute("isLogin", isLogin);
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleResponse);
         model.addAttribute("authorProfile", author);
         return ARTICLE_DETAIL_VIEW;
     }
@@ -128,4 +143,5 @@ public class ArticleController {
         articleService.save(request, now);
         return REDIRECT + SLASH;
     }
+
 }
