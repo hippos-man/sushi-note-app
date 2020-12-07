@@ -104,8 +104,9 @@ public class ArticleController {
     }
 
     @GetMapping("/drafts/new")
-    public String showAddArticlePage(Model model) {
-
+    public String showAddArticlePage(Model model, Principal principal) {
+        // Retrieve User ID
+        String userId = principal.getName();
         List<Topics> topics = topicService.retrieveAll();
         Map<String, String> topicMap = new HashMap<>();
         for (Topics topic : topics) {
@@ -114,7 +115,7 @@ public class ArticleController {
 
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
-        model.addAttribute("request", new ArticleRequest());
+        model.addAttribute("request", new ArticleRequest(userId, null, null, null));
         return NEW_ARTICLE_VIEW;
     }
 

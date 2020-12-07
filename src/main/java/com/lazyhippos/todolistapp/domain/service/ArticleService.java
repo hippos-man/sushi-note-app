@@ -34,7 +34,7 @@ public class ArticleService {
 
     public void save(ArticleRequest request, LocalDateTime now) {
         // Generate UUID
-        String articleId = UUID.randomUUID().toString();;
+        String articleId = UUID.randomUUID().toString();
         articleJpaRepository.save(new Articles(
                 articleId,
                 request.getUserId(),
