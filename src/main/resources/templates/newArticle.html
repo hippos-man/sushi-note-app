@@ -52,6 +52,7 @@
                     <label for="body">Body</label>
                     <br>
                     <textarea type="text" id="body" th:field="*{textBody}" placeholder="Share you thought"></textarea>
+                    <input type="hidden" id="userId" th:field="*{userId}">
                     <div class="dummy"></div>
                     <input class="btn-large"type="submit" value="Create">
                 </form>
