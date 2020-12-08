@@ -46,4 +46,8 @@ public class ArticleService {
                 now
         ));
     }
+
+    public void update(ArticleRequest request, LocalDateTime now) {
+        // TODO
+    }
 }

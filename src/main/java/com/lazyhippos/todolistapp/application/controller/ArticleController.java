@@ -13,11 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.rtf.RTFEditorKit;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,6 +31,7 @@ public class ArticleController {
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
+    private final String EDIT_ARTICLE_VIEW = "editArticle";
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
@@ -67,7 +70,8 @@ public class ArticleController {
         // Fetch article by article ID from DB
         Articles article = articleService
                 .retrieveByArticleId(articleId)
-                .orElse(null);
+                .orElseThrow(RuntimeException::new);
+
 
         // Set article information to Response Entity
         String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
@@ -133,6 +137,28 @@ public class ArticleController {
         model.addAttribute("request", new ArticleRequest(userId, null, null, null));
         return NEW_ARTICLE_VIEW;
     }
+    @GetMapping("/article/{articleId}/edit")
+    public String showEditArticlePage (@PathVariable String articleId, Model model, Principal principal) {
+
+        Optional<Articles> articlesOptional = articleService.retrieveByArticleId(articleId);
+        if (!articlesOptional.isPresent()
+                || !articlesOptional.get().getUserId().equals(principal.getName())) {
+            throw new RuntimeException();
+        }
+        Articles article = articlesOptional.get();
+        List<Topics> topics = topicService.retrieveAll();
+        Map<String, String> topicMap = new HashMap<>();
+        for (Topics topic : topics) {
+            topicMap.put(topic.getTopicId(), topic.getTopicName());
+        }
+
+        model.addAttribute("isLogin",true);
+        model.addAttribute("topicMap", topicMap);
+        model.addAttribute("request", new ArticleRequest(
+                article.getUserId(), article.getTopicId(), article.getTitle(), article.getTextBody()));
+
+        return EDIT_ARTICLE_VIEW;
+    }
 
     @PostMapping("/article/create")
     public String create(@ModelAttribute("request") ArticleRequest request){
@@ -141,6 +167,16 @@ public class ArticleController {
         // DEBUG
         System.out.println("New Article Request= " + request.toString());
         articleService.save(request, now);
+        return REDIRECT + SLASH;
+    }
+
+    @PostMapping("/article/edit")
+    public String edit(@ModelAttribute("request") ArticleRequest request) {
+        // GET current time
+        LocalDateTime now = LocalDateTime.now();
+        // DEBUG
+        System.out.println("Edit Article Request= " + request);
+        articleService.update(request, now);
         return REDIRECT + SLASH;
     }
 
