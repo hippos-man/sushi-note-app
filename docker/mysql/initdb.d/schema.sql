@@ -14,7 +14,7 @@ CREATE TABLE articles (
     user_id VARCHAR(50) NOT NULL,
     topic_id VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
-    text_body VARCHAR(255) NOT NULL,
+    text_body TEXT NOT NULL,
     is_deleted BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL
