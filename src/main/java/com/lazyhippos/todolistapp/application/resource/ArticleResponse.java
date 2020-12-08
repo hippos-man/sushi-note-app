@@ -63,13 +63,14 @@ public class ArticleResponse {
 
     public static String convertToHtml(String rawData) {
 
+        if (rawData == null) {
+            throw new RuntimeException();
+        }
+
         final String P_OPEN_TAG = "<p>";
         final String P_CLOSE_TAG = "</p>";
         final String LINE_BREAK = "<br />";
-        // Check
-        if (rawData == null) {
-            return null;
-        }
+
         StringBuilder stringBuilder = new StringBuilder();
         String[] paragraph = rawData.split("\\r\\n\\r\\n");
         for (int i = 0; i < paragraph.length; i++) {
