@@ -5,11 +5,9 @@ import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.repository.ArticleJpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ArticleService {
@@ -33,10 +31,8 @@ public class ArticleService {
     }
 
     public void save(ArticleRequest request, LocalDateTime now) {
-        // Generate UUID
-        String articleId = UUID.randomUUID().toString();
         articleJpaRepository.save(new Articles(
-                articleId,
+                request.getArticleId(),
                 request.getUserId(),
                 request.getTopicId(),
                 request.getTitle(),
@@ -48,6 +44,7 @@ public class ArticleService {
     }
 
     public void update(ArticleRequest request, LocalDateTime now) {
-        // TODO
+        articleJpaRepository.updateArticle(
+                request.getArticleId(), request.getTopicId(), request.getTitle(), request.getTextBody(), now);
     }
 }

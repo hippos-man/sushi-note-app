@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.rtf.RTFEditorKit;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -131,10 +128,11 @@ public class ArticleController {
         for (Topics topic : topics) {
             topicMap.put(topic.getTopicId(), topic.getTopicName());
         }
-
+        // Generate UUID
+        String articleId = UUID.randomUUID().toString();
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
-        model.addAttribute("request", new ArticleRequest(userId, null, null, null));
+        model.addAttribute("request", new ArticleRequest(articleId, userId, null, null, null));
         return NEW_ARTICLE_VIEW;
     }
     @GetMapping("/article/{articleId}/edit")
@@ -155,7 +153,8 @@ public class ArticleController {
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
-                article.getUserId(), article.getTopicId(), article.getTitle(), article.getTextBody()));
+                article.getArticleId(), article.getUserId(), article.getTopicId(), article.getTitle(),
+                article.getTextBody()));
 
         return EDIT_ARTICLE_VIEW;
     }
