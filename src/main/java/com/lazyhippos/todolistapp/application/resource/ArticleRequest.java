@@ -2,6 +2,7 @@ package com.lazyhippos.todolistapp.application.resource;
 
 public class ArticleRequest {
 
+    private String articleId;
     private String userId;
     private String topicId;
     private String title;
@@ -9,11 +10,20 @@ public class ArticleRequest {
 
     public ArticleRequest() {}
 
-    public ArticleRequest(String userId, String topicId, String title, String textBody) {
+    public ArticleRequest(String articleId, String userId, String topicId, String title, String textBody) {
+        this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.textBody = textBody;
+    }
+
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     public String getUserId() {
@@ -51,6 +61,7 @@ public class ArticleRequest {
     @Override
     public String toString() {
         return "ArticleRequest{" +
+                "articleId='" + articleId + '\'' +
                 "userId='" + userId + '\'' +
                 ", topicId='" + topicId + '\'' +
                 ", title='" + title + '\'' +
