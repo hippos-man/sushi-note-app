@@ -2,6 +2,7 @@ package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
 import com.lazyhippos.todolistapp.application.resource.ArticleResponse;
+import com.lazyhippos.todolistapp.application.resource.ArticleSummary;
 import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Topics;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.rtf.RTFEditorKit;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -29,6 +29,7 @@ public class ArticleController {
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
     private final String EDIT_ARTICLE_VIEW = "editArticle";
+    private final String MY_PAGE_VIEW = "myPage";
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
@@ -157,6 +158,25 @@ public class ArticleController {
                 article.getTextBody()));
 
         return EDIT_ARTICLE_VIEW;
+    }
+
+    @GetMapping("/m/{userId}")
+    public String showMyArticlePage(@PathVariable("userId") String userId, Model model, Principal principal) {
+        // Authenticate
+        if (!userId.equals(principal.getName())) {
+            throw new RuntimeException();
+        }
+        // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
+        List<Articles> articleList = articleService.retrieveByUserId(userId);
+        // Transfer
+        List<ArticleSummary> summaryList = new ArrayList<>();
+        articleList.forEach(e -> summaryList.add(
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(),
+                        e.getUpdatedDateTime())
+        ));
+        // TODO Set view
+        model.addAttribute("article", summaryList);
+        return MY_PAGE_VIEW;
     }
 
     @PostMapping("/article/create")
