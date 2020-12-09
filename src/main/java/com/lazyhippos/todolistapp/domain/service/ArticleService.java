@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
+import com.lazyhippos.todolistapp.application.resource.ArticleSummary;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.repository.ArticleJpaRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class ArticleService {
 
     public Optional<Articles> retrieveByArticleId(String articleId) {
         return articleJpaRepository.findById(articleId);
+    }
+
+    public List<Articles> retrieveByUserId(String userId) {
+        return articleJpaRepository.findByUserId(userId);
     }
 
     public void save(ArticleRequest request, LocalDateTime now) {
