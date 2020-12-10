@@ -6,6 +6,9 @@ public class UserProfile {
     private String displayName;
     private Boolean isActive;
 
+    public UserProfile() {
+    }
+
     public UserProfile(String userId, String displayName, Boolean isActive) {
         this.userId = userId;
         this.displayName = displayName;

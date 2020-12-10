@@ -23,10 +23,12 @@
                 <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
             </div>
             <div th:if="${isLogin}" class="nav__user-icon">
-                <img class="nav__user-icon" th:src="@{/images/user.svg}">
+                <a th:href="@{'/m/' + ${authorProfile.userId}}">
+                    <img class="nav__user-icon" th:src="@{/images/user.svg}">
+                </a>
             </div>
             <div th:if="${isLogin}" class="nav__add__note">
-                <a class="add__note" href="#">Add note</a>
+                <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>
             </div>
         </nav>
     </header>

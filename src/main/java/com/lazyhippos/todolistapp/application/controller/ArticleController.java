@@ -42,14 +42,25 @@ public class ArticleController {
     @GetMapping("/")
     public String showHomePage (Model model, Principal principal) {
         Boolean isLogin = false;
+        UserProfile author = new UserProfile();
         if(principal != null) {
             isLogin = true;
+            String userId = principal.getName();
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(userId);
+            author = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getActive()
+            );
         }
+
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
+        model.addAttribute("authorProfile", author);
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
@@ -64,6 +75,7 @@ public class ArticleController {
         Boolean isLogin = false;
         if(principal != null) {
             isLogin = true;
+
         }
         // Fetch article by article ID from DB
         Articles article = articleService
@@ -101,8 +113,17 @@ public class ArticleController {
     @GetMapping("/categories/{topicId}")
     public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
         Boolean isLogin = false;
+        UserProfile author = new UserProfile();
         if(principal != null) {
             isLogin = true;
+            String userId = principal.getName();
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(userId);
+            author = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getActive()
+            );
         }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
@@ -116,6 +137,7 @@ public class ArticleController {
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", topicMap.get(topicId));
+        model.addAttribute("authorProfile", author);
         // Dispatch Home page
         return INDEX_VIEW;
     }
@@ -129,11 +151,21 @@ public class ArticleController {
         for (Topics topic : topics) {
             topicMap.put(topic.getTopicId(), topic.getTopicName());
         }
+        // Fetch author profile
+        Users users = userService.retrieveAuthorProfile(userId);
+        UserProfile author = new UserProfile(
+                users.getUserId(),
+                users.getDisplayName(),
+                users.getActive()
+        );
+
         // Generate UUID
         String articleId = UUID.randomUUID().toString();
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
-        model.addAttribute("request", new ArticleRequest(articleId, userId, null, null, null));
+        model.addAttribute("request", new ArticleRequest(
+                articleId, userId, null, null, null));
+        model.addAttribute("authorProfile", author);
         return NEW_ARTICLE_VIEW;
     }
     @GetMapping("/article/{articleId}/edit")
@@ -144,6 +176,7 @@ public class ArticleController {
                 || !articlesOptional.get().getUserId().equals(principal.getName())) {
             throw new RuntimeException();
         }
+
         Articles article = articlesOptional.get();
         List<Topics> topics = topicService.retrieveAll();
         Map<String, String> topicMap = new HashMap<>();
@@ -151,6 +184,14 @@ public class ArticleController {
             topicMap.put(topic.getTopicId(), topic.getTopicName());
         }
 
+        // Fetch author profile
+        Users users = userService.retrieveAuthorProfile(article.getUserId());
+        UserProfile author = new UserProfile(
+                users.getUserId(),
+                users.getDisplayName(),
+                users.getActive()
+        );
+        model.addAttribute("authorProfile", author);
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
@@ -161,20 +202,29 @@ public class ArticleController {
     }
 
     @GetMapping("/m/{userId}")
-    public String showMyArticlePage(@PathVariable("userId") String userId, Model model, Principal principal) {
+    public String showMyPage(@PathVariable("userId") String userId, Model model, Principal principal) {
         // Authenticate
         if (!userId.equals(principal.getName())) {
             throw new RuntimeException();
         }
         // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
         List<Articles> articleList = articleService.retrieveByUserId(userId);
-        // Transfer
+
         List<ArticleSummary> summaryList = new ArrayList<>();
         articleList.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(),
                         e.getUpdatedDateTime())
         ));
-        // TODO Set view
+        // Retrieve Profile
+        // Fetch author profile
+        Users users = userService.retrieveAuthorProfile(userId);
+        UserProfile author = new UserProfile(
+                users.getUserId(),
+                users.getDisplayName(),
+                users.getActive()
+        );
+        model.addAttribute("isLogin", true);
+        model.addAttribute("authorProfile", author);
         model.addAttribute("article", summaryList);
         return MY_PAGE_VIEW;
     }
