@@ -23,7 +23,7 @@
                 <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
             </div>
             <div th:if="${isLogin}" class="nav__user-icon">
-                <a th:href="@{'/m/' + ${authorProfile.userId}}">
+                <a th:href="@{'/m/' + ${loginUserId}}">
                     <img class="nav__user-icon" th:src="@{/images/user.svg}">
                 </a>
             </div>
