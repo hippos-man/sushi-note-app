@@ -32,7 +32,13 @@
             </div>
         </nav>
     </header>
-
+    <main>
+        <div class="loop-section">
+            <div th:each="post : ${article}">
+                <a th:href="@{'/s/' + ${authorProfile.userId} + '/' + ${post.articleId}}" th:text="${post.title}"></a>
+            </div>
+        </div>
+    </main>
 </div>
 </body>
 </html>
