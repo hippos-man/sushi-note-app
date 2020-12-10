@@ -42,17 +42,11 @@ public class ArticleController {
     @GetMapping("/")
     public String showHomePage (Model model, Principal principal) {
         Boolean isLogin = false;
-        UserProfile author = new UserProfile();
+        String loginUserId = null;
+//        UserProfile author = new UserProfile();
         if(principal != null) {
             isLogin = true;
-            String userId = principal.getName();
-            // Fetch author profile
-            Users users = userService.retrieveAuthorProfile(userId);
-            author = new UserProfile(
-                    users.getUserId(),
-                    users.getDisplayName(),
-                    users.getActive()
-            );
+            loginUserId = principal.getName();
         }
 
         // Fetch all articles which is available
@@ -60,8 +54,9 @@ public class ArticleController {
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
-        model.addAttribute("authorProfile", author);
+//        model.addAttribute("authorProfile", author);
         model.addAttribute("isLogin", isLogin);
+        model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", "Recommendation");
@@ -73,9 +68,10 @@ public class ArticleController {
     public String showArticleDetailPage(@PathVariable("userId") String userId, @PathVariable("articleId") String articleId,
                                         Principal principal, Model model) {
         Boolean isLogin = false;
+        String loginUserId = null;
         if(principal != null) {
             isLogin = true;
-
+            loginUserId = principal.getName();
         }
         // Fetch article by article ID from DB
         Articles article = articleService
@@ -105,6 +101,7 @@ public class ArticleController {
         );
         // Set to Model
         model.addAttribute("isLogin", isLogin);
+        model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("article", articleResponse);
         model.addAttribute("authorProfile", author);
         return ARTICLE_DETAIL_VIEW;
@@ -113,17 +110,10 @@ public class ArticleController {
     @GetMapping("/categories/{topicId}")
     public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
         Boolean isLogin = false;
-        UserProfile author = new UserProfile();
+        String loginUserId = null;
         if(principal != null) {
             isLogin = true;
-            String userId = principal.getName();
-            // Fetch author profile
-            Users users = userService.retrieveAuthorProfile(userId);
-            author = new UserProfile(
-                    users.getUserId(),
-                    users.getDisplayName(),
-                    users.getActive()
-            );
+            loginUserId = principal.getName();
         }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
@@ -134,10 +124,10 @@ public class ArticleController {
                 (Collectors.toMap(Topics::getTopicId, Topics::getTopicName));
         // Set to Model
         model.addAttribute("isLogin", isLogin);
+        model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("articles", articles);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", topicMap.get(topicId));
-        model.addAttribute("authorProfile", author);
         // Dispatch Home page
         return INDEX_VIEW;
     }
@@ -191,7 +181,11 @@ public class ArticleController {
                 users.getDisplayName(),
                 users.getActive()
         );
+
+        String loginUserId = principal.getName();
+
         model.addAttribute("authorProfile", author);
+        model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
