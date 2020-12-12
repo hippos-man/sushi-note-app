@@ -36,12 +36,19 @@ public class ArticleService {
     }
 
     public void save(ArticleRequest request, LocalDateTime now) {
+        // TODO Generating summary of article
+        String foo = "";
+        // TODO Check the count of the words
+
+        // TODO If exceeding 50 words, cut off the rest.
+
         articleJpaRepository.save(new Articles(
                 request.getArticleId(),
                 request.getUserId(),
                 request.getTopicId(),
                 request.getTitle(),
                 request.getTextBody(),
+                foo,
                 false,
                 now,
                 now
@@ -49,6 +56,7 @@ public class ArticleService {
     }
 
     public void update(ArticleRequest request, LocalDateTime now) {
+        // TODO Generating summary of article
         articleJpaRepository.updateArticle(
                 request.getArticleId(), request.getTopicId(), request.getTitle(), request.getTextBody(), now);
     }
