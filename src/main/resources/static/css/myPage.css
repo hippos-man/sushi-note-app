@@ -1,0 +1,136 @@
+/* Common Header Area */
+body {
+    margin: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+img.header-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+header.home-head {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    border: solid #f2f2f2;
+    border-width: 0 0 1px 0;
+}
+
+h2.home__logo, div.home__toSignin, div.home__toLogin, div.nav__user-icon, .nav__add__note {
+    padding: 16px 32px;
+    margin: auto 0;
+}
+
+a.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+div.home__toSignin, div.home__toLogin {
+    display: flex;
+    align-items: center;
+}
+
+nav.nav__bar__top {
+    display: flex;
+    flex-direction: row;
+}
+
+div.nav__user-icon {
+    cursor: pointer;
+}
+
+img.nav__user-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* End Common Header Area */
+
+
+header.user-profile {
+    margin: 0 auto;
+    max-width: 940px;
+    margin-bottom: 50px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+
+img.user-profile-avator {
+    width:104px;
+    height: 104px;
+}
+
+h1.display-name {
+    font-size: 22px;
+    padding-left: 128px;
+}
+
+.user-summary {
+    padding-left: 128px;
+}
+
+.profile-image {
+    position: absolute;
+}
+
+section.my-article {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+img.article-image {
+    width:100%;
+    max-width: 124px;
+}
+
+div.article__content {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    /*    border-bottom: 1px solid grey;*/
+}
+
+div.article-main {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+div.article-text {
+    max-width: 500px;
+}
+
+div.article-image {
+    margin: auto;
+}
+
+div.author-profile {
+    display: flex;
+    flex-direction: row;
+}
+
+img.author-icon {
+    width: 100%;
+    max-width: 32px;
+    margin:auto;
+}
+
+div.author-avator {
+    margin-right: 10px;
+}
+
+div.article-separator {
+    margin-top: 30px;
+    border-bottom: 1px solid #A9A9A9;
+    opacity: 0.5;
+}
