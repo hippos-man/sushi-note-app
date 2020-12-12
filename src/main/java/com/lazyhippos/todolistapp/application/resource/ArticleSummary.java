@@ -1,21 +1,24 @@
 package com.lazyhippos.todolistapp.application.resource;
 
-public class ArticleRequest {
+import java.time.LocalDateTime;
+
+public class ArticleSummary {
 
     private String articleId;
     private String userId;
     private String topicId;
     private String title;
-    private String textBody;
+    private LocalDateTime updatedDateTime;
 
-    public ArticleRequest() {}
+    public ArticleSummary() {
+    }
 
-    public ArticleRequest(String articleId, String userId, String topicId, String title, String textBody) {
+    public ArticleSummary(String articleId, String userId, String topicId, String title, LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
-        this.textBody = textBody;
+        this.updatedDateTime = updatedDateTime;
     }
 
     public String getArticleId() {
@@ -50,22 +53,11 @@ public class ArticleRequest {
         this.title = title;
     }
 
-    public String getTextBody() {
-        return textBody;
+    public LocalDateTime getUpdatedDateTime() {
+        return updatedDateTime;
     }
 
-    public void setTextBody(String textBody) {
-        this.textBody = textBody;
-    }
-
-    @Override
-    public String toString() {
-        return "ArticleRequest{" +
-                "articleId='" + articleId + '\'' +
-                "userId='" + userId + '\'' +
-                ", topicId='" + topicId + '\'' +
-                ", title='" + title + '\'' +
-                ", textBody='" + textBody + '\'' +
-                '}';
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
     }
 }
