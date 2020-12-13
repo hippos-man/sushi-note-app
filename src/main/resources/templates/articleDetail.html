@@ -23,7 +23,7 @@
                     <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
                 </div>
                 <div th:if="${isLogin}" class="nav__user-icon">
-                    <a th:href="@{'/m/' + ${loginUserId}}">
+                    <a class="user-link" th:href="@{'/m/' + ${loginUserId}}">
                         <img class="nav__user-icon" th:src="@{/images/user.svg}">
                     </a>
                 </div>
@@ -35,6 +35,12 @@
         <main class="article-main">
             <article>
                 <div class="article__content">
+                    <div th:if="${isAdmin}" class="edit-button">
+                        <a class="edit-link" href="#" th:href="@{'/article/' + ${article.articleId} + '/edit'}">
+                            <img class="edit-icon" th:src="@{/images/pencil.svg}">
+                            <span>Edit</span>
+                        </a>
+                    </div>
                     <figure>
                         <img class="article-header-image" th:src="@{/images/sample-header_1280.jpg}" style="width: 100%;">
                     </figure>
@@ -50,14 +56,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="article__body" th:utext="${article.textBody}">
-                        <p>I'm a sushi lover from Kuala Lumpur.
-                            <br>
-                            Especially, Tuna sushi is amazing. I love it! However, I wonder why most of the sushi Restaurant in KL are not nice even though I'm not really restrict for flavor.
-                        </p>
-                        <p>I'll appreciate if you know better one in Malaysia.<br>
-                            Thank you!!</p>
-                    </div>
+                    <div class="article__body" th:utext="${article.textBody}"></div>
                 </div>
             </article>
         </main>
