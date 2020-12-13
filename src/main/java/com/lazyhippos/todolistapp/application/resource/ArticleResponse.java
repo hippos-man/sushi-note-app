@@ -11,7 +11,7 @@ public class ArticleResponse {
     private String textBody;
     private Boolean isDeleted;
     private LocalDateTime createdDateTime;
-    private LocalDateTime updatedDateTime;
+    private String updatedDateTime;
 
     public ArticleResponse() {
     }
@@ -26,7 +26,12 @@ public class ArticleResponse {
         this.textBody = textBody;
         this.isDeleted = isDeleted;
         this.createdDateTime = createdDateTime;
-        this.updatedDateTime = updatedDateTime;
+        this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
+                + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
+                + " "
+                + updatedDateTime.getDayOfMonth()
+                + ", "
+                + updatedDateTime.getYear();
     }
 
     public String getArticleId() {
@@ -57,7 +62,7 @@ public class ArticleResponse {
         return createdDateTime;
     }
 
-    public LocalDateTime getUpdatedDateTime() {
+    public String getUpdatedDateTime() {
         return updatedDateTime;
     }
 

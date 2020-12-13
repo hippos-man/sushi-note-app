@@ -9,7 +9,7 @@ public class ArticleSummary {
     private String topicId;
     private String title;
     private String summary;
-    private LocalDateTime updatedDateTime;
+    private String updatedDateTime;
 
     public ArticleSummary() {
     }
@@ -21,7 +21,12 @@ public class ArticleSummary {
         this.topicId = topicId;
         this.title = title;
         this.summary = summary;
-        this.updatedDateTime = updatedDateTime;
+        this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
+                + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
+                + " "
+                + updatedDateTime.getDayOfMonth()
+                + ", "
+                + updatedDateTime.getYear();
     }
 
     public String getArticleId() {
@@ -64,11 +69,11 @@ public class ArticleSummary {
         this.summary = summary;
     }
 
-    public LocalDateTime getUpdatedDateTime() {
+    public String getUpdatedDateTime() {
         return updatedDateTime;
     }
 
-    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+    public void setUpdatedDateTime(String updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
 }
