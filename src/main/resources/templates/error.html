@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error page</title>
+    <link th:href="@{/css/error.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <div class="container-main">
-        <h1>System error occurred.</h1>
-        <h2 th:if="${status}" th:text="${status} + ' ' + ${error}"></h2>
-        <p>Something wrong with the process.</p>
-        <p>Please try again later.</p>
-        <br>
-            <a th:href="@{'/'}">
-                <button>Go Back</button>
+    <main class="container-main">
+        <h2 class="logo">
+            <a class="logo" href="#" th:href="@{/}">
+                <img class="logo" th:src="@{/images/sushi-note-logo.svg}">
+                <span class="logo-text">Sushi note</span>
             </a>
-    </div>
+        </h2>
+        <p>
+            <span class="error-status" th:if="${status}" th:text="${status} + '.' "></span>
+            <span class="error-message" th:if="${status}" th:text="${error}"></span>
+        </p>
+        <p>Something wrong with the requests.</p>
+        <p>Please try again later.</p>
+    </main>
 </body>
 </html>
