@@ -102,7 +102,12 @@ public class ArticleController {
                 users.getDisplayName(),
                 users.getActive()
         );
+        Boolean isAdmin = false;
+        if (isLogin && loginUserId.equals(author.getUserId())) {
+            isAdmin = true;
+        }
         // Set to Model
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("article", articleResponse);
