@@ -43,7 +43,6 @@ public class ArticleController {
     public String showHomePage (Model model, Principal principal) {
         Boolean isLogin = false;
         String loginUserId = null;
-//        UserProfile author = new UserProfile();
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
@@ -51,13 +50,17 @@ public class ArticleController {
 
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
+        List<ArticleSummary> summaryList = new ArrayList<>();
+        articles.forEach(e -> summaryList.add(
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
+                        e.getUpdatedDateTime())
+        ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
-//        model.addAttribute("authorProfile", author);
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
-        model.addAttribute("articles", articles);
+        model.addAttribute("articles", summaryList);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", "Recommendation");
         // Dispatch Home page
@@ -87,7 +90,7 @@ public class ArticleController {
                 article.getTopicId(),
                 article.getTitle(),
                 articleHtml,
-                article.getIsDeleted(),
+                article.getDeleted(),
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
@@ -117,6 +120,11 @@ public class ArticleController {
         }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
+        List<ArticleSummary> summaryList = new ArrayList<>();
+        articles.forEach(e -> summaryList.add(
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
+                        e.getUpdatedDateTime())
+        ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Map Topic Name and ID Pairs
@@ -206,7 +214,7 @@ public class ArticleController {
 
         List<ArticleSummary> summaryList = new ArrayList<>();
         articleList.forEach(e -> summaryList.add(
-                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(),
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
                         e.getUpdatedDateTime())
         ));
         // Retrieve Profile
@@ -219,7 +227,7 @@ public class ArticleController {
         );
         model.addAttribute("isLogin", true);
         model.addAttribute("authorProfile", author);
-        model.addAttribute("article", summaryList);
+        model.addAttribute("articles", summaryList);
         return MY_PAGE_VIEW;
     }
 
