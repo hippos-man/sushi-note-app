@@ -75,6 +75,7 @@ form {
 
 .signup__introduction {
     margin-top: 40px;
+    width: 50%;
 }
 
 input[type=text], input[type=password] {
@@ -83,8 +84,8 @@ input[type=text], input[type=password] {
     padding: 5px 10px;
 }
 
-form.signup-form > input {
-    margin-bottom:20px;
+form.signup-form > div.space-bottom-2 > input {
+    margin-bottom: 10px;
 }
 
 input[type=submit] {
@@ -100,4 +101,15 @@ input[type=submit] {
     color: white;
     cursor: pointer;
     border-radius: 4px;
+}
+
+span.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+div.space-bottom-2 {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }

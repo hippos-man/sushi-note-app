@@ -39,4 +39,8 @@ public class UserService {
     public Users retrieveAuthorProfile(String userId) {
         return userJpaRepository.getOne(userId);
     }
+
+    public Boolean isUserIdExist(String userId) {
+        return userJpaRepository.existsById(userId);
+    }
 }

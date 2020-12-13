@@ -1,6 +1,5 @@
 package com.lazyhippos.todolistapp.domain.model;
 
-import javax.management.relation.Role;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
