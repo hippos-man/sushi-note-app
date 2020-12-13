@@ -46,13 +46,24 @@ public class UserController {
             return REDIRECT + SLASH;
         }
 
+        // Duplicate USER ID check
+        if (!request.getUserId().isEmpty()) {
+            Boolean isUserIdExist = userService.isUserIdExist(request.getUserId());
+            if (isUserIdExist) {
+                bindingResult.rejectValue("userId",
+                        "error.user",
+                        "A user id already exists.");
+            }
+        }
+
         if (bindingResult.hasErrors()){
             model.addAttribute("request", request);
-            model.addAttribute("validationError", "Input value is not valid.");
             return USER_REGISTER_VIEW;
         }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
+
         // Store new user
         userService.register(request, now);
         return LOGIN_VIEW;
