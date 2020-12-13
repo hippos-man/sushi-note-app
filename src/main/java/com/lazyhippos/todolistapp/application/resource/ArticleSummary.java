@@ -8,16 +8,19 @@ public class ArticleSummary {
     private String userId;
     private String topicId;
     private String title;
+    private String summary;
     private LocalDateTime updatedDateTime;
 
     public ArticleSummary() {
     }
 
-    public ArticleSummary(String articleId, String userId, String topicId, String title, LocalDateTime updatedDateTime) {
+    public ArticleSummary(String articleId, String userId, String topicId, String title, String summary,
+                          LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
+        this.summary = summary;
         this.updatedDateTime = updatedDateTime;
     }
 
@@ -51,6 +54,14 @@ public class ArticleSummary {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public LocalDateTime getUpdatedDateTime() {

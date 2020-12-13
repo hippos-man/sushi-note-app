@@ -18,6 +18,7 @@ public interface ArticleJpaRepository extends JpaRepository<Articles, String> {
     @Modifying
     @Query("UPDATE Articles a SET a.title = :title,"
             + "a.textBody = :textBody,"
+            + "a.summary = :summary,"
             + "a.topicId = :topicId,"
             + "a.updatedDateTime = :updatedDatetime"
             + " WHERE a.articleId = :articleId")
@@ -25,5 +26,6 @@ public interface ArticleJpaRepository extends JpaRepository<Articles, String> {
                        @Param(value = "topicId") String topicId,
                        @Param(value = "title") String title,
                        @Param(value = "textBody") String textBody,
+                       @Param(value = "summary")String summary,
                        @Param(value = "updatedDatetime") LocalDateTime updatedDatetime);
 }
