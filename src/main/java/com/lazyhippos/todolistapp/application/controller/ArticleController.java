@@ -133,7 +133,7 @@ public class ArticleController {
         // Set to Model
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
-        model.addAttribute("articles", articles);
+        model.addAttribute("articles", summaryList);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", topicMap.get(topicId));
         // Dispatch Home page
