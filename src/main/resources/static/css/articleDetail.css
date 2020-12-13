@@ -4,7 +4,7 @@ body {
     font-family: Tahoma, Geneva, sans-serif;
 }
 
-a {
+a.header__logo, a.add__note, a.user-link, a.home__toLoginLink, a.home__toSigninLink {
     text-decoration: none;
     color: black;
 }
@@ -49,8 +49,8 @@ div.nav__user-icon {
 }
 
 img.nav__user-icon {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
 }
 
 /* Common Header Area */
@@ -94,3 +94,28 @@ div.article__body > p {
 div.articleHeader__avator {
     margin-right: 10px;
 }
+
+
+div.edit-button {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+    padding: 5px 10px;
+    flex-flow: row-reverse;
+}
+
+a.edit-link {
+    color: #9c9898;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+a.edit-link:hover {
+    text-decoration: underline;
+}
+
+img.edit-icon {
+    width: 15px;
+    height: 15px;
+}
+
