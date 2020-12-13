@@ -13,6 +13,7 @@ public class Articles {
     private String topicId;
     private String title;
     private String textBody;
+    private String summary;
     private Boolean isDeleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
@@ -20,14 +21,15 @@ public class Articles {
     public Articles() {
     }
 
-    public Articles(String articleId, String userId, String topicId, String title,
-                    String textBody, Boolean isDeleted, LocalDateTime createdDateTime,
+    public Articles(String articleId, String userId, String topicId, String title, String textBody,
+                    String summary, Boolean isDeleted, LocalDateTime createdDateTime,
                     LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.textBody = textBody;
+        this.summary = summary;
         this.isDeleted = isDeleted;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
@@ -37,24 +39,24 @@ public class Articles {
         return articleId;
     }
 
-    public void setArticleId(String article_id) {
-        this.articleId = article_id;
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String user_id) {
-        this.userId = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(String topic_id) {
-        this.topicId = topic_id;
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
     }
 
     public String getTitle() {
@@ -69,31 +71,39 @@ public class Articles {
         return textBody;
     }
 
-    public void setTextBody(String text_body) {
-        this.textBody = text_body;
+    public void setTextBody(String textBody) {
+        this.textBody = textBody;
     }
 
-    public Boolean getIsDeleted() {
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Boolean getDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Boolean is_deleted) {
-        this.isDeleted = is_deleted;
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public LocalDateTime getCreatedDateTime() {
         return createdDateTime;
     }
 
-    public void setCreatedDateTime(LocalDateTime created_date_time) {
-        this.createdDateTime = created_date_time;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
     public LocalDateTime getUpdatedDateTime() {
         return updatedDateTime;
     }
 
-    public void setUpdatedDateTime(LocalDateTime updated_date_time) {
-        this.updatedDateTime = updated_date_time;
+    public void setUpdatedDateTime(LocalDateTime updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
     }
 }
