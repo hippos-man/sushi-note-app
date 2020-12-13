@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+main {
+    margin: 150px auto auto auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+p {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+span.error-status {
+    font-weight: bold;
+}
+
+span.error-message {
+    color: #777;
+    text-decoration: none;
+}
+
+a.logo {
+    display: flex;
+    text-decoration: none;
+    color: black;
+}
+
+img.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
