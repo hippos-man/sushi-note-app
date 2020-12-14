@@ -86,7 +86,7 @@ input[type=text] {
     font-size: 24px;
 }
 
-textarea#body {
+textarea#textBody {
     border: 1px solid #e1e5e7;
     padding: 5px 10px;
     font-size: 18px;
@@ -110,6 +110,17 @@ input[type=submit] {
     margin-right: auto;
     min-width: 300px;
     margin-left: auto;
+}
+
+span.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+div.space-bottom-2 {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 

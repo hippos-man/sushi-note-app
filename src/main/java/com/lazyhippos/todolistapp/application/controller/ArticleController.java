@@ -12,8 +12,11 @@ import com.lazyhippos.todolistapp.domain.service.TopicService;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -149,6 +152,7 @@ public class ArticleController {
     public String showAddArticlePage(Model model, Principal principal) {
         // Retrieve User ID
         String userId = principal.getName();
+        // Retrieve all Topics
         List<Topics> topics = topicService.retrieveAll();
         Map<String, String> topicMap = new HashMap<>();
         for (Topics topic : topics) {
@@ -164,6 +168,7 @@ public class ArticleController {
 
         // Generate UUID
         String articleId = UUID.randomUUID().toString();
+        // Set to view
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
@@ -237,7 +242,30 @@ public class ArticleController {
     }
 
     @PostMapping("/article/create")
-    public String create(@ModelAttribute("request") ArticleRequest request){
+    public String create(@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
+
+        if (result.hasErrors()) {
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(request.getUserId());
+            UserProfile author = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getActive()
+            );
+
+            // Retrieve all Topics
+            List<Topics> topics = topicService.retrieveAll();
+            Map<String, String> topicMap = new HashMap<>();
+            for (Topics topic : topics) {
+                topicMap.put(topic.getTopicId(), topic.getTopicName());
+            }
+
+            model.addAttribute("topicMap", topicMap);
+            model.addAttribute("isLogin", true);
+            model.addAttribute("request", request);
+            model.addAttribute("authorProfile", author);
+            return NEW_ARTICLE_VIEW;
+        }
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // DEBUG
@@ -247,7 +275,27 @@ public class ArticleController {
     }
 
     @PostMapping("/article/edit")
-    public String edit(@ModelAttribute("request") ArticleRequest request) {
+    public String edit(@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            List<Topics> topics = topicService.retrieveAll();
+            Map<String, String> topicMap = new HashMap<>();
+            for (Topics topic : topics) {
+                topicMap.put(topic.getTopicId(), topic.getTopicName());
+            }
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(request.getUserId());
+            UserProfile author = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getActive()
+            );
+            model.addAttribute("loginUserId", request.getUserId());
+            model.addAttribute("topicMap", topicMap);
+            model.addAttribute("authorProfile", author);
+            model.addAttribute("isLogin",true);
+            return EDIT_ARTICLE_VIEW;
+        }
         // GET current time
         LocalDateTime now = LocalDateTime.now();
         // DEBUG

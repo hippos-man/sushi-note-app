@@ -1,11 +1,20 @@
 package com.lazyhippos.todolistapp.application.resource;
 
-public class ArticleRequest {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+public class ArticleRequest {
+    @NotBlank
     private String articleId;
+    @NotBlank
     private String userId;
+    @Size(max = 200)
+    @NotBlank
     private String topicId;
+    @NotBlank
+    @Size(max = 200)
     private String title;
+    @NotBlank
     private String textBody;
 
     public ArticleRequest() {}
