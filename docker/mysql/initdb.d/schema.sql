@@ -29,3 +29,12 @@ CREATE TABLE topics (
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL
 );
+
+CREATE TABLE comments (
+    comment_id  VARCHAR(50) PRIMARY KEY,
+    article_id VARCHAR (50) NOT NULL,
+    user_id VARCHAR (50) NOT NULL,
+    text_body TEXT NOT NULL,
+    created_date_time DATETIME NOT NULL,
+    updated_date_time DATETIME NOT NULL
+);
