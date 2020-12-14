@@ -38,16 +38,25 @@
                 <p class="register__title">Edit my article</p>
             </div>
             <form class="article-form" role="form" action="#" th:action="@{/article/edit}" th:object="${request}" method="post">
-                <label for="title">Title</label>
-                <input type="text" id="title" th:field="*{title}" placeholder="Enter title">
+                <div class="space-bottom-2">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" th:field="*{title}" placeholder="Enter title">
+                    <span class="error-message" th:errors="*{title}"></span>
+                </div>
+                <div class="space-bottom-2">
                 <label for="topicId">Topic</label>
-                <select id = "topicId" th:field="*{topicId}">
-                    <option value="" disabled selected>Select topic</option>
-                    <option th:each=" topic : ${topicMap}"
-                            th:value="${topic.getKey()}" th:text="${topic.getValue()}"></option>
-                </select>
-                <label for="body">Text body</label>
-                <textarea type="text" id="body" th:field="*{textBody}" placeholder="What do you want to talk about?"></textarea>
+                    <select id = "topicId" th:field="*{topicId}">
+                        <option value="" disabled selected>Select topic</option>
+                        <option th:each=" topic : ${topicMap}"
+                                th:value="${topic.getKey()}" th:text="${topic.getValue()}"></option>
+                    </select>
+                    <span class="error-message" th:errors="*{topicId}"></span>
+                </div>
+                <div class="space-bottom-2">
+                    <label for="textBody">Text body</label>
+                    <textarea type="text" id="textBody" th:field="*{textBody}" placeholder="What do you want to talk about?"></textarea>
+                    <span class="error-message" th:errors="*{textBody}"></span>
+                </div>
                 <input type="hidden" id="userId" th:field="*{userId}">
                 <input type="hidden" id="articleId" th:field="*{articleId}">
                 <div class="dummy"></div>

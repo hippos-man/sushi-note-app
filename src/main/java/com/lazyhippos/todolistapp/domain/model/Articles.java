@@ -1,18 +1,31 @@
 package com.lazyhippos.todolistapp.domain.model;
 
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
+@Validated
 public class Articles {
 
     @Id
+    @NotBlank
     private String articleId;
+    @NotBlank
     private String userId;
+    @NotBlank
+    @Size(max = 200)
     private String topicId;
+    @Size(max = 200)
+    @NotBlank
     private String title;
+    @NotBlank
     private String textBody;
+    @NotBlank
     private String summary;
     private Boolean isDeleted;
     private LocalDateTime createdDateTime;
