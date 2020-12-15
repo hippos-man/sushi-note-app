@@ -59,6 +59,13 @@
                     <div class="article__body" th:utext="${article.textBody}"></div>
                 </div>
             </article>
+            <section class="comment-section">
+                <div th:if="${!comments.isEmpty()}" class="comment-object" th:each="comment : ${comments}">
+                    <p th:text="${comment.userId}"></p>
+                    <p th:text="${comment.textBody}"></p>
+                    <p th:text="${comment.updatedDateTime}"></p>
+                </div>
+            </section>
         </main>
     </div>
 </body>

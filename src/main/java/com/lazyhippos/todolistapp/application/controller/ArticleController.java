@@ -5,9 +5,11 @@ import com.lazyhippos.todolistapp.application.resource.ArticleResponse;
 import com.lazyhippos.todolistapp.application.resource.ArticleSummary;
 import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.domain.model.Articles;
+import com.lazyhippos.todolistapp.domain.model.Comments;
 import com.lazyhippos.todolistapp.domain.model.Topics;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
+import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.TopicService;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -28,6 +29,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final TopicService topicService;
     private final UserService userService;
+    private final CommentService commentService;
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
@@ -36,10 +38,12 @@ public class ArticleController {
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
-    public ArticleController (ArticleService articleService, TopicService topicService, UserService userService){
+    public ArticleController (ArticleService articleService, TopicService topicService,
+                              UserService userService, CommentService commentService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
@@ -98,6 +102,9 @@ public class ArticleController {
                 article.getCreatedDateTime()
         );
 
+        // Fetch all comments by article ID
+        List<Comments> comments = commentService.retrieveByArticleId(articleId);
+
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
         UserProfile author = new UserProfile(
@@ -115,6 +122,7 @@ public class ArticleController {
         model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("article", articleResponse);
         model.addAttribute("authorProfile", author);
+        model.addAttribute("comments", comments);
         return ARTICLE_DETAIL_VIEW;
     }
 
