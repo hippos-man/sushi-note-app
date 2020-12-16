@@ -60,7 +60,16 @@
                 </div>
                 <div class="separator"></div>
             </article>
-            <section class="comment-section">
+            <section class="comment-section" th:if="${isLogin}">
+                <div class="add-comment">
+                    <form class="add-comment" role="form" th:action="@{/comment/create}" th:object="${request}" method="post">
+                        <input type="text" id="textBody" th:field="*{textBody}" placeholder="Add a comment">
+                        <input type="hidden" id="authorId" th:field="*{authorId}">
+                        <input type="hidden" id="articleId" th:field="*{articleId}">
+                        <input type="hidden" id="userId" th:field="*{userId}">
+                        <input type="submit" value="Add Comment">
+                    </form>
+                </div>
                 <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
                     <div class="comment__content">
                         <div class="commenter">
@@ -77,13 +86,7 @@
                     <div class="separator"></div>
                 </div>
             </section>
-<!--            <section class="comment-section">-->
-<!--                <div th:if="${!comments.isEmpty()}" class="comment-object" th:each="comment : ${comments}">-->
-<!--                    <p th:text="${comment.userId}"></p>-->
-<!--                    <p th:text="${comment.textBody}"></p>-->
-<!--                    <p th:text="${comment.updatedDateTime}"></p>-->
-<!--                </div>-->
-<!--            </section>-->
+            <!-- TODO Ask questions by login message-->
         </main>
     </div>
 </body>
