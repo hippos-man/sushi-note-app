@@ -48,7 +48,7 @@ div.nav__user-icon {
     cursor: pointer;
 }
 
-img.nav__user-icon {
+img.nav__user-icon, img.article__avatar, img.commenter__avatar {
     width: 32px;
     height: 32px;
 }
@@ -91,7 +91,7 @@ div.article__body > p {
     font-size: 14px;
 }
 
-div.articleHeader__avator {
+div.articleHeader__avatar {
     margin-right: 10px;
 }
 
@@ -119,3 +119,42 @@ img.edit-icon {
     height: 15px;
 }
 
+
+div.separator {
+    border-top: 1px #dee0e1 solid;
+}
+
+section.comment-section {
+    width: 620px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+}
+
+div.comment-body > p {
+    font-size: 18px;
+    line-height: 36px;
+    margin-top: 36px;
+    margin-bottom: 36px;
+}
+
+div.commenter {
+    display: flex;
+}
+
+div.commenter-text {
+    display: flex;
+    flex-direction: column;
+}
+
+div.commenter-avatar {
+    margin-right: 10px;
+}
+
+div.comment__content {
+    margin-top: 20px;
+}
+
+div.comment-body {
+    padding-left: 46px;
+}
