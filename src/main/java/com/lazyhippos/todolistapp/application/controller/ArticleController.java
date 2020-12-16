@@ -1,9 +1,6 @@
 package com.lazyhippos.todolistapp.application.controller;
 
-import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
-import com.lazyhippos.todolistapp.application.resource.ArticleResponse;
-import com.lazyhippos.todolistapp.application.resource.ArticleSummary;
-import com.lazyhippos.todolistapp.application.resource.UserProfile;
+import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Comments;
 import com.lazyhippos.todolistapp.domain.model.Topics;
@@ -103,7 +100,20 @@ public class ArticleController {
         );
 
         // Fetch all comments by article ID
-        List<Comments> comments = commentService.retrieveByArticleId(articleId);
+        List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
+        // Convert Model to DTO for Frontend
+        List<CommentResponse> comments = new ArrayList<>();
+        for (Comments comment : commentEntityList) {
+            CommentResponse response = new CommentResponse(
+                    comment.getCommentId(),
+                    comment.getArticleId(),
+                    comment.getUserId(),
+                    comment.getTextBody(),
+                    comment.getCreatedDateTime(),
+                    comment.getUpdatedDateTime()
+            );
+            comments.add(response);
+        }
 
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);

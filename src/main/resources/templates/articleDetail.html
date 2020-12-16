@@ -46,8 +46,8 @@
                     </figure>
                     <h1 class="article__title" th:text="${article.title}">Why is Japanese Sushi so good?</h1>
                     <div class="article__author">
-                        <div class="articleHeader__avator">
-                            <img th:src="@{/images/user.svg}" style="width: 36px; height: 36px;">
+                        <div class="articleHeader__avatar">
+                            <img class="article__avatar" th:src="@{/images/user.svg}">
                         </div>
                         <div class="articleHeader__info">
                             <div class="articleHeader__name" th:text="${authorProfile.displayName}">John Smith</div>
@@ -58,14 +58,32 @@
                     </div>
                     <div class="article__body" th:utext="${article.textBody}"></div>
                 </div>
+                <div class="separator"></div>
             </article>
             <section class="comment-section">
-                <div th:if="${!comments.isEmpty()}" class="comment-object" th:each="comment : ${comments}">
-                    <p th:text="${comment.userId}"></p>
-                    <p th:text="${comment.textBody}"></p>
-                    <p th:text="${comment.updatedDateTime}"></p>
+                <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
+                    <div class="comment__content">
+                        <div class="commenter">
+                            <div class="commenter-avatar">
+                                <img class="commenter__avatar" th:src="@{/images/user.svg}">
+                            </div>
+                            <div class="commenter-text">
+                                <span class="commenter-display-name" th:text="${comment.userId}"></span>
+                                <span class="comment_updated-date-time" th:text="${comment.updatedDateTime}"></span>
+                            </div>
+                        </div>
+                        <div class="comment-body" th:utext="${comment.textBody}"></div>
+                    </div>
+                    <div class="separator"></div>
                 </div>
             </section>
+<!--            <section class="comment-section">-->
+<!--                <div th:if="${!comments.isEmpty()}" class="comment-object" th:each="comment : ${comments}">-->
+<!--                    <p th:text="${comment.userId}"></p>-->
+<!--                    <p th:text="${comment.textBody}"></p>-->
+<!--                    <p th:text="${comment.updatedDateTime}"></p>-->
+<!--                </div>-->
+<!--            </section>-->
         </main>
     </div>
 </body>
