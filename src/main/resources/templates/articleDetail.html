@@ -104,6 +104,19 @@
                 element.style.cssText = 'height:' + element.scrollHeight + 'px';
             }, 0);
         }
+
+        /** Disable button if textarea is empty **/
+        let button = document.querySelector('input[type=submit]');
+        button.setAttribute('disabled', true);
+        let textareaDOM = document.querySelector('textarea#textBody');
+        textareaDOM.addEventListener('keyup', function(){
+            let textInput = textareaDOM.value;
+            if (textInput != '') {
+                button.removeAttribute('disabled');
+            } else {
+                button.setAttribute('disabled', true);
+            }
+        });
     </script>
 </body>
 </html>
