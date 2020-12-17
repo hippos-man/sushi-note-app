@@ -62,14 +62,18 @@
             </article>
             <section class="comment-section" th:if="${isLogin}">
                 <div class="add-comment">
+                    <div class="add-comment-avatar">
+                        <img th:src="@{/images/user.svg}">
+                    </div>
                     <form class="add-comment" role="form" th:action="@{/comment/create}" th:object="${request}" method="post">
-                        <input type="text" id="textBody" th:field="*{textBody}" placeholder="Add a comment">
+                        <textarea id="textBody" rows='1' th:field="*{textBody}" placeholder="Add a comment..."></textarea>
                         <input type="hidden" id="authorId" th:field="*{authorId}">
                         <input type="hidden" id="articleId" th:field="*{articleId}">
                         <input type="hidden" id="userId" th:field="*{userId}">
-                        <input type="submit" value="Add Comment">
+                        <input type="submit" class="btn-mid-large" value="Add Comment">
                     </form>
                 </div>
+                <div class="separator"></div>
                 <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
                     <div class="comment__content">
                         <div class="commenter">
@@ -86,8 +90,20 @@
                     <div class="separator"></div>
                 </div>
             </section>
-            <!-- TODO Ask questions by login message-->
+            <!-- TODO "Ask questions" by login message-->
         </main>
     </div>
+    <script>
+        /** Autosize for text area **/
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('keydown', autosize);
+        function autosize() {
+            let element = this;
+            setTimeout(function(){
+                element.style.cssText = 'height:auto; padding:0';
+                element.style.cssText = 'height:' + element.scrollHeight + 'px';
+            }, 0);
+        }
+    </script>
 </body>
 </html>
