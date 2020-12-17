@@ -48,9 +48,9 @@ div.nav__user-icon {
     cursor: pointer;
 }
 
-img.nav__user-icon, img.article__avatar, img.commenter__avatar {
-    width: 32px;
-    height: 32px;
+img.nav__user-icon, div.add-comment-avatar img, div.commenter-avatar img{
+    width: 36px;
+    height: 36px;
 }
 
 /* Common Header Area */
@@ -91,7 +91,7 @@ div.article__body > p {
     font-size: 14px;
 }
 
-div.articleHeader__avatar {
+div.articleHeader__avator {
     margin-right: 10px;
 }
 
@@ -128,7 +128,8 @@ section.comment-section {
     width: 620px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 30px;
+    margin-top: 10px;
+    padding: 16px;
 }
 
 div.comment-body > p {
@@ -157,4 +158,45 @@ div.comment__content {
 
 div.comment-body {
     padding-left: 46px;
+}
+
+div.add-comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+input[type=submit] {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+textarea#textBody {
+    margin-left: 10px;
+    border: 1px solid #dee0e1;
+    border-radius: 25px;
+    min-width: 400px;
+    resize: vertical;
+    font-size: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+}
+
+.btn-mid-large {
+    height: 30px;
+    border: 1px solid #2e69ff;
+    background-color: #2e69ff;
+    color: white;
+    cursor: pointer;
+    border-radius: 25px;
+    padding: 5px 15px;
 }
