@@ -6,22 +6,27 @@ public class CommentResponse {
 
     private String commentId;
     private String articleId;
-    private String userId;
+    private String displayName;
     private String textBody;
     private LocalDateTime createdDateTime;
-    private LocalDateTime updatedDateTime;
+    private String updatedDateTime;
 
     public CommentResponse() {
     }
 
-    public CommentResponse(String commentId, String articleId, String userId, String textBody,
+    public CommentResponse(String commentId, String articleId, String displayName, String textBody,
                            LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
         this.commentId = commentId;
         this.articleId = articleId;
-        this.userId = userId;
+        this.displayName = displayName;
         this.textBody = convertToHtml(textBody);
         this.createdDateTime = createdDateTime;
-        this.updatedDateTime = updatedDateTime;
+        this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
+                + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
+                + " "
+                + updatedDateTime.getDayOfMonth()
+                + ", "
+                + updatedDateTime.getYear();
     }
 
     public String getCommentId() {
@@ -32,8 +37,8 @@ public class CommentResponse {
         return articleId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public String getTextBody() {
@@ -44,7 +49,7 @@ public class CommentResponse {
         return createdDateTime;
     }
 
-    public LocalDateTime getUpdatedDateTime() {
+    public String getUpdatedDateTime() {
         return updatedDateTime;
     }
 

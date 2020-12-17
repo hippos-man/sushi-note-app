@@ -21,12 +21,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-public class ArticleController {
+public class MainController {
 
     private final ArticleService articleService;
     private final TopicService topicService;
     private final UserService userService;
     private final CommentService commentService;
+
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
@@ -35,8 +36,8 @@ public class ArticleController {
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
-    public ArticleController (ArticleService articleService, TopicService topicService,
-                              UserService userService, CommentService commentService){
+    public MainController(ArticleService articleService, TopicService topicService,
+                          UserService userService, CommentService commentService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
@@ -85,6 +86,10 @@ public class ArticleController {
                 .retrieveByArticleId(articleId)
                 .orElseThrow(RuntimeException::new);
 
+        // for Illegal request
+        if (!userId.equals(article.getUserId())) {
+            throw new RuntimeException();
+        }
 
         // Set article information to Response Entity
         String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
@@ -101,13 +106,23 @@ public class ArticleController {
 
         // Fetch all comments by article ID
         List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
+
+        // Retrieve commenter's display name
+        List<String> userIds = commentEntityList
+                .stream()
+                .map(Comments::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, String> displayNameAndId =
+                userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
+
         // Convert Model to DTO for Frontend
         List<CommentResponse> comments = new ArrayList<>();
         for (Comments comment : commentEntityList) {
             CommentResponse response = new CommentResponse(
                     comment.getCommentId(),
                     comment.getArticleId(),
-                    comment.getUserId(),
+                    displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
                     comment.getCreatedDateTime(),
                     comment.getUpdatedDateTime()
@@ -133,6 +148,8 @@ public class ArticleController {
         model.addAttribute("article", articleResponse);
         model.addAttribute("authorProfile", author);
         model.addAttribute("comments", comments);
+        model.addAttribute("request", new CommentRequest(
+                userId, articleId, loginUserId, null, null, null));
         return ARTICLE_DETAIL_VIEW;
     }
 
@@ -194,6 +211,7 @@ public class ArticleController {
         model.addAttribute("authorProfile", author);
         return NEW_ARTICLE_VIEW;
     }
+
     @GetMapping("/article/{articleId}/edit")
     public String showEditArticlePage (@PathVariable String articleId, Model model, Principal principal) {
 
@@ -260,7 +278,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article/create")
-    public String create(@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
+    public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
 
         if (result.hasErrors()) {
             // Fetch author profile
@@ -293,7 +311,8 @@ public class ArticleController {
     }
 
     @PostMapping("/article/edit")
-    public String edit(@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model) {
+    public String editArticle(@ModelAttribute("request") @Validated ArticleRequest request,
+                              BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             List<Topics> topics = topicService.retrieveAll();
@@ -320,6 +339,19 @@ public class ArticleController {
         System.out.println("Edit Article Request= " + request);
         articleService.update(request, now);
         return REDIRECT + SLASH;
+    }
+
+    @PostMapping("/comment/create")
+    public String createComment (@ModelAttribute(value = "request") @Validated CommentRequest request, BindingResult result) {
+        // Input check
+        if (result.hasErrors()) {
+            throw new RuntimeException("Invalid input (comment)");
+        }
+        // Get current time
+        LocalDateTime now = LocalDateTime.now();
+        // Register new comment
+        commentService.save(request, now);
+        return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
 }
