@@ -106,13 +106,23 @@ public class MainController {
 
         // Fetch all comments by article ID
         List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
+
+        // Retrieve commenter's display name
+        List<String> userIds = commentEntityList
+                .stream()
+                .map(Comments::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, String> displayNameAndId =
+                userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
+
         // Convert Model to DTO for Frontend
         List<CommentResponse> comments = new ArrayList<>();
         for (Comments comment : commentEntityList) {
             CommentResponse response = new CommentResponse(
                     comment.getCommentId(),
                     comment.getArticleId(),
-                    comment.getUserId(),
+                    displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
                     comment.getCreatedDateTime(),
                     comment.getUpdatedDateTime()

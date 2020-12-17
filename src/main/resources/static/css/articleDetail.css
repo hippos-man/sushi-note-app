@@ -87,7 +87,7 @@ div.article__body > p {
     margin-bottom: 36px;
 }
 
-.articleHeader__name, .articleHeader__date {
+.articleHeader__name, .articleHeader__date, div.commenter-text span{
     font-size: 14px;
 }
 
