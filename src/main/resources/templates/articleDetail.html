@@ -85,6 +85,9 @@
                                 <span class="comment_updated-date-time" th:text="${comment.updatedDateTime}"></span>
                             </div>
                         </div>
+                        <div class="edit-comment">
+                            <a href="#" th:href="@{'/comment/' + ${comment.commentId} + '/edit'}">Edit</a>
+                        </div>
                         <div class="comment-body" th:utext="${comment.textBody}"></div>
                     </div>
                     <div class="separator"></div>
