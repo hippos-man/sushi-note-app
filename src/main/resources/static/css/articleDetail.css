@@ -204,3 +204,8 @@ textarea#textBody {
     border-radius: 25px;
     padding: 5px 15px;
 }
+
+div.edit-comment {
+    padding-left: 46px;
+    margin-bottom: 20px;
+}
