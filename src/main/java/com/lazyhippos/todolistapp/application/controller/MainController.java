@@ -141,6 +141,7 @@ public class MainController {
         if (isLogin && loginUserId.equals(author.getUserId())) {
             isAdmin = true;
         }
+
         // Set to Model
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isLogin", isLogin);
@@ -149,7 +150,9 @@ public class MainController {
         model.addAttribute("authorProfile", author);
         model.addAttribute("comments", comments);
         model.addAttribute("request", new CommentRequest(
-                userId, articleId, loginUserId, null, null, null));
+                userId, articleId, loginUserId,null, null, null));
+        // TODO Add Request DTO for Edit comment
+
         return ARTICLE_DETAIL_VIEW;
     }
 
@@ -277,6 +280,26 @@ public class MainController {
         return MY_PAGE_VIEW;
     }
 
+    @GetMapping("/comment/{commentId}/edit")
+    public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model) {
+        // Retrieve Comment by Comment ID
+        Comments comment = commentService.retrieveByCommentId(commentId);
+        String arthurId = null;
+        // Retrieve Author ID by Article ID
+        Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
+        if (articlesOptional.isPresent()) {
+            arthurId = articlesOptional.get().getUserId();
+        }
+        CommentUpdateRequest updateRequest = new CommentUpdateRequest(
+                comment.getCommentId(),
+                comment.getArticleId(),
+                arthurId,
+                comment.getTextBody()
+        );
+        model.addAttribute("commentRequest", updateRequest);
+        return "editComment";
+    }
+
     @PostMapping("/article/create")
     public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
 
@@ -351,6 +374,18 @@ public class MainController {
         LocalDateTime now = LocalDateTime.now();
         // Register new comment
         commentService.save(request, now);
+        return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
+    }
+
+    // TODO Pass updateRequestDTO to the front when requesting article detail page
+    @PostMapping("/comment/edit")
+    public String editComment (CommentUpdateRequest request) {
+        // TODO Input check
+
+        // Get current time
+        LocalDateTime now = LocalDateTime.now();
+        // Update the comment
+        commentService.update(request.getCommentId(), request.getTextBody(), now);
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
