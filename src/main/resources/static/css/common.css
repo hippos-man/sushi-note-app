@@ -56,3 +56,15 @@ img.nav__user-icon{
     height: 36px;
 }
 /* Common Header Area */
+
+/* Common button */
+.btn-large {
+    width: 150px;
+    height: 35px;
+    border: 1px solid #2cb696;
+    background-color: #2cb696;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+/* Common button */
