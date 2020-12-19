@@ -32,6 +32,7 @@ public class MainController {
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
     private final String EDIT_ARTICLE_VIEW = "editArticle";
+    private final String EDIT_COMMENT_VIEW = "editComment";
     private final String MY_PAGE_VIEW = "myPage";
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
@@ -122,6 +123,7 @@ public class MainController {
             CommentResponse response = new CommentResponse(
                     comment.getCommentId(),
                     comment.getArticleId(),
+                    comment.getUserId(),
                     displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
                     comment.getCreatedDateTime(),
@@ -151,8 +153,6 @@ public class MainController {
         model.addAttribute("comments", comments);
         model.addAttribute("request", new CommentRequest(
                 userId, articleId, loginUserId,null, null, null));
-        // TODO Add Request DTO for Edit comment
-
         return ARTICLE_DETAIL_VIEW;
     }
 
@@ -281,9 +281,15 @@ public class MainController {
     }
 
     @GetMapping("/comment/{commentId}/edit")
-    public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model) {
+    public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model, Principal principal) {
+
         // Retrieve Comment by Comment ID
         Comments comment = commentService.retrieveByCommentId(commentId);
+        // Throw exception if unauthorized user request edit page.
+        if (!principal.getName().equals(comment.getUserId())) {
+            throw new RuntimeException();
+        }
+        String loginUserId = principal.getName();
         String authorId = null;
         // Retrieve Author ID by Article ID
         Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
@@ -297,7 +303,9 @@ public class MainController {
                 comment.getTextBody()
         );
         model.addAttribute("request", updateRequest);
-        return "editComment";
+        model.addAttribute("isLogin", true);
+        model.addAttribute("loginUserId", loginUserId);
+        return EDIT_COMMENT_VIEW;
     }
 
     @PostMapping("/article/create")
@@ -377,11 +385,12 @@ public class MainController {
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
-    // TODO Pass updateRequestDTO to the front when requesting article detail page
     @PostMapping("/comment/edit")
-    public String editComment (@ModelAttribute(value = "request") CommentUpdateRequest request) {
-        // TODO Input check
-
+    public String editComment (@ModelAttribute(value = "request") @Validated CommentUpdateRequest request,
+                               Model model, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new RuntimeException();
+        }
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // Update the comment

@@ -6,6 +6,7 @@ public class CommentResponse {
 
     private String commentId;
     private String articleId;
+    private String commenterId;
     private String displayName;
     private String textBody;
     private LocalDateTime createdDateTime;
@@ -14,10 +15,11 @@ public class CommentResponse {
     public CommentResponse() {
     }
 
-    public CommentResponse(String commentId, String articleId, String displayName, String textBody,
+    public CommentResponse(String commentId, String articleId, String commenterId, String displayName, String textBody,
                            LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
         this.commentId = commentId;
         this.articleId = articleId;
+        this.commenterId = commenterId;
         this.displayName = displayName;
         this.textBody = convertToHtml(textBody);
         this.createdDateTime = createdDateTime;
@@ -35,6 +37,10 @@ public class CommentResponse {
 
     public String getArticleId() {
         return articleId;
+    }
+
+    public String getCommenterId() {
+        return commenterId;
     }
 
     public String getDisplayName() {

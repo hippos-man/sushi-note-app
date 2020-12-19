@@ -1,0 +1,58 @@
+/* Common Header Area */
+a {
+    text-decoration: none;
+}
+body {
+    margin: 0;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+a.header__logo, a.add__note,a.link__toLoginLink, a.link__toSigninLink {
+    text-decoration: none;
+    color: black;
+}
+
+img.header-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+header.common-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    border: solid #f2f2f2;
+    border-width: 0 0 1px 0;
+}
+
+h2.common__logo, div.link__toSignin, div.link__toLogin, div.nav__user-icon, .nav__add__note {
+    padding: 16px 32px;
+    margin: auto 0;
+}
+
+a.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+div.link__toSignin, div.link__toLogin {
+    display: flex;
+    align-items: center;
+}
+
+nav.nav__bar__top {
+    display: flex;
+    flex-direction: row;
+}
+
+div.nav__user-icon {
+    cursor: pointer;
+}
+
+img.nav__user-icon{
+    width: 36px;
+    height: 36px;
+}
+/* Common Header Area */
