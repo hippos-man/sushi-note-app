@@ -1,10 +1,15 @@
 package com.lazyhippos.todolistapp.application.resource;
 
-public class CommentUpdateRequest {
+import javax.validation.constraints.NotBlank;
 
+public class CommentUpdateRequest {
+    @NotBlank
     private String commentId;
+    @NotBlank
     private String articleId;
+    @NotBlank
     private String authorId;
+    @NotBlank
     private String textBody;
 
     public CommentUpdateRequest() {
