@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit comment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link th:href="@{/css/editComment.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <!-- TODO -->
+<div class="edit-comment">
+<!--    <header class="home-head">-->
+<!--        <h2 class="home__logo">-->
+<!--            <a class="header__logo" href="#" th:href="@{/}">-->
+<!--                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">-->
+<!--                <span>Sushi note</span>-->
+<!--            </a>-->
+<!--        </h2>-->
+<!--        <nav class="nav__bar__top">-->
+<!--            <div th:if="${!isLogin}" class="home__toLogin">-->
+<!--                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>-->
+<!--            </div>-->
+<!--            <div th:if="${!isLogin}" class="home__toSignin">-->
+<!--                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>-->
+<!--            </div>-->
+<!--            <div th:if="${isLogin}" class="nav__user-icon">-->
+<!--                <a th:href="@{'/m/' + ${loginUserId}}">-->
+<!--                    <img class="nav__user-icon" th:src="@{/images/user.svg}">-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <div th:if="${isLogin}" class="nav__add__note">-->
+<!--                <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </header>-->
+    <main class="edit-comment">
+        <form class="comment-form" role="form" action="#" th:action="@{/comment/edit}" th:object="${request}" method="post">
+                <div class="space-bottom-2">
+                    <label for="textBody">comment</label>
+                    <textarea id="textBody" th:field="*{textBody}" placeholder="Add a comment..."></textarea>
+                    <span class="error-message" th:errors="*{textBody}"></span>
+                </div>
+                <input type="hidden" id="commentId" th:field="*{commentId}">
+                <input type="hidden" id="authorId" th:field="*{authorId}">
+                <input type="hidden" id="articleId" th:field="*{articleId}">
+                <input class="btn-large" type="submit" value="Update">
+            </form>
+    </main>
+</div>
 </body>
 </html>

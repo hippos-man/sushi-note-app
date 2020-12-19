@@ -284,19 +284,19 @@ public class MainController {
     public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model) {
         // Retrieve Comment by Comment ID
         Comments comment = commentService.retrieveByCommentId(commentId);
-        String arthurId = null;
+        String authorId = null;
         // Retrieve Author ID by Article ID
         Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
         if (articlesOptional.isPresent()) {
-            arthurId = articlesOptional.get().getUserId();
+            authorId = articlesOptional.get().getUserId();
         }
         CommentUpdateRequest updateRequest = new CommentUpdateRequest(
                 comment.getCommentId(),
                 comment.getArticleId(),
-                arthurId,
+                authorId,
                 comment.getTextBody()
         );
-        model.addAttribute("commentRequest", updateRequest);
+        model.addAttribute("request", updateRequest);
         return "editComment";
     }
 
@@ -379,7 +379,7 @@ public class MainController {
 
     // TODO Pass updateRequestDTO to the front when requesting article detail page
     @PostMapping("/comment/edit")
-    public String editComment (CommentUpdateRequest request) {
+    public String editComment (@ModelAttribute(value = "request") CommentUpdateRequest request) {
         // TODO Input check
 
         // Get current time
