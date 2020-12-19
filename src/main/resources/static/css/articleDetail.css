@@ -1,4 +1,8 @@
 /* Common Header Area */
+
+a {
+    text-decoration: none;
+}
 body {
     margin: 0;
     font-family: Tahoma, Geneva, sans-serif;
@@ -203,4 +207,27 @@ textarea#textBody {
     cursor: pointer;
     border-radius: 25px;
     padding: 5px 15px;
+}
+
+div.edit-comment {
+    padding-left: 46px;
+    margin-bottom: 20px;
+}
+
+div.edit-comment a {
+    font-size: 14px;
+    color: #5e6c84;
+    text-decoration: underline;
+}
+
+div.login-to-comment {
+    margin-bottom: 20px;
+}
+
+div.login-to-comment a {
+    color: darkblue;
+}
+
+div.login-to-comment span {
+    color: #8E8E8E;
 }

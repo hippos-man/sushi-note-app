@@ -60,8 +60,8 @@
                 </div>
                 <div class="separator"></div>
             </article>
-            <section class="comment-section" th:if="${isLogin}">
-                <div class="add-comment">
+            <section class="comment-section">
+                <div class="add-comment" th:if="${isLogin}">
                     <div class="add-comment-avatar">
                         <img th:src="@{/images/user.svg}">
                     </div>
@@ -72,6 +72,11 @@
                         <input type="hidden" id="userId" th:field="*{userId}">
                         <input type="submit" class="btn-mid-large" value="Add Comment">
                     </form>
+                </div>
+                <div class="login-to-comment" th:if="${!isLogin}">
+                    <span>
+                        <a th:href="@{/login}">Log in</a>&nbsp;to like or comment
+                    </span>
                 </div>
                 <div class="separator"></div>
                 <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
@@ -84,6 +89,9 @@
                                 <span class="commenter-display-name" th:text="${comment.displayName}"></span>
                                 <span class="comment_updated-date-time" th:text="${comment.updatedDateTime}"></span>
                             </div>
+                        </div>
+                        <div class="edit-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
+                            <a href="#" th:href="@{'/comment/' + ${comment.commentId} + '/edit'}">Edit</a>
                         </div>
                         <div class="comment-body" th:utext="${comment.textBody}"></div>
                     </div>

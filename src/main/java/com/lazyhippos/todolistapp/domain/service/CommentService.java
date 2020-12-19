@@ -26,6 +26,10 @@ public class CommentService {
         return commentJpaRepository.findByArticleId(articleId);
     }
 
+    public Comments retrieveByCommentId(String commentId) {
+        return commentJpaRepository.findByCommentId(commentId);
+    }
+
     public void save (CommentRequest request, LocalDateTime now) {
         // Generate UUID
         String commentId = UUID.randomUUID().toString();
@@ -39,5 +43,9 @@ public class CommentService {
                         now
                 )
         );
+    }
+
+    public void update (String commentId, String textBody, LocalDateTime now) {
+        commentJpaRepository.updateComment(commentId, textBody, now);
     }
 }
