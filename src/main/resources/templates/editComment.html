@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/editComment.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="edit-comment">
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId})"></header>
+    <main class="comment__main">
+        <div class="comment__form">
+            <div class="edit__title-container">
+                <p class="edit__title">Edit my comment</p>
+            </div>
+            <form class="comment__form" role="form" action="#" th:action="@{/comment/edit}" th:object="${request}" method="post">
+                <textarea id="textBody" th:field="*{textBody}" placeholder="Add a comment..."></textarea>
+                <span class="error-message" th:errors="*{textBody}"></span>
+                <input type="hidden" id="commentId" th:field="*{commentId}">
+                <input type="hidden" id="authorId" th:field="*{authorId}">
+                <input type="hidden" id="articleId" th:field="*{articleId}">
+                <input class="btn-large" type="submit" value="Update">
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

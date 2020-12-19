@@ -32,6 +32,7 @@ public class MainController {
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
     private final String NEW_ARTICLE_VIEW = "newArticle";
     private final String EDIT_ARTICLE_VIEW = "editArticle";
+    private final String EDIT_COMMENT_VIEW = "editComment";
     private final String MY_PAGE_VIEW = "myPage";
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
@@ -122,6 +123,7 @@ public class MainController {
             CommentResponse response = new CommentResponse(
                     comment.getCommentId(),
                     comment.getArticleId(),
+                    comment.getUserId(),
                     displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
                     comment.getCreatedDateTime(),
@@ -141,6 +143,7 @@ public class MainController {
         if (isLogin && loginUserId.equals(author.getUserId())) {
             isAdmin = true;
         }
+
         // Set to Model
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("isLogin", isLogin);
@@ -149,7 +152,7 @@ public class MainController {
         model.addAttribute("authorProfile", author);
         model.addAttribute("comments", comments);
         model.addAttribute("request", new CommentRequest(
-                userId, articleId, loginUserId, null, null, null));
+                userId, articleId, loginUserId,null, null, null));
         return ARTICLE_DETAIL_VIEW;
     }
 
@@ -277,6 +280,34 @@ public class MainController {
         return MY_PAGE_VIEW;
     }
 
+    @GetMapping("/comment/{commentId}/edit")
+    public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model, Principal principal) {
+
+        // Retrieve Comment by Comment ID
+        Comments comment = commentService.retrieveByCommentId(commentId);
+        // Throw exception if unauthorized user request edit page.
+        if (!principal.getName().equals(comment.getUserId())) {
+            throw new RuntimeException();
+        }
+        String loginUserId = principal.getName();
+        String authorId = null;
+        // Retrieve Author ID by Article ID
+        Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
+        if (articlesOptional.isPresent()) {
+            authorId = articlesOptional.get().getUserId();
+        }
+        CommentUpdateRequest updateRequest = new CommentUpdateRequest(
+                comment.getCommentId(),
+                comment.getArticleId(),
+                authorId,
+                comment.getTextBody()
+        );
+        model.addAttribute("request", updateRequest);
+        model.addAttribute("isLogin", true);
+        model.addAttribute("loginUserId", loginUserId);
+        return EDIT_COMMENT_VIEW;
+    }
+
     @PostMapping("/article/create")
     public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
 
@@ -351,6 +382,19 @@ public class MainController {
         LocalDateTime now = LocalDateTime.now();
         // Register new comment
         commentService.save(request, now);
+        return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
+    }
+
+    @PostMapping("/comment/edit")
+    public String editComment (@ModelAttribute(value = "request") @Validated CommentUpdateRequest request,
+                               Model model, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new RuntimeException();
+        }
+        // Get current time
+        LocalDateTime now = LocalDateTime.now();
+        // Update the comment
+        commentService.update(request.getCommentId(), request.getTextBody(), now);
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
