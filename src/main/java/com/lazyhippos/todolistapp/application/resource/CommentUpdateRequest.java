@@ -21,15 +21,31 @@ public class CommentUpdateRequest {
         return commentId;
     }
 
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
     public String getArticleId() {
         return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     public String getAuthorId() {
         return authorId;
     }
 
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
     public String getTextBody() {
         return textBody;
+    }
+
+    public void setTextBody(String textBody) {
+        this.textBody = textBody;
     }
 }
