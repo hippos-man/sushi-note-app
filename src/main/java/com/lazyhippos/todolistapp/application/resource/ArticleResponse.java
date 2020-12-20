@@ -9,7 +9,6 @@ public class ArticleResponse {
     private String topicId;
     private String title;
     private String textBody;
-    private Boolean isDeleted;
     private LocalDateTime createdDateTime;
     private String updatedDateTime;
 
@@ -17,14 +16,13 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(String articleId, String userId, String topicId, String title,
-                           String textBody, Boolean isDeleted, LocalDateTime createdDateTime,
+                           String textBody, LocalDateTime createdDateTime,
                            LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.textBody = textBody;
-        this.isDeleted = isDeleted;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
                 + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
@@ -52,10 +50,6 @@ public class ArticleResponse {
 
     public String getTextBody() {
         return textBody;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
     }
 
     public LocalDateTime getCreatedDateTime() {

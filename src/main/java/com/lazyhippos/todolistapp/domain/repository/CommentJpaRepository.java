@@ -25,4 +25,7 @@ public interface CommentJpaRepository extends JpaRepository<Comments, String> {
     void updateComment(@Param(value = "commentId") String commentId,
                        @Param(value = "textBody") String textBody,
                        @Param(value = "updatedDateTime") LocalDateTime updatedDateTime);
+
+    @Transactional
+    void deleteAllByArticleId(String articleId);
 }
