@@ -155,9 +155,9 @@
                     xhr.setRequestHeader(header, token);
                     xhr.onreadystatechange = function () {
                         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-                            console.log('Successful');
-                            console.log('Response: ', this.responseText);
+                            console.log('Delete request= Successful');
                             // TODO Redirect to article detail page
+                            window.location = document.referrer;
                         } else {
                             console.log('Server error');
                         }
