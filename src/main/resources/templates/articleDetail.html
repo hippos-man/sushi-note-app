@@ -90,15 +90,21 @@
                                 <span class="comment_updated-date-time" th:text="${comment.updatedDateTime}"></span>
                             </div>
                         </div>
-                        <div class="edit-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
-                            <a href="#" th:href="@{'/comment/' + ${comment.commentId} + '/edit'}">Edit</a>
+                        <div class="edit-delete-comment-wrapper">
+                            <div class="edit-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
+                                <a href="#" th:href="@{'/comment/' + ${comment.commentId} + '/edit'}">Edit</a>
+                            </div>
+                            <div class="delete-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
+                                <a href="#" class="comment-delete">Delete
+                                    <input type="hidden" id="commentId" th:value="${comment.commentId}">
+                                </a>
+                            </div>
                         </div>
                         <div class="comment-body" th:utext="${comment.textBody}"></div>
                     </div>
                     <div class="separator"></div>
                 </div>
             </section>
-            <!-- TODO "Ask questions" by login message-->
         </main>
     </div>
     <script>
@@ -125,6 +131,27 @@
                 button.setAttribute('disabled', true);
             }
         });
+
+        /** Call Comment Delete method **/
+
+        // let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
+        // console.log(commentDeleteDOMList);
+        // commentDeleteDOMList.forEach(e => {
+        //     e.addEventListener("click", function () {
+        //         const deleteUrl = "http://localhost:8080/api/v1/comment";
+        //         let commentId = document.querySelector('input#commentId').value;
+        //         let xhr = new XMLHttpRequest();
+        //         xhr.open("DELETE", deleteUrl + '/' + commentId + '/delete', true);
+        //         xhr.onload = function () {
+        //             let comments = JSON.parse(xhr.responseText);
+        //             if (xhr.readyState == 4 && xhr.status == "200") {
+        //                 console.table(comments);
+        //             } else {
+        //                 console.table(comments);
+        //             }
+        //         }
+        //     });
+        // });
     </script>
 </body>
 </html>
