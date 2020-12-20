@@ -137,3 +137,9 @@ div.space-bottom-2 {
 }
 
 /* Common compornent*/
+
+.article-delete a {
+    font-size: 14px;
+    color: #5e6c84;
+    text-decoration: underline;
+}
