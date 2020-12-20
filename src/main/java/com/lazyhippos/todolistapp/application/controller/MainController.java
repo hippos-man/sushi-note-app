@@ -132,6 +132,9 @@ public class MainController {
             comments.add(response);
         }
 
+        // Generate DTO for delete method of comment
+
+
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
         UserProfile author = new UserProfile(
@@ -386,8 +389,8 @@ public class MainController {
     }
 
     @PostMapping("/comment/edit")
-    public String editComment (@ModelAttribute(value = "request") @Validated CommentUpdateRequest request,
-                               Model model, BindingResult result) {
+    public String editComment (@ModelAttribute(value = "request")
+                                   @Validated CommentUpdateRequest request, BindingResult result) {
         if (result.hasErrors()) {
             throw new RuntimeException();
         }
@@ -397,5 +400,4 @@ public class MainController {
         commentService.update(request.getCommentId(), request.getTextBody(), now);
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
-
 }

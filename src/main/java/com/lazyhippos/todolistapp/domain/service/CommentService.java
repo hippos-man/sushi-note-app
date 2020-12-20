@@ -48,4 +48,9 @@ public class CommentService {
     public void update (String commentId, String textBody, LocalDateTime now) {
         commentJpaRepository.updateComment(commentId, textBody, now);
     }
+
+    public Boolean delete (String commentId) {
+        commentJpaRepository.deleteById(commentId);
+        return true;
+    }
 }
