@@ -156,7 +156,6 @@
                     xhr.onreadystatechange = function () {
                         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             console.log('Delete request= Successful');
-                            // TODO Redirect to article detail page
                             window.location = document.referrer;
                         } else {
                             console.log('Server error');
@@ -169,48 +168,6 @@
                 });
             });
         });
-
-
-
-        // /** Call Comment Delete method **/
-        // const deleteUrl = "http://localhost:8080/api/v1/del";
-        // const token = document.querySelector('meta[name="_csrf"]').content;
-        // const header = document.querySelector('meta[name="_csrf_header"]').content;
-        // let xhr = new XMLHttpRequest();
-        // xhr.open("DELETE", deleteUrl, true);
-        // xhr.setRequestHeader(header, token);
-        // xhr.onreadystatechange = function () {
-        //     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //         console.log('Successful');
-        //         console.log('Response: ', this.responseText);
-        //     } else {
-        //         console.log('Server error');
-        //     }
-        // };
-        // xhr.onerror = function () {
-        //     console.log('something went wrong');
-        // };
-        //
-        // xhr.send();
-
-        // let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
-        // console.log(commentDeleteDOMList);
-        // commentDeleteDOMList.forEach(e => {
-        //     e.addEventListener("click", function () {
-        //         const deleteUrl = "http://localhost:8080/api/v1/comment";
-        //         let commentId = document.querySelector('input#commentId').value;
-        //         let xhr = new XMLHttpRequest();
-        //         xhr.open("DELETE", deleteUrl + '/' + commentId + '/delete', true);
-        //         xhr.onload = function () {
-        //             let comments = JSON.parse(xhr.responseText);
-        //             if (xhr.readyState == 4 && xhr.status == "200") {
-        //                 console.table(comments);
-        //             } else {
-        //                 console.table(comments);
-        //             }
-        //         }
-        //     });
-        // });
     </script>
 </body>
 </html>
