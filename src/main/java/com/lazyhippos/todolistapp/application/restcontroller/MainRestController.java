@@ -21,9 +21,16 @@ public class MainRestController {
     public @ResponseBody List<Comments> get () {
         return commentService.retrieveAll();
     }
-    // TODO Doesn't work
+
+    /** FOR TEST PURPOSE ONLY **/
+    @RequestMapping(value = "/api/v1/del", method = RequestMethod.DELETE)
+    public String deleteMessage(){
+        return "msg is deleted!";
+    }
+
     @DeleteMapping(value = "/api/v1/comment/{commentId}/delete")
     public @ResponseBody ResponseEntity<String> deleteComment (@PathVariable(value = "commentId") String commentId) {
+        // TODO Check if user has privilege to delete
         System.out.println("Delete operation started.");
         Boolean isSuccessful = commentService.delete(commentId);
         if (!isSuccessful) {
@@ -31,10 +38,5 @@ public class MainRestController {
         }
         System.out.println("Comment is deleted! Comment ID= " + commentId);
         return new ResponseEntity<>(commentId, HttpStatus.OK);
-    }
-    // TODO Doesn't work Maybe needs csrf token
-    @RequestMapping(value = "/api/v1/del", method = RequestMethod.DELETE)
-    public String deleteMessage(){
-        return "msg is deleted!";
     }
 }
