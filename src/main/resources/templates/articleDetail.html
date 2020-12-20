@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Article Detail</title>
     <link th:href="@{/css/articleDetail.css}" type="text/css" rel="stylesheet">
+
 </head>
 <body>
     <div class="article-detail">
@@ -108,31 +111,87 @@
         </main>
     </div>
     <script>
-        /** Autosize for text area **/
-        const textarea = document.querySelector('textarea');
-        textarea.addEventListener('keydown', autosize);
-        function autosize() {
-            let element = this;
-            setTimeout(function(){
-                element.style.cssText = 'height:auto; padding:0';
-                element.style.cssText = 'height:' + element.scrollHeight + 'px';
-            }, 0);
-        }
-
-        /** Disable button if textarea is empty **/
-        let button = document.querySelector('input[type=submit]');
-        button.setAttribute('disabled', true);
-        let textareaDOM = document.querySelector('textarea#textBody');
-        textareaDOM.addEventListener('keyup', function(){
-            let textInput = textareaDOM.value;
-            if (textInput != '') {
-                button.removeAttribute('disabled');
-            } else {
-                button.setAttribute('disabled', true);
+        window.addEventListener('DOMContentLoaded', (event) => {
+            /** Autosize for text area **/
+            const textarea = document.querySelector('textarea');
+            if (textarea != null) {
+                textarea.addEventListener('keydown', autosize);
+                function autosize() {
+                    let element = this;
+                    setTimeout(function(){
+                        element.style.cssText = 'height:auto; padding:0';
+                        element.style.cssText = 'height:' + element.scrollHeight + 'px';
+                    }, 0);
+                }
             }
+
+            /** Disable button if textarea is empty **/
+            let button = document.querySelector('input[type=submit]');
+            if (button != null) {
+                button.setAttribute('disabled', true);
+                let textareaDOM = document.querySelector('textarea#textBody');
+                if (textareaDOM != null) {
+                    textareaDOM.addEventListener('keyup', function(){
+                        let textInput = textareaDOM.value;
+                        if (textInput != '') {
+                            button.removeAttribute('disabled');
+                        } else {
+                            button.setAttribute('disabled', true);
+                        }
+                    });
+                }
+            }
+
+            /** Call Comment Delete method **/
+            const deleteUrl = "http://localhost:8080/api/v1/comment/";
+            const token = document.querySelector('meta[name="_csrf"]').content;
+            const header = document.querySelector('meta[name="_csrf_header"]').content;
+            let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
+            commentDeleteDOMList.forEach(commentDeleteDOM => {
+                commentDeleteDOM.addEventListener('click', function (e) {
+                    let commentId = e.target.firstElementChild.defaultValue;
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", deleteUrl + commentId + '/delete', true);
+                    xhr.setRequestHeader(header, token);
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            console.log('Successful');
+                            console.log('Response: ', this.responseText);
+                            // TODO Redirect to article detail page
+                        } else {
+                            console.log('Server error');
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.log('something went wrong');
+                    };
+                    xhr.send();
+                });
+            });
         });
 
-        /** Call Comment Delete method **/
+
+
+        // /** Call Comment Delete method **/
+        // const deleteUrl = "http://localhost:8080/api/v1/del";
+        // const token = document.querySelector('meta[name="_csrf"]').content;
+        // const header = document.querySelector('meta[name="_csrf_header"]').content;
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("DELETE", deleteUrl, true);
+        // xhr.setRequestHeader(header, token);
+        // xhr.onreadystatechange = function () {
+        //     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        //         console.log('Successful');
+        //         console.log('Response: ', this.responseText);
+        //     } else {
+        //         console.log('Server error');
+        //     }
+        // };
+        // xhr.onerror = function () {
+        //     console.log('something went wrong');
+        // };
+        //
+        // xhr.send();
 
         // let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
         // console.log(commentDeleteDOMList);
