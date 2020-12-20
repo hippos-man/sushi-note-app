@@ -2,12 +2,18 @@ package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.domain.model.RoleName;
+import com.lazyhippos.todolistapp.domain.model.Topics;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -43,4 +49,12 @@ public class UserService {
     public Boolean isUserIdExist(String userId) {
         return userJpaRepository.existsById(userId);
     }
+
+    public Map<String, String> retrieveDisplayNameAndUserIdByUserIds (List<String> userIds) {
+        List<Users> users = userJpaRepository.findAllByUserIdIn(userIds);
+        Map<String, String> userMap = users.stream().collect(
+                Collectors.toMap(Users::getUserId, Users::getDisplayName));
+        return userMap;
+    }
+
 }
