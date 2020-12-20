@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Edit Article</title>
     <link th:href="@{/css/editArticle.css}" type="text/css" rel="stylesheet">
 </head>
@@ -62,8 +64,41 @@
                 <div class="dummy"></div>
                 <input class="btn-large"type="submit" value="Update">
             </form>
+            <div class="article-delete">
+                <a href="#">Delete</a>
+            </div>
         </div>
     </main>
 </div>
+<script>
+    /** Call Article Delete method **/
+    window.addEventListener("DOMContentLoaded", (event) =>  {
+        const deleteUrl = "http://localhost:8080/api/v1/article/";
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+        const articleDeleteDOMList = document.querySelectorAll('div.article-delete a');
+        const articleId = document.querySelector('input#articleId').value;
+        const userId = document.querySelector('input#userId').value;
+        articleDeleteDOMList.forEach(articleDeleteDOM => {
+            articleDeleteDOM.addEventListener('click', function () {
+                let xhr = new XMLHttpRequest();
+                xhr.open("DELETE", deleteUrl + articleId + '/delete', true);
+                xhr.setRequestHeader(header, token);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        console.log('Delete request= Successful');
+                        window.location.href = "http://localhost:8080/m/" + userId;
+                    } else {
+                        console.log('Server error');
+                    }
+                };
+                xhr.onerror = function () {
+                    console.log('something went wrong');
+                };
+                xhr.send();
+            });
+        });
+    });
+</script>
 </body>
 </html>

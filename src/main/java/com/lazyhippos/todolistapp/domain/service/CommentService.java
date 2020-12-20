@@ -53,4 +53,9 @@ public class CommentService {
         commentJpaRepository.deleteById(commentId);
         return true;
     }
+
+    public Boolean deleteByArticleId (String articleId) {
+        commentJpaRepository.deleteAllByArticleId(articleId);
+        return true;
+    }
 }

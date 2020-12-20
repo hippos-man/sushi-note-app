@@ -27,7 +27,6 @@ public class Articles {
     private String textBody;
     @NotBlank
     private String summary;
-    private Boolean isDeleted;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
 
@@ -35,7 +34,7 @@ public class Articles {
     }
 
     public Articles(String articleId, String userId, String topicId, String title, String textBody,
-                    String summary, Boolean isDeleted, LocalDateTime createdDateTime,
+                    String summary, LocalDateTime createdDateTime,
                     LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
@@ -43,7 +42,6 @@ public class Articles {
         this.title = title;
         this.textBody = textBody;
         this.summary = summary;
-        this.isDeleted = isDeleted;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
     }
@@ -94,14 +92,6 @@ public class Articles {
 
     public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public Boolean getDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
     }
 
     public LocalDateTime getCreatedDateTime() {

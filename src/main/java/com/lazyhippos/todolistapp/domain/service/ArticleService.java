@@ -52,7 +52,6 @@ public class ArticleService {
                 request.getTitle(),
                 request.getTextBody(),
                 summary,
-                false,
                 now,
                 now
         ));
@@ -70,6 +69,11 @@ public class ArticleService {
         articleJpaRepository.updateArticle(
                 request.getArticleId(), request.getTopicId(), request.getTitle(),
                 request.getTextBody(), summary, now);
+    }
+
+    public Boolean delete (String articleId) {
+        articleJpaRepository.deleteById(articleId);
+        return true;
     }
 
 
