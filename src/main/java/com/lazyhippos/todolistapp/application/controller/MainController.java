@@ -100,7 +100,6 @@ public class MainController {
                 article.getTopicId(),
                 article.getTitle(),
                 articleHtml,
-                article.getDeleted(),
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
