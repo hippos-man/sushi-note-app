@@ -214,7 +214,11 @@ div.edit-comment {
     margin-bottom: 20px;
 }
 
-div.edit-comment a {
+div.delete-comment {
+    margin-left: 10px;
+}
+
+div.edit-comment a, div.delete-comment a {
     font-size: 14px;
     color: #5e6c84;
     text-decoration: underline;
@@ -230,4 +234,8 @@ div.login-to-comment a {
 
 div.login-to-comment span {
     color: #8E8E8E;
+}
+
+div.edit-delete-comment-wrapper {
+    display: flex;
 }
