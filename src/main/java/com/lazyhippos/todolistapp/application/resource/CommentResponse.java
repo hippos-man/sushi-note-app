@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.resource;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CommentResponse {
@@ -23,12 +24,25 @@ public class CommentResponse {
         this.displayName = displayName;
         this.textBody = convertToHtml(textBody);
         this.createdDateTime = createdDateTime;
-        this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
-                + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
-                + " "
-                + updatedDateTime.getDayOfMonth()
-                + ", "
-                + updatedDateTime.getYear();
+        this.updatedDateTime = isToday(updatedDateTime, LocalDateTime.now())
+                ? "Today"
+                    + " "
+                    + updatedDateTime.getHour()
+                    + ":"
+                    + formatMinute(updatedDateTime.getMinute())
+                : isThisYear(updatedDateTime, LocalDateTime.now())
+                ?
+                updatedDateTime.getMonth().toString().substring(0, 1)
+                        + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
+                        + " "
+                        + updatedDateTime.getDayOfMonth()
+                :
+                updatedDateTime.getMonth().toString().substring(0, 1)
+                    + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
+                    + " "
+                    + updatedDateTime.getDayOfMonth()
+                    + ", "
+                    + updatedDateTime.getYear();
     }
 
     public String getCommentId() {
@@ -80,4 +94,23 @@ public class CommentResponse {
         taggedText = taggedText.replace("\r\n", LINE_BREAK);
         return taggedText;
     }
+
+    public static Boolean isToday(LocalDateTime input, LocalDateTime currentTime) {
+        LocalDate today = currentTime.toLocalDate();
+        LocalDate datetime = input.toLocalDate();
+        return datetime.equals(today);
+    }
+
+    public static Boolean isThisYear (LocalDateTime input, LocalDateTime currentTime) {
+        return input.getYear() == currentTime.getYear();
+    }
+
+    public static String formatMinute(int input) {
+        if (input < 10) {
+            return "0" + input;
+        } else {
+            return String.valueOf(input);
+        }
+    }
+
 }
