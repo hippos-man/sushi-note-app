@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface CommentJpaRepository extends JpaRepository<Comments, String> {
-    List<Comments> findByArticleId(String articleId);
+    List<Comments> findByArticleIdOrderByUpdatedDateTimeAsc(String articleId);
 
     Comments findByCommentId(String commentId);
 

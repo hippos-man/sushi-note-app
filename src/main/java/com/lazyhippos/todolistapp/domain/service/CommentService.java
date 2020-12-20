@@ -23,7 +23,7 @@ public class CommentService {
     }
 
     public List<Comments> retrieveByArticleId(String articleId) {
-        return commentJpaRepository.findByArticleId(articleId);
+        return commentJpaRepository.findByArticleIdOrderByUpdatedDateTimeAsc(articleId);
     }
 
     public Comments retrieveByCommentId(String commentId) {
