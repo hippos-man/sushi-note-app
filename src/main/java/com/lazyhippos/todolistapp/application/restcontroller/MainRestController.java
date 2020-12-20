@@ -22,12 +22,6 @@ public class MainRestController {
         return commentService.retrieveAll();
     }
 
-    /** FOR TEST PURPOSE ONLY **/
-    @RequestMapping(value = "/api/v1/del", method = RequestMethod.DELETE)
-    public String deleteMessage(){
-        return "msg is deleted!";
-    }
-
     @DeleteMapping(value = "/api/v1/comment/{commentId}/delete")
     public @ResponseBody ResponseEntity<String> deleteComment (@PathVariable(value = "commentId") String commentId) {
         // TODO Check if user has privilege to delete
