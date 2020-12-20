@@ -117,7 +117,7 @@ public class MainController {
         Map<String, String> displayNameAndId =
                 userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
 
-        // Convert Model to DTO for Frontend
+        // Convert Comment Model to DTO for Frontend
         List<CommentResponse> comments = new ArrayList<>();
         for (Comments comment : commentEntityList) {
             CommentResponse response = new CommentResponse(
@@ -131,8 +131,6 @@ public class MainController {
             );
             comments.add(response);
         }
-
-        // Generate DTO for delete method of comment
 
 
         // Fetch author profile
