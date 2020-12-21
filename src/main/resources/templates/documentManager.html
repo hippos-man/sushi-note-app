@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Manager</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>Document Manager</h1>
+        </div>
+        <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+            <input type="file" name="document" required>
+            <br>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</body>
+</html>

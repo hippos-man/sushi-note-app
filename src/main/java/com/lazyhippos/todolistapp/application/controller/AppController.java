@@ -1,27 +1,28 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.*;
-import com.lazyhippos.todolistapp.domain.model.Articles;
-import com.lazyhippos.todolistapp.domain.model.Comments;
-import com.lazyhippos.todolistapp.domain.model.Topics;
-import com.lazyhippos.todolistapp.domain.model.Users;
+import com.lazyhippos.todolistapp.domain.model.*;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.TopicService;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-public class MainController {
+public class AppController {
 
     private final ArticleService articleService;
     private final TopicService topicService;
@@ -37,8 +38,8 @@ public class MainController {
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
-    public MainController(ArticleService articleService, TopicService topicService,
-                          UserService userService, CommentService commentService){
+    public AppController(ArticleService articleService, TopicService topicService,
+                         UserService userService, CommentService commentService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
@@ -396,5 +397,27 @@ public class MainController {
         // Update the comment
         commentService.update(request.getCommentId(), request.getTextBody(), now);
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
+    }
+
+    /** FOR TEST PURPOSE ONLY **/
+    @GetMapping(value = "/upload")
+    public String showSamplePage() {
+        return "documentManager";
+    }
+
+    /** FOR TEST PURPOSE ONLY **/
+    @PostMapping(value = "/upload")
+    public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
+                             RedirectAttributes ra, Principal principal) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Documents document = new Documents(
+                multipartFile.getBytes(),
+                fileName,
+                multipartFile.getSize(),
+                principal.getName(),
+                LocalDateTime.now()
+        );
+
+        return "redirect:/";
     }
 }

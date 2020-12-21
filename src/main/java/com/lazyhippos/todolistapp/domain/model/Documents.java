@@ -7,23 +7,22 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
-public class Images {
+public class Documents {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId;
+    private Long documentId;
     private byte[] content;
     private String originalName;
     private Long fileSize;
     private String userId;
     private LocalDateTime createdDateTime;
 
-    public Images() {
+    public Documents() {
     }
 
-    public Images(Long imageId, byte[] content, String originalName, Long fileSize, String userId,
-                  LocalDateTime createdDateTime) {
-        this.imageId = imageId;
+    public Documents(byte[] content, String originalName, Long fileSize, String userId,
+                     LocalDateTime createdDateTime) {
         this.content = content;
         this.originalName = originalName;
         this.fileSize = fileSize;
@@ -31,12 +30,12 @@ public class Images {
         this.createdDateTime = createdDateTime;
     }
 
-    public Long getImageId() {
-        return imageId;
+    public Long getDocumentId() {
+        return documentId;
     }
 
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
+    public void setDocumentId(Long documentId) {
+        this.documentId = documentId;
     }
 
     public byte[] getContent() {
