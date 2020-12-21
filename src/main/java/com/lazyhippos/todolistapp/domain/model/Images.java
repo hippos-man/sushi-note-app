@@ -1,6 +1,8 @@
 package com.lazyhippos.todolistapp.domain.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -8,6 +10,7 @@ import java.time.LocalDateTime;
 public class Images {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
     private byte[] content;
     private String originalName;

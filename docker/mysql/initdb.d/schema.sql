@@ -39,7 +39,7 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE images (
-    image_id BIGINT(20) PRIMARY KEY,
+    image_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
     content LONGBLOB NOT NULL,
     original_name VARCHAR (255) NOT NULL,
     file_size BIGINT (20) NOT NULL,
