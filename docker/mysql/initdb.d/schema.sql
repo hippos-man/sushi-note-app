@@ -40,10 +40,9 @@ CREATE TABLE comments (
 
 CREATE TABLE images (
     image_id VARCHAR(32) PRIMARY KEY,
+    content LONGBLOB NOT NULL,
     original_name VARCHAR (255) NOT NULL,
     file_size int (255) NOT NULL,
-    file_type VARCHAR (100) NOT NULL,
-    file_path VARCHAR (255) NOT NULL,
     user_id VARCHAR (50) NOT NULL,
     created_date_time DATETIME NOT NULL
 );
