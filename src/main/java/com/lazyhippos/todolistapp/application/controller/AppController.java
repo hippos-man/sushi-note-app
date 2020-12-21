@@ -2,10 +2,7 @@ package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.*;
-import com.lazyhippos.todolistapp.domain.service.ArticleService;
-import com.lazyhippos.todolistapp.domain.service.CommentService;
-import com.lazyhippos.todolistapp.domain.service.TopicService;
-import com.lazyhippos.todolistapp.domain.service.UserService;
+import com.lazyhippos.todolistapp.domain.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,6 +25,7 @@ public class AppController {
     private final TopicService topicService;
     private final UserService userService;
     private final CommentService commentService;
+    private final DocumentService documentService;
 
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
@@ -39,11 +37,12 @@ public class AppController {
     private final String SLASH = "/";
 
     public AppController(ArticleService articleService, TopicService topicService,
-                         UserService userService, CommentService commentService){
+                         UserService userService, CommentService commentService, DocumentService documentService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
         this.commentService = commentService;
+        this.documentService = documentService;
     }
 
     @GetMapping("/")
@@ -417,7 +416,8 @@ public class AppController {
                 principal.getName(),
                 LocalDateTime.now()
         );
-
-        return "redirect:/";
+        documentService.save(document);
+        ra.addFlashAttribute("message", "The file has been successfully uploaded.");
+        return "redirect:/upload";
     }
 }
