@@ -38,8 +38,8 @@ CREATE TABLE comments (
     updated_date_time DATETIME NOT NULL
 );
 
-CREATE TABLE images (
-    image_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE documents (
+    document_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
     content LONGBLOB NOT NULL,
     original_name VARCHAR (255) NOT NULL,
     file_size BIGINT (20) NOT NULL,
