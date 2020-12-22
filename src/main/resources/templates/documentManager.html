@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/css/documentManager.css}" type="text/css" rel="stylesheet">
     <title>Document Manager</title>
 </head>
@@ -12,7 +14,7 @@
             <h1>Document Manager</h1>
         </div>
         <div class="text-success">
-            <h3>[[${message}]]</h3>
+            <h3></h3>
         </div>
         <div class="document-list">
             <th:block th:each="doc : ${listDocs}">
@@ -30,72 +32,46 @@
             </th:block>
         </div>
         <div class="upload-document">
-            <form th:action="@{/api/v1/upload}" method="post" enctype="multipart/form-data">
+            <form id="upload-form" th:action="@{/api/v1/upload}" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" required />
                 <input type="hidden" name="userId" th:value="${userId}" />
                 <br>
                 <input id="upload-btn" type="submit" value="Upload" />
             </form>
         </div>
-<!--        <form th:action="@{/upload}" method="post" enctype="multipart/form-data">-->
-<!--            <input type="file" name="document" required />-->
-<!--            <br>-->
-<!--            <input type="submit" value="Upload">-->
-<!--        </form>-->
     </div>
-<!--    <script>-->
-<!--        window.addEventListener('DOMContentLoaded', (event) => {-->
-<!--            /** Call Upload API **/-->
-<!--            const postUrl = "http://localhost:8080/api/v1/upload";-->
-<!--            const token = document.querySelector('meta[name="_csrf"]').content;-->
-<!--            const header = document.querySelector('meta[name="_csrf_header"]').content;-->
-<!--            const form = document.forms.namedItem("fileInfo");-->
-<!--            form.addEventListener('submit', (event) =>{-->
-<!--               let requestData = new FormData(form);-->
-<!--               let xhr = new XMLHttpRequest();-->
-<!--               xhr.open("POST", postUrl, true);-->
-<!--               xhr.setRequestHeader(header, token);-->
-<!--               xhr.onreadystatechange = function () {-->
-<!--                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {-->
-<!--                        console.log('Post request= Successful');-->
-<!--                    } else {-->
-<!--                        console.log('Server error');-->
-<!--                    }-->
-<!--                };-->
-<!--                xhr.onerror = function () {-->
-<!--                    console.log('something went wrong');-->
-<!--                };-->
-<!--                xhr.send(requestData);-->
-<!--            });-->
-<!--        // window.addEventListener('DOMContentLoaded', (event) => {-->
-<!--        //     /** Call Comment Delete method **/-->
-<!--        //     const postUrl = "http://localhost:8080/api/v1/upload";-->
-<!--        //     const token = document.querySelector('meta[name="_csrf"]').content;-->
-<!--        //     const header = document.querySelector('meta[name="_csrf_header"]').content;-->
-<!--        //     const uploadButtonDOM = document.querySelector('input#upload-btn');-->
-<!--        //     const userId = document.querySelector('input#userId');-->
-<!--        //     if (uploadButtonDOM != null) {-->
-<!--        //         uploadButtonDOM.addEventListener('click', (event) => {-->
-<!--        //             let xhr = new XMLHttpRequest();-->
-<!--        //             let content = document.querySelector('input#new-file');-->
-<!--        //             let docObject = { "document": content, "userId": userId };-->
-<!--        //             let docJson = JSON.stringify(docObject);-->
-<!--        //             xhr.open("POST", postUrl, true);-->
-<!--        //             xhr.setRequestHeader(header, token);-->
-<!--        //             xhr.onreadystatechange = function () {-->
-<!--        //                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {-->
-<!--        //                     console.log('Post request= Successful');-->
-<!--        //                 } else {-->
-<!--        //                     console.log('Server error');-->
-<!--        //                 }-->
-<!--        //             };-->
-<!--        //             xhr.onerror = function () {-->
-<!--        //                 console.log('something went wrong');-->
-<!--        //             };-->
-<!--        //             xhr.send(docJson);-->
-<!--        //         });-->
-<!--        //     }-->
-<!--        });-->
-<!--    </script>-->
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        /** Document Upload API **/
+        const form =document.querySelector('#upload-form');
+        form.addEventListener('submit', (event) =>{
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/v1/upload');
+            let data = new FormData(form);
+            const token = document.querySelector('meta[name="_csrf"]').content;
+            const header = document.querySelector('meta[name="_csrf_header"]').content;
+            const textSuccess = document.querySelector('div.text-success h3');
+            xhr.setRequestHeader(header, token);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    console.log('Post request was Successful');
+                    textSuccess.innerText = 'Your uploading is successful.';
+                    // Redirect after 3 seconds
+                    setTimeout(() =>{
+                        window.location = document.referrer;
+                    }, 3000);
+
+                } else {
+                    console.log('Server error');
+                }
+            };
+            xhr.onerror = function () {
+                console.log('something went wrong');
+            };
+            xhr.send(data);
+        });
+    });
+</script>
 </body>
 </html>

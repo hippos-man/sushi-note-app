@@ -1,0 +1,38 @@
+img.file-icon {
+    width: 60px;
+}
+
+.document-manager__main {
+    width: 800px;
+    margin: auto;
+}
+
+.doc__main h1 {
+    text-align: center;
+}
+
+.document-list {
+    display: flex;
+    margin-bottom: 20px;
+    border: solid 1px black;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.uploaded-file-column {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-document {
+    border: solid 1px black;
+    width: 300px;
+    margin: auto;
+    padding: 15px;
+}
+
+input {
+    margin-bottom: 10px;
+}
