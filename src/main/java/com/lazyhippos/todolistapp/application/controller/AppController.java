@@ -399,9 +399,10 @@ public class AppController {
     }
 
     @GetMapping(value = "/upload")
-    public String showDocumentManager(Model model) {
+    public String showDocumentManager(Model model, Principal principal) {
         List<Documents> listDocs = documentService.retrieveAll();
         model.addAttribute("listDocs", listDocs);
+        model.addAttribute("userId", principal.getName());
         return "documentManager";
     }
 

@@ -15,8 +15,13 @@ public class DocumentService {
         this.documentJpaRepository = documentJpaRepository;
     }
 
-    public void save(Documents documents) {
-        documentJpaRepository.save(documents);
+    public Boolean save(Documents documents) {
+        try {
+            documentJpaRepository.save(documents);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public List<Documents> retrieveAll () {
