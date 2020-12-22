@@ -398,13 +398,13 @@ public class AppController {
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
-    /** FOR TEST PURPOSE ONLY **/
     @GetMapping(value = "/upload")
-    public String showSamplePage() {
+    public String showDocumentManager(Model model) {
+        List<Documents> listDocs = documentService.retrieveAll();
+        model.addAttribute("listDocs", listDocs);
         return "documentManager";
     }
 
-    /** FOR TEST PURPOSE ONLY **/
     @PostMapping(value = "/upload")
     public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
                              RedirectAttributes ra, Principal principal) throws IOException {

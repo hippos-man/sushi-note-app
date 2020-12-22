@@ -13,6 +13,21 @@
         <div class="text-success">
             <h3>[[${message}]]</h3>
         </div>
+        <div>
+            <th:block th:each="doc : ${listDocs}">
+                <div class="uploaded-file-colomn">
+                    <div class="file-icon">
+                        <img th:src="@{/images/document.svg}">
+                    </div>
+                    <div class="file-name">
+                        [[${doc.originalName}]]
+                    </div>
+                    <div class="file-size">
+                        ([[${#numbers.formatInteger(doc.fileSize, 4, 'COMMA')}]] bytes)
+                    </div>
+                </div>
+            </th:block>
+        </div>
         <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
             <input type="file" name="document" required />
             <br>
