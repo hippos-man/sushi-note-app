@@ -30,6 +30,12 @@ public class Documents {
         this.createdDateTime = createdDateTime;
     }
 
+    public Documents(Long documentId, String originalName, Long fileSize) {
+        this.documentId = documentId;
+        this.originalName = originalName;
+        this.fileSize = fileSize;
+    }
+
     public Long getDocumentId() {
         return documentId;
     }
