@@ -16,6 +16,7 @@ CREATE TABLE articles (
     title VARCHAR(255) NOT NULL,
     text_body TEXT NOT NULL,
     summary TEXT NOT NULL,
+    document_id BIGINT(20),
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL
 );
