@@ -11,9 +11,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -32,6 +34,15 @@ public class MainRestController {
     @GetMapping(value = "/comments")
     public @ResponseBody List<Comments> get () {
         return commentService.retrieveAll();
+    }
+
+    // TODO Fetch Images
+    @GetMapping(value = "/uploads/images/{documentId}")
+    public Documents downloadDocument (@PathVariable(value = "documentId") Long documentId) {
+        // Fetch Image
+        final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
+        Documents image = retrievedImage.get();
+        return image;
     }
 
     @PostMapping(value = "/upload")
