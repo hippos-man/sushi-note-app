@@ -212,6 +212,7 @@ public class AppController {
         model.addAttribute("request", new ArticleRequest(
                 articleId, userId, null, null, null, null));
         model.addAttribute("authorProfile", author);
+        model.addAttribute("userId", userId);
         return NEW_ARTICLE_VIEW;
     }
 

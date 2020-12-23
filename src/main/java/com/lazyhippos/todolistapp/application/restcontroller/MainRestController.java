@@ -35,7 +35,7 @@ public class MainRestController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<String> upload (@RequestParam(value = "file") MultipartFile file,
+    public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
                                           @RequestParam(value = "userId") String userId) throws IOException {
         // TODO Validation
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -50,7 +50,8 @@ public class MainRestController {
         if (!isSuccessful) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        Long documentId = documentService.getDocumentIdByOriginalName(fileName);
+        return new ResponseEntity<>(documentId, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/comment/{commentId}/delete")
@@ -74,7 +75,7 @@ public class MainRestController {
         // execute deletion of article
         Boolean isSuccessfulForArticle = articleService.delete(articleId);
         // execute deletion of related comments
-        Boolean isSuccessfulForComment = false;
+        Boolean isSuccessfulForComment;
         if (isSuccessfulForArticle) {
             System.out.println("Delete article: Successful");
             isSuccessfulForComment = commentService.deleteByArticleId(articleId);

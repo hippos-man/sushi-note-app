@@ -27,4 +27,8 @@ public class DocumentService {
     public List<Documents> retrieveAll () {
         return documentJpaRepository.findAll();
     }
+
+    public Long getDocumentIdByOriginalName(String fileName) {
+        return documentJpaRepository.getDocumentIdByOriginalName(fileName);
+    }
 }
