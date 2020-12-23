@@ -17,14 +17,18 @@ public class ArticleRequest {
     @NotBlank
     private String textBody;
 
+    private Long documentId;
+
     public ArticleRequest() {}
 
-    public ArticleRequest(String articleId, String userId, String topicId, String title, String textBody) {
+    public ArticleRequest(String articleId, String userId, String topicId, String title, String textBody,
+                          Long documentId) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.textBody = textBody;
+        this.documentId = documentId;
     }
 
     public String getArticleId() {
@@ -67,6 +71,14 @@ public class ArticleRequest {
         this.textBody = textBody;
     }
 
+    public Long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Long documentId) {
+        this.documentId = documentId;
+    }
+
     @Override
     public String toString() {
         return "ArticleRequest{" +
@@ -75,6 +87,7 @@ public class ArticleRequest {
                 ", topicId='" + topicId + '\'' +
                 ", title='" + title + '\'' +
                 ", textBody='" + textBody + '\'' +
+                ", documentId='" + documentId + '\'' +
                 '}';
     }
 }
