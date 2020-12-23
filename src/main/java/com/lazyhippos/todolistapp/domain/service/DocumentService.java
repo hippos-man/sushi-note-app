@@ -5,6 +5,7 @@ import com.lazyhippos.todolistapp.domain.repository.DocumentJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentService {
@@ -30,5 +31,9 @@ public class DocumentService {
 
     public Long getDocumentIdByOriginalName(String fileName) {
         return documentJpaRepository.getDocumentIdByOriginalName(fileName);
+    }
+
+    public Optional<Documents> retrieveById(Long documentId) {
+        return documentJpaRepository.findById(documentId);
     }
 }
