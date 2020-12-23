@@ -210,7 +210,7 @@ public class AppController {
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
-                articleId, userId, null, null, null));
+                articleId, userId, null, null, null, null));
         model.addAttribute("authorProfile", author);
         return NEW_ARTICLE_VIEW;
     }
@@ -247,7 +247,7 @@ public class AppController {
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
                 article.getArticleId(), article.getUserId(), article.getTopicId(), article.getTitle(),
-                article.getTextBody()));
+                article.getTextBody(), article.getDocumentId()));
 
         return EDIT_ARTICLE_VIEW;
     }
