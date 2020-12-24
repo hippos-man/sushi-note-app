@@ -95,7 +95,7 @@
             xhr.onreadystatechange = function () {
                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                     console.log('Post request was Successful');
-                    textSuccess.innerHTML = '<h3>Your Upload is successful.</h3>';
+                    textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
                     // TODO Set document ID from Server
                     console.log(xhr.response);
                     documentIdDOM.value = xhr.response;

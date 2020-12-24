@@ -56,7 +56,7 @@
             xhr.onreadystatechange = function () {
                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                     console.log('Post request was Successful');
-                    textSuccess.innerText = 'Your uploading is successful.';
+                    textSuccess.innerText = 'Image uploaded successfully.';
                     // Redirect after 3 seconds
                     setTimeout(() =>{
                         window.location = document.referrer;
