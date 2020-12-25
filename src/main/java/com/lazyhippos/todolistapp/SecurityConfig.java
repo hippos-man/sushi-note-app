@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/user/register",
                         "/",
                         "/categories/**",
-                        "/s/**").permitAll()
+                        "/s/**",
+                        "/api/v1/uploads/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

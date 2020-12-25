@@ -27,6 +27,7 @@ public class Articles {
     private String textBody;
     @NotBlank
     private String summary;
+    private Long documentId;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
 
@@ -34,7 +35,7 @@ public class Articles {
     }
 
     public Articles(String articleId, String userId, String topicId, String title, String textBody,
-                    String summary, LocalDateTime createdDateTime,
+                    String summary, Long documentId, LocalDateTime createdDateTime,
                     LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
@@ -42,6 +43,7 @@ public class Articles {
         this.title = title;
         this.textBody = textBody;
         this.summary = summary;
+        this.documentId = documentId;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
     }
@@ -92,6 +94,14 @@ public class Articles {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Long documentId) {
+        this.documentId = documentId;
     }
 
     public LocalDateTime getCreatedDateTime() {

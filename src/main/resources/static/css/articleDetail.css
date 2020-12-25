@@ -52,7 +52,7 @@ div.nav__user-icon {
     cursor: pointer;
 }
 
-img.nav__user-icon, div.add-comment-avatar img, div.commenter-avatar img{
+img.nav__user-icon, div.add-comment-avatar img, div.commenter-avatar img, img.article__avatar{
     width: 36px;
     height: 36px;
 }
@@ -76,6 +76,10 @@ figure {
     margin: 0;
 }
 
+figure img {
+    width: 100%;
+}
+
 .article__author {
     display: flex;
 }
@@ -87,15 +91,14 @@ h1.article__title {
 div.article__body > p {
     font-size: 18px;
     line-height: 36px;
-    margin-top: 36px;
-    margin-bottom: 36px;
+    margin-bottom: 20px;
 }
 
 .articleHeader__name, .articleHeader__date, div.commenter-text span{
     font-size: 14px;
 }
 
-div.articleHeader__avator {
+div.articleHeader__avatar {
     margin-right: 10px;
 }
 
