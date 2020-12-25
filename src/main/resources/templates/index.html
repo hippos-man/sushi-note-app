@@ -70,6 +70,10 @@
                 <p th:if="${articles.empty}">No items is found in the category</p>
                 <div class="timelineCategory__item__wrapper" th:each="article : ${articles}">
                     <div class="timelineCategory__item">
+                        <div class="gridNote__eyeCatch">
+                            <img th:if="${article.imageId}" class="article-header-image" th:src="@{'/api/v1/uploads/images/' + ${article.imageId}}">
+                            <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
+                        </div>
                         <div class="timelineHeader">
                             <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
                             <div class="timelineHeader__authorName">
