@@ -92,6 +92,7 @@ section.my-article {
 img.article-image {
     width:100%;
     max-width: 124px;
+    border-radius: 8px;
 }
 
 div.article__content {

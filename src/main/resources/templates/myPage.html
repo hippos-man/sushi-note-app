@@ -55,7 +55,8 @@
                         <div class="article-summary" th:utext="${post.summary}"></div>
                     </div>
                     <div class="article-image">
-                        <img class="article-image" th:src="@{/images/sample-header_1280.jpg}">
+                        <img th:if="${post.imageId}" class="article-image" th:src="@{'/api/v1/uploads/images/' + ${post.imageId}}">
+                        <img th:unless="${post.imageId}" class="article-image" th:src="@{/images/no-photo-available.png}">
                     </div>
                 </div>
                 <div class="author-profile">
