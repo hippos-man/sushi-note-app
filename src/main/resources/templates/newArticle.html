@@ -46,8 +46,9 @@
                         <input type="file" name="file" required />
                         <input type="hidden" name="userId" th:value="${userId}" />
                         <br>
-                        <input id="upload-btn" type="submit" value="Upload" />
+<!--                        <input id="upload-btn" type="submit" value="Upload" />-->
                     </form>
+                    <div class="preview-image"></div>
                 </div>
             </div>
             <form class="article-form" role="form" action="#" th:action="@{/article/create}" th:object="${request}" method="post">
@@ -81,10 +82,12 @@
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
         /** Document Upload API **/
-        const form =document.querySelector('#file-form');
-        const textSuccess = document.querySelector('div.text-upload-success');
+        const form = document.querySelector('#file-form');
+        const fileSelector = document.querySelector('input[name=file]');
         const documentIdDOM = document.querySelector('input#documentId');
-        form.addEventListener('submit', (event) =>{
+        const textSuccess = document.querySelector('div.text-upload-success');
+        const previewImageDOM = document.querySelector('div.preview-image');
+        fileSelector.addEventListener('change', (event) =>{
             event.preventDefault();
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/api/v1/upload');
@@ -96,9 +99,10 @@
                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                     console.log('Post request was Successful');
                     textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
-                    // TODO Set document ID from Server
                     console.log(xhr.response);
-                    documentIdDOM.value = xhr.response;
+                    let documentId = xhr.response;
+                    documentIdDOM.value = documentId;
+                    previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
                 } else {
                     console.log('Server error');
                 }

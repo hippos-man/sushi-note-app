@@ -52,19 +52,6 @@ public class MainRestController {
         }
     }
 
-
-//    @GetMapping(value = "/uploads/images/{documentId}")
-//    public ResponseEntity<byte[]> downloadDocument (@PathVariable(value = "documentId") Long documentId) {
-//        // Fetch Image
-//        final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
-//        if (!retrievedImage.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        Documents image = retrievedImage.get();
-//
-//        return new ResponseEntity<>(image.getContent(),HttpStatus.OK);
-//    }
-
     @PostMapping(value = "/upload")
     public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
                                           @RequestParam(value = "userId") String userId) throws IOException {
