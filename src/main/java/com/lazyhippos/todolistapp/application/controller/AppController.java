@@ -100,6 +100,7 @@ public class AppController {
                 article.getTopicId(),
                 article.getTitle(),
                 articleHtml,
+                article.getDocumentId(),
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
