@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,14 +36,34 @@ public class MainRestController {
         return commentService.retrieveAll();
     }
 
-    // TODO Fetch Images
     @GetMapping(value = "/uploads/images/{documentId}")
-    public Documents downloadDocument (@PathVariable(value = "documentId") Long documentId) {
+    @ResponseBody
+    public void downloadDocument (@PathVariable(value = "documentId") Long documentId,
+                                                    HttpServletResponse response) throws IOException{
         // Fetch Image
         final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
-        Documents image = retrievedImage.get();
-        return image;
+        if (retrievedImage.isPresent()) {
+            response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+            response.getOutputStream().write(retrievedImage.get().getContent());
+            response.getOutputStream().close();
+        } else {
+            // do something
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
+
+
+//    @GetMapping(value = "/uploads/images/{documentId}")
+//    public ResponseEntity<byte[]> downloadDocument (@PathVariable(value = "documentId") Long documentId) {
+//        // Fetch Image
+//        final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
+//        if (!retrievedImage.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        Documents image = retrievedImage.get();
+//
+//        return new ResponseEntity<>(image.getContent(),HttpStatus.OK);
+//    }
 
     @PostMapping(value = "/upload")
     public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,

@@ -45,7 +45,8 @@
                         </a>
                     </div>
                     <figure>
-                        <img class="article-header-image" th:src="@{/images/no-photo-available.png}" style="width: 100%;">
+                        <img th:if="${article.imageId}" class="article-header-image" th:src="@{'/api/v1/uploads/images/' + ${article.imageId}}">
+                        <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
                     </figure>
                     <h1 class="article__title" th:text="${article.title}">Why is Japanese Sushi so good?</h1>
                     <div class="article__author">
@@ -63,6 +64,7 @@
                 </div>
                 <div class="separator"></div>
             </article>
+
             <section class="comment-section">
                 <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
                     <div class="comment__content">
@@ -106,7 +108,6 @@
                         <a th:href="@{/login}">Log in</a>&nbsp;to like or comment
                     </span>
                 </div>
-                <div class="separator"></div>
             </section>
         </main>
     </div>
