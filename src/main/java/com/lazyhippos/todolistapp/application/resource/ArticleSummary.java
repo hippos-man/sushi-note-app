@@ -9,18 +9,20 @@ public class ArticleSummary {
     private String topicId;
     private String title;
     private String summary;
+    private Long imageId;
     private String updatedDateTime;
 
     public ArticleSummary() {
     }
 
     public ArticleSummary(String articleId, String userId, String topicId, String title, String summary,
-                          LocalDateTime updatedDateTime) {
+                          Long imageId, LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.summary = summary;
+        this.imageId = imageId;
         this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
                 + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
                 + " "
@@ -67,6 +69,14 @@ public class ArticleSummary {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public String getUpdatedDateTime() {

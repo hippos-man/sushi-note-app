@@ -140,6 +140,15 @@ img.timelineHeader__user-icon {
     margin-right: 10px;
 }
 
+.gridNote__eyeCatch {
+    margin-bottom: 10px;
+}
+
+.gridNote__eyeCatch img{
+    width: 100%;
+    border-radius: 8px;
+}
+
 .textNote {
     margin-bottom: 30px;
 }
