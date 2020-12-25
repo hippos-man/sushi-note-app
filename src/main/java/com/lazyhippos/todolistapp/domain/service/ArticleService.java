@@ -52,6 +52,7 @@ public class ArticleService {
                 request.getTitle(),
                 request.getTextBody(),
                 summary,
+                request.getDocumentId(),
                 now,
                 now
         ));

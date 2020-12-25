@@ -16,6 +16,7 @@ CREATE TABLE articles (
     title VARCHAR(255) NOT NULL,
     text_body TEXT NOT NULL,
     summary TEXT NOT NULL,
+    document_id BIGINT(20),
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL
 );
@@ -36,4 +37,13 @@ CREATE TABLE comments (
     text_body TEXT NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL
+);
+
+CREATE TABLE documents (
+    document_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    content LONGBLOB NOT NULL,
+    original_name VARCHAR (255) NOT NULL,
+    file_size BIGINT (20) NOT NULL,
+    user_id VARCHAR (50) NOT NULL,
+    created_date_time DATETIME NOT NULL
 );

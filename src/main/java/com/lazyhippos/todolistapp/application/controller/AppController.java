@@ -1,32 +1,31 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.*;
-import com.lazyhippos.todolistapp.domain.model.Articles;
-import com.lazyhippos.todolistapp.domain.model.Comments;
-import com.lazyhippos.todolistapp.domain.model.Topics;
-import com.lazyhippos.todolistapp.domain.model.Users;
-import com.lazyhippos.todolistapp.domain.service.ArticleService;
-import com.lazyhippos.todolistapp.domain.service.CommentService;
-import com.lazyhippos.todolistapp.domain.service.TopicService;
-import com.lazyhippos.todolistapp.domain.service.UserService;
+import com.lazyhippos.todolistapp.domain.model.*;
+import com.lazyhippos.todolistapp.domain.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-public class MainController {
+public class AppController {
 
     private final ArticleService articleService;
     private final TopicService topicService;
     private final UserService userService;
     private final CommentService commentService;
+    private final DocumentService documentService;
 
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
@@ -37,12 +36,13 @@ public class MainController {
     private final String REDIRECT = "redirect:";
     private final String SLASH = "/";
 
-    public MainController(ArticleService articleService, TopicService topicService,
-                          UserService userService, CommentService commentService){
+    public AppController(ArticleService articleService, TopicService topicService,
+                         UserService userService, CommentService commentService, DocumentService documentService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
         this.commentService = commentService;
+        this.documentService = documentService;
     }
 
     @GetMapping("/")
@@ -100,6 +100,7 @@ public class MainController {
                 article.getTopicId(),
                 article.getTitle(),
                 articleHtml,
+                article.getDocumentId(),
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
@@ -210,8 +211,9 @@ public class MainController {
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
-                articleId, userId, null, null, null));
+                articleId, userId, null, null, null, null));
         model.addAttribute("authorProfile", author);
+        model.addAttribute("userId", userId);
         return NEW_ARTICLE_VIEW;
     }
 
@@ -247,7 +249,7 @@ public class MainController {
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
                 article.getArticleId(), article.getUserId(), article.getTopicId(), article.getTitle(),
-                article.getTextBody()));
+                article.getTextBody(), article.getDocumentId()));
 
         return EDIT_ARTICLE_VIEW;
     }
@@ -396,5 +398,29 @@ public class MainController {
         // Update the comment
         commentService.update(request.getCommentId(), request.getTextBody(), now);
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
+    }
+
+    @GetMapping(value = "/upload")
+    public String showDocumentManager(Model model, Principal principal) {
+        List<Documents> listDocs = documentService.retrieveAll();
+        model.addAttribute("listDocs", listDocs);
+        model.addAttribute("userId", principal.getName());
+        return "documentManager";
+    }
+
+    @PostMapping(value = "/upload")
+    public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
+                             RedirectAttributes ra, Principal principal) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        Documents document = new Documents(
+                multipartFile.getBytes(),
+                fileName,
+                multipartFile.getSize(),
+                principal.getName(),
+                LocalDateTime.now()
+        );
+        documentService.save(document);
+        ra.addFlashAttribute("message", "The file has been successfully uploaded.");
+        return "redirect:/upload";
     }
 }
