@@ -1,12 +1,12 @@
-INSERT INTO users (user_id, display_name, email_address, password, is_active, created_date_time,
-    updated_date_time,role_name)
+INSERT INTO users (user_id, display_name, email_address, password, document_id, is_active, created_date_time,
+    updated_date_time, role_name)
 VALUES
     ( "john777", "John", "happy@gmail.com", "$2a$10$h5PwB29NCTL5BI03z8rireo5ghNvx5l.6jeckPEQM2ibuplr0b0OO",
-        true, "2020-07-07T01:01:01", "2020-07-07T01:01:01", "USER"),
+        NULL, true, "2020-07-07T01:01:01", "2020-07-07T01:01:01", "USER"),
     ( "hanako777", "Hana", "hana@gmail.com", "$2a$10$h5PwB29NCTL5BI03z8rireo5ghNvx5l.6jeckPEQM2ibuplr0b0OO",
-        true, "2020-07-07T01:01:01", "2020-07-07T01:01:01", "USER"),
+        NULL, true, "2020-07-07T01:01:01", "2020-07-07T01:01:01", "USER"),
     ( "admin", "Admin", "admin@gmail.com", "$2a$10$h5PwB29NCTL5BI03z8rireo5ghNvx5l.6jeckPEQM2ibuplr0b0OO",
-        true, "2020-07-07T01:01:01", "2020-07-07T01:01:01","ADMIN");
+        NULL, true, "2020-07-07T01:01:01", "2020-07-07T01:01:01","ADMIN");
 
 INSERT INTO topics ( topic_id, user_id, topic_name, is_active, created_date_time, updated_date_time)
 VALUES ( "gourmet", "admin", "Gourmet", true, "2020-11-01T12:00:00", "2020-11-01T12:00:00"),

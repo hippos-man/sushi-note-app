@@ -1,0 +1,4 @@
+div.preview-image img {
+    width: 100%;
+    max-width: 80px;
+}
