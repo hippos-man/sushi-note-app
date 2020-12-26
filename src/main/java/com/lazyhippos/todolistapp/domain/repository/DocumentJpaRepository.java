@@ -14,6 +14,6 @@ public interface DocumentJpaRepository extends JpaRepository<Documents, Long> {
     @Query("SELECT new Documents(d.documentId, d.originalName, d.fileSize) FROM Documents d ORDER BY d.createdDateTime DESC")
     List<Documents> findAll();
 
-    @Query("SELECT d.documentId FROM Documents d WHERE d.originalName = :fileName")
-    Long getDocumentIdByOriginalName(@Param(value = "fileName") String fileName);
+    @Query("SELECT d.documentId FROM Documents d WHERE d.filePath = :filePath")
+    Long getDocumentIdByFilePath(@Param(value = "filePath") String filePath);
 }

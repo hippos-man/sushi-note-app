@@ -59,7 +59,7 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getUpdatedDateTime())
+                        e.getDocumentId(), e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -170,7 +170,7 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getUpdatedDateTime())
+                        e.getDocumentId(), e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -266,7 +266,7 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articleList.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getUpdatedDateTime())
+                        e.getDocumentId(), e.getUpdatedDateTime())
         ));
         // Retrieve Profile
         // Fetch author profile
@@ -412,9 +412,12 @@ public class AppController {
     public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
                              RedirectAttributes ra, Principal principal) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        // Add identifier to file name
+        String filePath = "/" + UUID.randomUUID() + "/" + fileName;
         Documents document = new Documents(
                 multipartFile.getBytes(),
                 fileName,
+                filePath,
                 multipartFile.getSize(),
                 principal.getName(),
                 LocalDateTime.now()

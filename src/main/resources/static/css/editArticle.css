@@ -69,6 +69,11 @@ img.nav__user-icon {
     margin-bottom: 20px;
 }
 
+.preview-image img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 p.register__title {
     font-size: 22px;
     font-weight: bold;

@@ -19,6 +19,7 @@ public interface ArticleJpaRepository extends JpaRepository<Articles, String> {
             + "a.textBody = :textBody,"
             + "a.summary = :summary,"
             + "a.topicId = :topicId,"
+            + "a.documentId = :documentId,"
             + "a.updatedDateTime = :updatedDatetime"
             + " WHERE a.articleId = :articleId")
     void updateArticle(@Param(value = "articleId") String articleId,
@@ -26,5 +27,6 @@ public interface ArticleJpaRepository extends JpaRepository<Articles, String> {
                        @Param(value = "title") String title,
                        @Param(value = "textBody") String textBody,
                        @Param(value = "summary")String summary,
+                       @Param(value = "documentId") Long documentId,
                        @Param(value = "updatedDatetime") LocalDateTime updatedDatetime);
 }

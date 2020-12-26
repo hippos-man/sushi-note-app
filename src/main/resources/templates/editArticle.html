@@ -39,6 +39,15 @@
             <div class="register__title-container">
                 <p class="register__title">Edit my article</p>
             </div>
+            <div class="document-form">
+                <div class="text-upload-success"></div>
+                <form id="file-form" action="#" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" required />
+                    <input type="hidden" name="userId" th:value="${loginUserId}" />
+                    <br>
+                </form>
+                <div class="preview-image"></div>
+            </div>
             <form class="article-form" role="form" action="#" th:action="@{/article/edit}" th:object="${request}" method="post">
                 <div class="space-bottom-2">
                     <label for="title">Title</label>
@@ -61,8 +70,9 @@
                 </div>
                 <input type="hidden" id="userId" th:field="*{userId}">
                 <input type="hidden" id="articleId" th:field="*{articleId}">
+                <input type="hidden" id="documentId" th:field="*{documentId}">
                 <div class="dummy"></div>
-                <input class="btn-large"type="submit" value="Update">
+                <input class="btn-large" type="submit" value="Update">
             </form>
             <div class="article-delete">
                 <a href="#">Delete</a>
@@ -73,9 +83,10 @@
 <script>
     /** Call Article Delete method **/
     window.addEventListener("DOMContentLoaded", (event) =>  {
-        const deleteUrl = "http://localhost:8080/api/v1/article/";
         const token = document.querySelector('meta[name="_csrf"]').content;
         const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        const deleteUrl = "http://localhost:8080/api/v1/article/";
         const articleDeleteDOMList = document.querySelectorAll('div.article-delete a');
         const articleId = document.querySelector('input#articleId').value;
         const userId = document.querySelector('input#userId').value;
@@ -98,6 +109,37 @@
                 xhr.send();
             });
         });
+        /** End Call Article Delete method **/
+        /** Document Upload API **/
+        const form = document.querySelector('#file-form');
+        const fileSelector = document.querySelector('input[name=file]');
+        const documentIdDOM = document.querySelector('input#documentId');
+        const textSuccess = document.querySelector('div.text-upload-success');
+        const previewImageDOM = document.querySelector('div.preview-image');
+        fileSelector.addEventListener('change', (event) =>{
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/v1/upload');
+            let data = new FormData(form);
+            xhr.setRequestHeader(header, token);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    console.log('Post request was Successful');
+                    textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
+                    console.log(xhr.response);
+                    let documentId = xhr.response;
+                    documentIdDOM.value = documentId;
+                    previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
+                } else {
+                    console.log('Server error');
+                }
+            };
+            xhr.onerror = function () {
+                console.log('something went wrong');
+            };
+            xhr.send(data);
+        });
+        /** End Document Upload API **/
     });
 </script>
 </body>

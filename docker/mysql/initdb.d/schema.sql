@@ -43,6 +43,7 @@ CREATE TABLE documents (
     document_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
     content LONGBLOB NOT NULL,
     original_name VARCHAR (255) NOT NULL,
+    file_path VARCHAR (255) UNIQUE NOT NULL,
     file_size BIGINT (20) NOT NULL,
     user_id VARCHAR (50) NOT NULL,
     created_date_time DATETIME NOT NULL

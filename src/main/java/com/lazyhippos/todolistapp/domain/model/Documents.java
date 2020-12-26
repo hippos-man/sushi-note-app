@@ -14,6 +14,7 @@ public class Documents {
     private Long documentId;
     private byte[] content;
     private String originalName;
+    private String filePath;
     private Long fileSize;
     private String userId;
     private LocalDateTime createdDateTime;
@@ -21,10 +22,11 @@ public class Documents {
     public Documents() {
     }
 
-    public Documents(byte[] content, String originalName, Long fileSize, String userId,
+    public Documents(byte[] content, String originalName, String filePath, Long fileSize, String userId,
                      LocalDateTime createdDateTime) {
         this.content = content;
         this.originalName = originalName;
+        this.filePath = filePath;
         this.fileSize = fileSize;
         this.userId = userId;
         this.createdDateTime = createdDateTime;
@@ -58,6 +60,14 @@ public class Documents {
 
     public void setOriginalName(String originalName) {
         this.originalName = originalName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Long getFileSize() {
