@@ -69,7 +69,7 @@ public class ArticleService {
         }
         articleJpaRepository.updateArticle(
                 request.getArticleId(), request.getTopicId(), request.getTitle(),
-                request.getTextBody(), summary, now);
+                request.getTextBody(), summary, request.getDocumentId(), now);
     }
 
     public Boolean delete (String articleId) {

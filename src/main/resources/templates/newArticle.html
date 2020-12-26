@@ -46,7 +46,6 @@
                         <input type="file" name="file" required />
                         <input type="hidden" name="userId" th:value="${userId}" />
                         <br>
-<!--                        <input id="upload-btn" type="submit" value="Upload" />-->
                     </form>
                     <div class="preview-image"></div>
                 </div>
@@ -112,6 +111,7 @@
             };
             xhr.send(data);
         });
+        /** End Document Upload API **/
     });
 </script>
 </body>

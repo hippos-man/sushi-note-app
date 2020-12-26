@@ -412,9 +412,12 @@ public class AppController {
     public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
                              RedirectAttributes ra, Principal principal) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        // Add identifier to file name
+        String filePath = "/" + UUID.randomUUID() + "/" + fileName;
         Documents document = new Documents(
                 multipartFile.getBytes(),
                 fileName,
+                filePath,
                 multipartFile.getSize(),
                 principal.getName(),
                 LocalDateTime.now()
