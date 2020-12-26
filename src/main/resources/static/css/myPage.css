@@ -62,24 +62,24 @@ header.user-profile {
     margin-bottom: 50px;
     padding-top: 48px;
     padding-bottom: 48px;
+    display: flex;
 }
 
-img.user-profile-avator {
+div.edit-profile {
+    text-align: center;
+}
+
+img.user-profile-avatar {
     width:104px;
     height: 104px;
 }
 
 h1.display-name {
     font-size: 22px;
-    padding-left: 128px;
 }
 
-.user-summary {
-    padding-left: 128px;
-}
-
-.profile-image {
-    position: absolute;
+div.user-content {
+    padding-left: 20px;
 }
 
 section.my-article {
