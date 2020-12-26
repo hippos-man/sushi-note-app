@@ -1,6 +1,8 @@
 package com.lazyhippos.todolistapp.application.controller;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
+import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
+import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Controller
@@ -21,6 +24,7 @@ public class UserController {
     private final UserService userService;
     private final String REDIRECT = "redirect:";
     private final String USER_REGISTER_VIEW = "signup";
+    private final String USER_EDIT_VIEW = "editUser";
     private final String LOGIN_VIEW = "login";
     private final String SLASH = "/";
 
@@ -36,6 +40,26 @@ public class UserController {
         }
         model.addAttribute("request", new UserRequest());
         return USER_REGISTER_VIEW;
+    }
+
+    @GetMapping("/user/profile/edit")
+    public String showProfileEditPage (Model model, Principal principal) {
+        if (!isAuthenticated()) {
+            return REDIRECT + SLASH;
+        }
+        if (principal == null) {
+            return REDIRECT + SLASH;
+        }
+        Users user = userService.retrieveAuthorProfile(principal.getName());
+        model.addAttribute("request", new UserUpdateRequest(
+                user.getUserId(),
+                user.getDisplayName(),
+                user.getEmailAddress(),
+                user.getImageId()
+        ));
+        model.addAttribute("isLogin", true);
+        model.addAttribute("loginUserId", user.getUserId());
+        return USER_EDIT_VIEW;
     }
 
 
