@@ -8,8 +8,7 @@ public class UserUpdateRequest {
     private String emailAddress;
     private Long imageId;
 
-    public UserUpdateRequest(String displayName) {
-        this.displayName = displayName;
+    public UserUpdateRequest() {
     }
 
     public UserUpdateRequest(String userId, String displayName, String emailAddress, Long imageId) {

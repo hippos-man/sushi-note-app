@@ -93,6 +93,14 @@ public class UserController {
         return LOGIN_VIEW;
     }
 
+    @PostMapping("/user/update")
+    public String update (@ModelAttribute(name = "request") UserUpdateRequest request) {
+        System.out.println("DEBUG: Received Post request for updating profile.");
+            userService.update(request, LocalDateTime.now());
+        return REDIRECT + SLASH + "m" + SLASH + request.getUserId();
+    }
+
+
     @GetMapping("/login")
     public String getUserLoginPage() {
         if (isAuthenticated()) {

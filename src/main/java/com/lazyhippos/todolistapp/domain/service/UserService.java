@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
+import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
 import com.lazyhippos.todolistapp.domain.model.RoleName;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
@@ -38,6 +39,16 @@ public class UserService {
                 RoleName.USER
         );
         userJpaRepository.save(newUser);
+    }
+
+    public void update (UserUpdateRequest request, LocalDateTime now) {
+            userJpaRepository.updateUserProfile(
+                    request.getUserId(),
+                    request.getDisplayName(),
+                    request.getEmailAddress(),
+                    request.getImageId(),
+                    now
+            );
     }
 
     public Users retrieveAuthorProfile(String userId) {
