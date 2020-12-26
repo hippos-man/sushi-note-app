@@ -24,9 +24,12 @@
                     <input type="hidden" name="userId" th:value="${loginUserId}"/>
                     <br>
                 </form>
-                <div class="preview-image"></div>
+                <div class="preview-image">
+                    <img th:if="${request.getImageId()}" th:src="@{'/api/v1/uploads/images/' + ${request.getImageId()}}">
+                    <img th:unless="${request.getImageId()}" th:src="@{/images/user.svg}">
+                </div>
             </div>
-            <form class="comment__form" role="form" action="#" th:action="@{/user/update}" th:object="${request}" method="post">
+            <form id="profile__form" role="form" action="#" th:action="@{/user/update}" th:object="${request}" method="post">
                 <label for="displayName">Display Name (public name)</label>
                 <br>
                 <input type="text" id="displayName" th:field="*{displayName}" placeholder="Enter your public name">
@@ -38,7 +41,7 @@
                 <br>
                 <br>
                 <input type="hidden" id="userId" th:field="*{userId}">
-                <input type="hidden" id="documentId" th:field="*{imageId}">
+                <input type="hidden" id="imageId" th:field="*{imageId}">
                 <input class="btn-large" type="submit" value="Update">
             </form>
         </div>
@@ -46,9 +49,11 @@
 </div>
 <script>
     /** Document Upload API **/
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
     const form = document.querySelector('#file-form');
     const fileSelector = document.querySelector('input[name=file]');
-    const documentIdDOM = document.querySelector('input#documentId');
+    const documentIdDOM = document.querySelector('input#imageId');
     const textSuccess = document.querySelector('div.text-upload-success');
     const previewImageDOM = document.querySelector('div.preview-image');
     fileSelector.addEventListener('change', (event) =>{
@@ -62,9 +67,9 @@
                 console.log('Post request was Successful');
                 textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
                 console.log(xhr.response);
-                let documentId = xhr.response;
-                documentIdDOM.value = documentId;
-                previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
+                let imageId = xhr.response;
+                documentIdDOM.value = imageId;
+                previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + imageId +'">';
             } else {
                 console.log('Server error');
             }
