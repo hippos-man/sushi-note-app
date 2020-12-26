@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -52,27 +53,17 @@ public class MainRestController {
         }
     }
 
-
-//    @GetMapping(value = "/uploads/images/{documentId}")
-//    public ResponseEntity<byte[]> downloadDocument (@PathVariable(value = "documentId") Long documentId) {
-//        // Fetch Image
-//        final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
-//        if (!retrievedImage.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        Documents image = retrievedImage.get();
-//
-//        return new ResponseEntity<>(image.getContent(),HttpStatus.OK);
-//    }
-
     @PostMapping(value = "/upload")
     public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
                                           @RequestParam(value = "userId") String userId) throws IOException {
         // TODO Validation
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        // Add identifier to file name
+        String filePath = "/" + UUID.randomUUID() + "/" + fileName;
         Documents document = new Documents(
                 file.getBytes(),
                 fileName,
+                filePath,
                 file.getSize(),
                 userId,
                 LocalDateTime.now()
@@ -81,7 +72,7 @@ public class MainRestController {
         if (!isSuccessful) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Long documentId = documentService.getDocumentIdByOriginalName(fileName);
+        Long documentId = documentService.getDocumentIdByFilePath(filePath);
         return new ResponseEntity<>(documentId, HttpStatus.OK);
     }
 
