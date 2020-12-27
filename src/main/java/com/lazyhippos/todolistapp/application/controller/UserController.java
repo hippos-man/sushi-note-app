@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
 import com.lazyhippos.todolistapp.domain.model.Users;
@@ -51,6 +52,14 @@ public class UserController {
             return REDIRECT + SLASH;
         }
         Users user = userService.retrieveAuthorProfile(principal.getName());
+        // Fetch basic user profile
+        UserProfile userProfile = new UserProfile(
+                user.getUserId(),
+                user.getDisplayName(),
+                user.getImageId(),
+                user.getActive()
+        );
+
         model.addAttribute("request", new UserUpdateRequest(
                 user.getUserId(),
                 user.getDisplayName(),
@@ -59,6 +68,7 @@ public class UserController {
         ));
         model.addAttribute("isLogin", true);
         model.addAttribute("loginUserId", user.getUserId());
+        model.addAttribute("userProfile", userProfile);
         return USER_EDIT_VIEW;
     }
 

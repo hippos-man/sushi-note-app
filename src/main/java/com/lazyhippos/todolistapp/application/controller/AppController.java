@@ -281,7 +281,7 @@ public class AppController {
                 users.getActive()
         );
         model.addAttribute("isLogin", true);
-        model.addAttribute("authorProfile", author);
+        model.addAttribute("userProfile", author);
         model.addAttribute("articles", summaryList);
         return MY_PAGE_VIEW;
     }
