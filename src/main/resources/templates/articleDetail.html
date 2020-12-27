@@ -12,30 +12,6 @@
 <body>
     <div class="article-detail">
         <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${imageId})"></header>
-        <!--        <header class="home-head">-->
-<!--            <h2 class="home__logo">-->
-<!--                <a class="header__logo" href="#" th:href="@{/}">-->
-<!--                    <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">-->
-<!--                    <span>Sushi note</span>-->
-<!--                </a>-->
-<!--            </h2>-->
-<!--            <nav class="nav__bar__top">-->
-<!--                <div th:if="${!isLogin}" class="home__toLogin">-->
-<!--                    <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>-->
-<!--                </div>-->
-<!--                <div th:if="${!isLogin}" class="home__toSignin">-->
-<!--                    <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>-->
-<!--                </div>-->
-<!--                <div th:if="${isLogin}" class="nav__user-icon">-->
-<!--                    <a class="user-link" th:href="@{'/m/' + ${loginUserId}}">-->
-<!--                        <img class="nav__user-icon" th:src="@{/images/user.svg}">-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--                <div th:if="${isLogin}" class="nav__add__note">-->
-<!--                    <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>-->
-<!--                </div>-->
-<!--            </nav>-->
-<!--        </header>-->
         <main class="article-main">
             <article>
                 <div class="article__content">
