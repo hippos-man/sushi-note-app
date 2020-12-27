@@ -66,4 +66,11 @@ public class UserService {
         return userMap;
     }
 
+    public Map<String, Long> retrieveImageIdAndUserIdByUserIds(List<String> userIds) {
+        List<Users> users = userJpaRepository.findAllByUserIdIn(userIds);
+        Map<String, Long> userMap = users.stream().collect(
+                Collectors.toMap(Users::getUserId, Users::getImageId));
+        return userMap;
+    }
+
 }
