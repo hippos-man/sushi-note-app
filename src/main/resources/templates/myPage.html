@@ -44,8 +44,9 @@
                     </div>
                 </div>
                 <div class="author-profile">
-                    <div class="author-avator">
-                        <img class="author-icon" th:src="@{/images/user.svg}">
+                    <div class="author-avatar">
+                        <img th:if="${userProfile.imageId}" class="author-icon" th:src="@{'/api/v1/uploads/images/' + ${userProfile.imageId}}">
+                        <img th:unless="${userProfile.imageId}" class="author-icon" th:src="@{/images/user.svg}">
                     </div>
                     <div class="author-text">
                         <div class="display-name" th:text="${userProfile.displayName}">Sushi Official</div>

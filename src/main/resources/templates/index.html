@@ -53,7 +53,8 @@
                             <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
                         </div>
                         <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
+                            <img th:if="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{'/api/v1/uploads/images/' + ${article.profileImageId}}">
+                            <img th:unless="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
                             <div class="timelineHeader__authorName">
                                 <a href="#" th:text="${article.userId}">John</a>
                             </div>
