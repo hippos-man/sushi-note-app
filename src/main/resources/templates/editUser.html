@@ -18,16 +18,17 @@
                 <p class="edit__title">Edit my profile</p>
             </div>
             <div class="document-form">
+                <div class="preview-image">
+                    <img th:if="${request.getImageId()}" th:src="@{'/api/v1/uploads/images/' + ${request.getImageId()}}">
+                    <img th:unless="${request.getImageId()}" th:src="@{/images/user.svg}">
+                    <p>Preview image</p>
+                </div>
                 <div class="text-upload-success"></div>
                 <form id="file-form" action="#" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" required />
                     <input type="hidden" name="userId" th:value="${loginUserId}"/>
                     <br>
                 </form>
-                <div class="preview-image">
-                    <img th:if="${request.getImageId()}" th:src="@{'/api/v1/uploads/images/' + ${request.getImageId()}}">
-                    <img th:unless="${request.getImageId()}" th:src="@{/images/user.svg}">
-                </div>
             </div>
             <form id="profile__form" role="form" action="#" th:action="@{/user/update}" th:object="${request}" method="post">
                 <label for="displayName">Display Name (public name)</label>
