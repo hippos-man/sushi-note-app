@@ -65,11 +65,21 @@ public class AppController {
 
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
+
+        // Retrieve all author's user ids.
+        List<String> userIds = articles
+                .stream()
+                .map(Articles::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
         ));
+
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
@@ -126,12 +136,13 @@ public class AppController {
         // Fetch all comments by article ID
         List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
 
-        // Retrieve commenter's display name
+        // Retrieve all commenter's user ids.
         List<String> userIds = commentEntityList
                 .stream()
                 .map(Comments::getUserId)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        // Retrieve commenter's display name
         Map<String, String> displayNameAndId =
                 userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
 
@@ -199,10 +210,19 @@ public class AppController {
         }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
+
+        // Retrieve all author's user ids.
+        List<String> userIds = articles
+                .stream()
+                .map(Articles::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -296,14 +316,7 @@ public class AppController {
         if (!userId.equals(principal.getName())) {
             throw new RuntimeException();
         }
-        // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
-        List<Articles> articleList = articleService.retrieveByUserId(userId);
 
-        List<ArticleSummary> summaryList = new ArrayList<>();
-        articleList.forEach(e -> summaryList.add(
-                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
-        ));
         // Retrieve Profile
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
@@ -313,6 +326,16 @@ public class AppController {
                 users.getImageId(),
                 users.getActive()
         );
+
+        // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
+        List<Articles> articleList = articleService.retrieveByUserId(userId);
+
+        List<ArticleSummary> summaryList = new ArrayList<>();
+        articleList.forEach(e -> summaryList.add(
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
+                        e.getDocumentId(), author.getImageId(), e.getUpdatedDateTime())
+        ));
+
         model.addAttribute("isLogin", true);
         model.addAttribute("userProfile", author);
         model.addAttribute("articles", summaryList);
