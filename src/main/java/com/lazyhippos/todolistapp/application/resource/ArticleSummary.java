@@ -11,13 +11,14 @@ public class ArticleSummary {
     private String summary;
     private Long imageId;
     private Long profileImageId;
+    private Long commentCount;
     private String updatedDateTime;
 
     public ArticleSummary() {
     }
 
     public ArticleSummary(String articleId, String userId, String topicId, String title, String summary,
-                          Long imageId, Long profileImageId, LocalDateTime updatedDateTime) {
+                          Long imageId, Long profileImageId, Long commentCount, LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
@@ -25,7 +26,7 @@ public class ArticleSummary {
         this.summary = summary;
         this.imageId = imageId;
         this.profileImageId = profileImageId;
-
+        this.commentCount = commentCount;
         this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
                 + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
                 + " "
@@ -88,6 +89,14 @@ public class ArticleSummary {
 
     public void setProfileImageId(Long profileImageId) {
         this.profileImageId = profileImageId;
+    }
+
+    public Long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
     }
 
     public String getUpdatedDateTime() {

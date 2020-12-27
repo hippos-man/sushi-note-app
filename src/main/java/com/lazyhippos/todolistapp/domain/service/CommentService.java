@@ -6,7 +6,9 @@ import com.lazyhippos.todolistapp.domain.repository.CommentJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -57,5 +59,20 @@ public class CommentService {
     public Boolean deleteByArticleId (String articleId) {
         commentJpaRepository.deleteAllByArticleId(articleId);
         return true;
+    }
+
+    public List<Comments> retrieveAllByArticleIds (List<String> articleIds) {
+        return commentJpaRepository.findAllByArticleIdIn(articleIds);
+    }
+
+    public Map<String, Long> countCommentByArticleIds(List<Comments> comments, List<String> articleIds) {
+        Map<String, Long> countList = new HashMap<>();
+        for (int i = 0; i < articleIds.size(); i++) {
+            String articleId = articleIds.get(i);
+            Long count = comments.stream().filter(c -> c.getArticleId().equals(articleId))
+                    .count();
+            countList.put(articleId, count);
+        }
+        return countList;
     }
 }

@@ -17,6 +17,8 @@ public interface CommentJpaRepository extends JpaRepository<Comments, String> {
 
     Comments findByCommentId(String commentId);
 
+    List<Comments> findAllByArticleIdIn(List<String> articleIds);
+
     @Transactional
     @Modifying
     @Query("UPDATE Comments a SET a.textBody = :textBody,"
