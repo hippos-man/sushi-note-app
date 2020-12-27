@@ -325,6 +325,14 @@ public class AppController {
             throw new RuntimeException();
         }
         String loginUserId = principal.getName();
+        // Fetch login user profile
+        Users users = userService.retrieveAuthorProfile(loginUserId);
+        UserProfile loginUser = new UserProfile(
+                users.getUserId(),
+                users.getDisplayName(),
+                users.getImageId(),
+                users.getActive()
+        );
         String authorId = null;
         // Retrieve Author ID by Article ID
         Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
@@ -340,6 +348,7 @@ public class AppController {
         model.addAttribute("request", updateRequest);
         model.addAttribute("isLogin", true);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("imageId", loginUser.getImageId());
         return EDIT_COMMENT_VIEW;
     }
 
