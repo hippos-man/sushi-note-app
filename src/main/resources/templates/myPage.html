@@ -36,7 +36,8 @@
         <header class="user-profile">
             <div class="left-area">
                 <div class="profile-image">
-                    <img class="user-profile-avatar" th:src="@{/images/user.svg}">
+                    <img th:if="${authorProfile.imageId}" th:src="@{'/api/v1/uploads/images/' + ${authorProfile.imageId}}">
+                    <img th:unless="${authorProfile.imageId}" th:src="@{/images/user.svg}">
                 </div>
                 <div class="edit-profile">
                     <a th:href="@{/user/profile/edit}">Settings</a>

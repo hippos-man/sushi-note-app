@@ -138,6 +138,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
         Boolean isAdmin = false;
@@ -202,6 +203,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
 
@@ -238,6 +240,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
 
@@ -274,6 +277,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
         model.addAttribute("isLogin", true);
@@ -319,6 +323,7 @@ public class AppController {
             UserProfile author = new UserProfile(
                     users.getUserId(),
                     users.getDisplayName(),
+                    users.getImageId(),
                     users.getActive()
             );
 
@@ -358,6 +363,7 @@ public class AppController {
             UserProfile author = new UserProfile(
                     users.getUserId(),
                     users.getDisplayName(),
+                    users.getImageId(),
                     users.getActive()
             );
             model.addAttribute("loginUserId", request.getUserId());
