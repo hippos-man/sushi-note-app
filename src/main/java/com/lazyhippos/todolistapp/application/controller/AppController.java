@@ -49,23 +49,43 @@ public class AppController {
     public String showHomePage (Model model, Principal principal) {
         Boolean isLogin = false;
         String loginUserId = null;
+        UserProfile userProfile = null;
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(loginUserId);
+            userProfile = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getImageId(),
+                    users.getActive()
+            );
         }
 
         // Fetch all articles which is available
         List<Articles> articles = articleService.retrieveAll();
+
+        // Retrieve all author's user ids.
+        List<String> userIds = articles
+                .stream()
+                .map(Articles::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
         ));
+
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
         // Set to Model
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("imageId", userProfile != null ? userProfile.getImageId() : null);
         model.addAttribute("articles", summaryList);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", "Recommendation");
@@ -78,9 +98,17 @@ public class AppController {
                                         Principal principal, Model model) {
         Boolean isLogin = false;
         String loginUserId = null;
+        UserProfile loginUser= null;
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
+            Users users = userService.retrieveAuthorProfile(loginUserId);
+            loginUser = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getImageId(),
+                    users.getActive()
+            );
         }
         // Fetch article by article ID from DB
         Articles article = articleService
@@ -108,14 +136,18 @@ public class AppController {
         // Fetch all comments by article ID
         List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
 
-        // Retrieve commenter's display name
+        // Retrieve all commenter's user ids.
         List<String> userIds = commentEntityList
                 .stream()
                 .map(Comments::getUserId)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        // Retrieve commenter's display name
         Map<String, String> displayNameAndId =
                 userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
+
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
 
         // Convert Comment Model to DTO for Frontend
         List<CommentResponse> comments = new ArrayList<>();
@@ -126,18 +158,19 @@ public class AppController {
                     comment.getUserId(),
                     displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
+                    userIdAndImageId.get(comment.getUserId()),
                     comment.getCreatedDateTime(),
                     comment.getUpdatedDateTime()
             );
             comments.add(response);
         }
 
-
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
         Boolean isAdmin = false;
@@ -150,6 +183,7 @@ public class AppController {
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("article", articleResponse);
+        model.addAttribute("imageId", loginUser != null ? loginUser.getImageId() : null);
         model.addAttribute("authorProfile", author);
         model.addAttribute("comments", comments);
         model.addAttribute("request", new CommentRequest(
@@ -161,16 +195,34 @@ public class AppController {
     public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
         Boolean isLogin = false;
         String loginUserId = null;
+        UserProfile userProfile = null;
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(loginUserId);
+            userProfile = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getImageId(),
+                    users.getActive()
+            );
         }
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
+
+        // Retrieve all author's user ids.
+        List<String> userIds = articles
+                .stream()
+                .map(Articles::getUserId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -180,6 +232,7 @@ public class AppController {
         // Set to Model
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("imageId", userProfile != null ? userProfile.getImageId() : null);
         model.addAttribute("articles", summaryList);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", topicMap.get(topicId));
@@ -202,6 +255,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
 
@@ -238,6 +292,7 @@ public class AppController {
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
 
@@ -245,6 +300,7 @@ public class AppController {
 
         model.addAttribute("authorProfile", author);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("profileImageId", author.getImageId());
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
@@ -260,24 +316,28 @@ public class AppController {
         if (!userId.equals(principal.getName())) {
             throw new RuntimeException();
         }
-        // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
-        List<Articles> articleList = articleService.retrieveByUserId(userId);
 
-        List<ArticleSummary> summaryList = new ArrayList<>();
-        articleList.forEach(e -> summaryList.add(
-                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), e.getUpdatedDateTime())
-        ));
         // Retrieve Profile
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
         UserProfile author = new UserProfile(
                 users.getUserId(),
                 users.getDisplayName(),
+                users.getImageId(),
                 users.getActive()
         );
+
+        // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
+        List<Articles> articleList = articleService.retrieveByUserId(userId);
+
+        List<ArticleSummary> summaryList = new ArrayList<>();
+        articleList.forEach(e -> summaryList.add(
+                new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
+                        e.getDocumentId(), author.getImageId(), e.getUpdatedDateTime())
+        ));
+
         model.addAttribute("isLogin", true);
-        model.addAttribute("authorProfile", author);
+        model.addAttribute("userProfile", author);
         model.addAttribute("articles", summaryList);
         return MY_PAGE_VIEW;
     }
@@ -292,6 +352,14 @@ public class AppController {
             throw new RuntimeException();
         }
         String loginUserId = principal.getName();
+        // Fetch login user profile
+        Users users = userService.retrieveAuthorProfile(loginUserId);
+        UserProfile loginUser = new UserProfile(
+                users.getUserId(),
+                users.getDisplayName(),
+                users.getImageId(),
+                users.getActive()
+        );
         String authorId = null;
         // Retrieve Author ID by Article ID
         Optional<Articles>  articlesOptional = articleService.retrieveByArticleId(comment.getArticleId());
@@ -307,6 +375,7 @@ public class AppController {
         model.addAttribute("request", updateRequest);
         model.addAttribute("isLogin", true);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("imageId", loginUser.getImageId());
         return EDIT_COMMENT_VIEW;
     }
 
@@ -319,6 +388,7 @@ public class AppController {
             UserProfile author = new UserProfile(
                     users.getUserId(),
                     users.getDisplayName(),
+                    users.getImageId(),
                     users.getActive()
             );
 
@@ -358,6 +428,7 @@ public class AppController {
             UserProfile author = new UserProfile(
                     users.getUserId(),
                     users.getDisplayName(),
+                    users.getImageId(),
                     users.getActive()
             );
             model.addAttribute("loginUserId", request.getUserId());

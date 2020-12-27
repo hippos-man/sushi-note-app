@@ -6,35 +6,12 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Article Detail</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/articleDetail.css}" type="text/css" rel="stylesheet">
-
 </head>
 <body>
     <div class="article-detail">
-        <header class="home-head">
-            <h2 class="home__logo">
-                <a class="header__logo" href="#" th:href="@{/}">
-                    <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
-                    <span>Sushi note</span>
-                </a>
-            </h2>
-            <nav class="nav__bar__top">
-                <div th:if="${!isLogin}" class="home__toLogin">
-                    <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
-                </div>
-                <div th:if="${!isLogin}" class="home__toSignin">
-                    <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
-                </div>
-                <div th:if="${isLogin}" class="nav__user-icon">
-                    <a class="user-link" th:href="@{'/m/' + ${loginUserId}}">
-                        <img class="nav__user-icon" th:src="@{/images/user.svg}">
-                    </a>
-                </div>
-                <div th:if="${isLogin}" class="nav__add__note">
-                    <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>
-                </div>
-            </nav>
-        </header>
+        <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${imageId})"></header>
         <main class="article-main">
             <article>
                 <div class="article__content">
@@ -51,7 +28,8 @@
                     <h1 class="article__title" th:text="${article.title}">Why is Japanese Sushi so good?</h1>
                     <div class="article__author">
                         <div class="articleHeader__avatar">
-                            <img class="article__avatar" th:src="@{/images/user.svg}">
+                            <img th:if="${authorProfile.imageId}" class="article__avatar" th:src="@{'/api/v1/uploads/images/' + ${authorProfile.imageId}}">
+                            <img th:unless="${authorProfile.imageId}" class="article__avatar" th:src="@{/images/user.svg}">
                         </div>
                         <div class="articleHeader__info">
                             <div class="articleHeader__name" th:text="${authorProfile.displayName}">John Smith</div>
@@ -70,7 +48,8 @@
                     <div class="comment__content">
                         <div class="commenter">
                             <div class="commenter-avatar">
-                                <img class="commenter__avatar" th:src="@{/images/user.svg}">
+                                <img th:if="${comment.imageId}" class="commenter__avatar" th:src="@{'/api/v1/uploads/images/' + ${comment.imageId}}">
+                                <img th:unless="${comment.imageId}"class="commenter__avatar" th:src="@{/images/user.svg}">
                             </div>
                             <div class="commenter-text">
                                 <span class="commenter-display-name" th:text="${comment.displayName}"></span>
@@ -93,7 +72,8 @@
                 </div>
                 <div class="add-comment" th:if="${isLogin}">
                     <div class="add-comment-avatar">
-                        <img th:src="@{/images/user.svg}">
+                        <img th:if="${imageId}" th:src="@{'/api/v1/uploads/images/' + ${imageId}}">
+                        <img th:unless="${imageId}" th:src="@{/images/user.svg}">
                     </div>
                     <form class="add-comment" role="form" th:action="@{/comment/create}" th:object="${request}" method="post">
                         <textarea id="textBody" rows='1' th:field="*{textBody}" placeholder="Add a comment..."></textarea>

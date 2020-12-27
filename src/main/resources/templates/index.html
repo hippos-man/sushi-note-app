@@ -4,34 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME - Sushi note</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
 <div class="home">
-    <header class="home-head">
-        <h2 class="home__logo">
-            <a class="header__logo" href="#" th:href="@{/}">
-                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
-                <span>Sushi note</span>
-            </a>
-        </h2>
-        <nav class="nav__bar__top">
-            <div th:if="${!isLogin}" class="home__toLogin">
-                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
-            </div>
-            <div th:if="${!isLogin}" class="home__toSignin">
-                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
-            </div>
-            <div th:if="${isLogin}" class="nav__user-icon">
-                <a th:href="@{'/m/' + ${loginUserId}}">
-                    <img class="nav__user-icon" th:src="@{/images/user.svg}">
-                </a>
-            </div>
-            <div th:if="${isLogin}" class="nav__add__note">
-                <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>
-            </div>
-        </nav>
-    </header>
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${imageId})"></header>
     <div class="home-main">
         <nav class="left-nav">
             <div class="topicMenu__container">
@@ -75,7 +53,8 @@
                             <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
                         </div>
                         <div class="timelineHeader">
-                            <img class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
+                            <img th:if="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{'/api/v1/uploads/images/' + ${article.profileImageId}}">
+                            <img th:unless="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
                             <div class="timelineHeader__authorName">
                                 <a href="#" th:text="${article.userId}">John</a>
                             </div>

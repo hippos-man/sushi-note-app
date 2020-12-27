@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Edit Profile</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/editUser.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="edit-profile">
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${userProfile.imageId})"></header>
+    <main class="profile__main">
+        <div class="profile__form">
+            <div class="edit__title-container">
+                <p class="edit__title">Edit my profile</p>
+            </div>
+            <div class="document-form">
+                <div class="preview-image">
+                    <img th:if="${request.getImageId()}" th:src="@{'/api/v1/uploads/images/' + ${request.getImageId()}}">
+                    <img th:unless="${request.getImageId()}" th:src="@{/images/user.svg}">
+                    <p>Preview image</p>
+                </div>
+                <div class="text-upload-success"></div>
+                <form id="file-form" action="#" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" required />
+                    <input type="hidden" name="userId" th:value="${loginUserId}"/>
+                    <br>
+                </form>
+            </div>
+            <form id="profile__form" role="form" action="#" th:action="@{/user/update}" th:object="${request}" method="post">
+                <label for="displayName">Display Name (public name)</label>
+                <br>
+                <input type="text" id="displayName" th:field="*{displayName}" placeholder="Enter your public name">
+                <br>
+                <br>
+                <label for="emailAddress">Email Address</label>
+                <br>
+                <input type="text" id="emailAddress" th:field="*{emailAddress}" placeholder="Enter your email">
+                <br>
+                <br>
+                <input type="hidden" id="userId" th:field="*{userId}">
+                <input type="hidden" id="imageId" th:field="*{imageId}">
+                <input class="btn-large" type="submit" value="Update">
+            </form>
+        </div>
+    </main>
+</div>
+<script>
+    /** Document Upload API **/
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
+    const form = document.querySelector('#file-form');
+    const fileSelector = document.querySelector('input[name=file]');
+    const documentIdDOM = document.querySelector('input#imageId');
+    const textSuccess = document.querySelector('div.text-upload-success');
+    const previewImageDOM = document.querySelector('div.preview-image');
+    fileSelector.addEventListener('change', (event) =>{
+        event.preventDefault();
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/v1/upload');
+        let data = new FormData(form);
+        xhr.setRequestHeader(header, token);
+        xhr.onreadystatechange = function () {
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                console.log('Post request was Successful');
+                textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
+                console.log(xhr.response);
+                let imageId = xhr.response;
+                documentIdDOM.value = imageId;
+                previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + imageId +'">';
+            } else {
+                console.log('Server error');
+            }
+        };
+        xhr.onerror = function () {
+            console.log('something went wrong');
+        };
+        xhr.send(data);
+    });
+    /** End Document Upload API **/
+</script>
+</body>
+</html>

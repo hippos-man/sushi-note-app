@@ -19,17 +19,21 @@ public class UserRequest implements Serializable {
     @Size(min = 8, max = 50)
     private String password;
 
+    private Long imageId;
+
     public UserRequest() {
     }
 
     public UserRequest(@NotBlank @Size(max = 50) String userId,
                        @NotBlank @Size(max = 50) String displayName,
                        @NotBlank String emailAddress,
-                       @NotBlank @Size(min = 8, max = 50) String password) {
+                       @NotBlank @Size(min = 8, max = 50) String password,
+                       Long imageId) {
         this.userId = userId;
         this.displayName = displayName;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.imageId = imageId;
     }
 
     /**
@@ -65,5 +69,13 @@ public class UserRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 }
