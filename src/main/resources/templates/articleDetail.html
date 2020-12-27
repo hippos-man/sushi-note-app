@@ -28,7 +28,8 @@
                     <h1 class="article__title" th:text="${article.title}">Why is Japanese Sushi so good?</h1>
                     <div class="article__author">
                         <div class="articleHeader__avatar">
-                            <img class="article__avatar" th:src="@{/images/user.svg}">
+                            <img th:if="${authorProfile.imageId}" class="article__avatar" th:src="@{'/api/v1/uploads/images/' + ${authorProfile.imageId}}">
+                            <img th:unless="${authorProfile.imageId}" class="article__avatar" th:src="@{/images/user.svg}">
                         </div>
                         <div class="articleHeader__info">
                             <div class="articleHeader__name" th:text="${authorProfile.displayName}">John Smith</div>
