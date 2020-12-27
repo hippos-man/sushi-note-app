@@ -4,14 +4,16 @@ public class UserProfile {
 
     private String userId;
     private String displayName;
+    private Long imageId;
     private Boolean isActive;
 
     public UserProfile() {
     }
 
-    public UserProfile(String userId, String displayName, Boolean isActive) {
+    public UserProfile(String userId, String displayName, Long imageId, Boolean isActive) {
         this.userId = userId;
         this.displayName = displayName;
+        this.imageId = imageId;
         this.isActive = isActive;
     }
 
@@ -21,6 +23,10 @@ public class UserProfile {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public Long getImageId() {
+        return imageId;
     }
 
     public Boolean getActive() {

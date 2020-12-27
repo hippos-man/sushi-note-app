@@ -14,6 +14,7 @@ public class Users {
     private String displayName;
     private String emailAddress;
     private String password;
+    public Long imageId;
     private Boolean isActive;
     private LocalDateTime createdDateTime;
     private LocalDateTime updatedDateTime;
@@ -23,13 +24,14 @@ public class Users {
     public Users() {
     }
 
-    public Users(String userId, String displayName, String emailAddress, String password,
+    public Users(String userId, String displayName, String emailAddress, String password, Long imageId,
                  Boolean isActive, LocalDateTime createdDateTime, LocalDateTime updatedDateTime,
                  RoleName roleName) {
         this.userId = userId;
         this.displayName = displayName;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.imageId = imageId;
         this.isActive = isActive;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
@@ -66,6 +68,14 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public Boolean getActive() {

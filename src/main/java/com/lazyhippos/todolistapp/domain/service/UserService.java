@@ -1,16 +1,14 @@
 package com.lazyhippos.todolistapp.domain.service;
 
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
+import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
 import com.lazyhippos.todolistapp.domain.model.RoleName;
-import com.lazyhippos.todolistapp.domain.model.Topics;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.repository.UserJpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,12 +32,23 @@ public class UserService {
                 request.getDisplayName(),
                 request.getEmailAddress(),
                 encryptedPassword,
+                null,
                 true,
                 now,
                 now,
                 RoleName.USER
         );
         userJpaRepository.save(newUser);
+    }
+
+    public void update (UserUpdateRequest request, LocalDateTime now) {
+            userJpaRepository.updateUserProfile(
+                    request.getUserId(),
+                    request.getDisplayName(),
+                    request.getEmailAddress(),
+                    request.getImageId(),
+                    now
+            );
     }
 
     public Users retrieveAuthorProfile(String userId) {
@@ -54,6 +63,13 @@ public class UserService {
         List<Users> users = userJpaRepository.findAllByUserIdIn(userIds);
         Map<String, String> userMap = users.stream().collect(
                 Collectors.toMap(Users::getUserId, Users::getDisplayName));
+        return userMap;
+    }
+
+    public Map<String, Long> retrieveImageIdAndUserIdByUserIds(List<String> userIds) {
+        List<Users> users = userJpaRepository.findAllByUserIdIn(userIds);
+        Map<String, Long> userMap = users.stream().collect(
+                Collectors.toMap(Users::getUserId, Users::getImageId));
         return userMap;
     }
 

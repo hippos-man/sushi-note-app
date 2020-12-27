@@ -23,7 +23,8 @@
             </div>
             <div th:if="${isLogin}" class="nav__user-icon">
                 <a th:href="@{'/m/' + ${loginUserId}}">
-                    <img class="nav__user-icon" th:src="@{/images/user.svg}">
+                    <img th:if="${imageId}" class="nav__user-icon" th:src="@{'/api/v1/uploads/images/' + ${imageId}}">
+                    <img th:unless="${imageId}" class="nav__user-icon" th:src="@{/images/user.svg}">
                 </a>
             </div>
             <div th:if="${isLogin}" class="nav__add__note">

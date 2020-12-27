@@ -10,6 +10,7 @@ public class CommentResponse {
     private String commenterId;
     private String displayName;
     private String textBody;
+    private Long imageId;
     private LocalDateTime createdDateTime;
     private String updatedDateTime;
 
@@ -17,12 +18,13 @@ public class CommentResponse {
     }
 
     public CommentResponse(String commentId, String articleId, String commenterId, String displayName, String textBody,
-                           LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
+                           Long imageId, LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
         this.commentId = commentId;
         this.articleId = articleId;
         this.commenterId = commenterId;
         this.displayName = displayName;
         this.textBody = convertToHtml(textBody);
+        this.imageId = imageId;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = isToday(updatedDateTime, LocalDateTime.now())
                 ? "Today"
@@ -63,6 +65,10 @@ public class CommentResponse {
 
     public String getTextBody() {
         return textBody;
+    }
+
+    public Long getImageId() {
+        return imageId;
     }
 
     public LocalDateTime getCreatedDateTime() {
