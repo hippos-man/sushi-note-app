@@ -277,6 +277,7 @@ public class AppController {
 
         model.addAttribute("authorProfile", author);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("profileImageId", author.getImageId());
         model.addAttribute("isLogin",true);
         model.addAttribute("topicMap", topicMap);
         model.addAttribute("request", new ArticleRequest(
