@@ -49,9 +49,18 @@ public class AppController {
     public String showHomePage (Model model, Principal principal) {
         Boolean isLogin = false;
         String loginUserId = null;
+        UserProfile userProfile = null;
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
+            // Fetch author profile
+            Users users = userService.retrieveAuthorProfile(loginUserId);
+            userProfile = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getImageId(),
+                    users.getActive()
+            );
         }
 
         // Fetch all articles which is available
@@ -66,6 +75,7 @@ public class AppController {
         // Set to Model
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
+        model.addAttribute("imageId", userProfile != null ? userProfile.getImageId() : null);
         model.addAttribute("articles", summaryList);
         model.addAttribute("topics", topics);
         model.addAttribute("activeCategoryName", "Recommendation");
