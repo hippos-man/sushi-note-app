@@ -88,9 +88,17 @@ public class AppController {
                                         Principal principal, Model model) {
         Boolean isLogin = false;
         String loginUserId = null;
+        UserProfile loginUser= null;
         if(principal != null) {
             isLogin = true;
             loginUserId = principal.getName();
+            Users users = userService.retrieveAuthorProfile(loginUserId);
+            loginUser = new UserProfile(
+                    users.getUserId(),
+                    users.getDisplayName(),
+                    users.getImageId(),
+                    users.getActive()
+            );
         }
         // Fetch article by article ID from DB
         Articles article = articleService
@@ -161,6 +169,7 @@ public class AppController {
         model.addAttribute("isLogin", isLogin);
         model.addAttribute("loginUserId", loginUserId);
         model.addAttribute("article", articleResponse);
+        model.addAttribute("imageId", loginUser != null ? loginUser.getImageId() : null);
         model.addAttribute("authorProfile", author);
         model.addAttribute("comments", comments);
         model.addAttribute("request", new CommentRequest(

@@ -1,67 +1,3 @@
-/* Common Header Area */
-
-a {
-    text-decoration: none;
-}
-body {
-    margin: 0;
-    font-family: Tahoma, Geneva, sans-serif;
-}
-
-a.header__logo, a.add__note, a.user-link, a.home__toLoginLink, a.home__toSigninLink {
-    text-decoration: none;
-    color: black;
-}
-
-img.header-logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 5px;
-}
-
-header.home-head {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    border: solid #f2f2f2;
-    border-width: 0 0 1px 0;
-}
-
-h2.home__logo, div.home__toSignin, div.home__toLogin, div.nav__user-icon, .nav__add__note {
-    padding: 16px 32px;
-    margin: auto 0;
-}
-
-a.header__logo {
-    display: flex;
-    align-items: center;
-}
-
-div.home__toSignin, div.home__toLogin {
-    display: flex;
-    align-items: center;
-}
-
-nav.nav__bar__top {
-    display: flex;
-    flex-direction: row;
-}
-
-div.nav__user-icon {
-    cursor: pointer;
-}
-
-img.nav__user-icon, div.add-comment-avatar img, div.commenter-avatar img, img.article__avatar{
-    width: 36px;
-    height: 36px;
-}
-
-/* Common Header Area */
-
-
-/* Start Main CSS */
-
 main {
     padding-bottom: 50px;
 }
@@ -102,6 +38,10 @@ div.articleHeader__avatar {
     margin-right: 10px;
 }
 
+img.article__avatar, img.commenter__avatar {
+    width: 36px;
+    height: 36px;
+}
 
 div.edit-button {
     display: flex;
