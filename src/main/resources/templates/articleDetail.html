@@ -48,7 +48,8 @@
                     <div class="comment__content">
                         <div class="commenter">
                             <div class="commenter-avatar">
-                                <img class="commenter__avatar" th:src="@{/images/user.svg}">
+                                <img th:if="${comment.imageId}" class="commenter__avatar" th:src="@{'/api/v1/uploads/images/' + ${comment.imageId}}">
+                                <img th:unless="${comment.imageId}"class="commenter__avatar" th:src="@{/images/user.svg}">
                             </div>
                             <div class="commenter-text">
                                 <span class="commenter-display-name" th:text="${comment.displayName}"></span>
@@ -71,7 +72,8 @@
                 </div>
                 <div class="add-comment" th:if="${isLogin}">
                     <div class="add-comment-avatar">
-                        <img th:src="@{/images/user.svg}">
+                        <img th:if="${imageId}" th:src="@{'/api/v1/uploads/images/' + ${imageId}}">
+                        <img th:unless="${imageId}" th:src="@{/images/user.svg}">
                     </div>
                     <form class="add-comment" role="form" th:action="@{/comment/create}" th:object="${request}" method="post">
                         <textarea id="textBody" rows='1' th:field="*{textBody}" placeholder="Add a comment..."></textarea>

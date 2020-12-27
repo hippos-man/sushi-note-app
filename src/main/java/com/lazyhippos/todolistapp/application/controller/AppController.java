@@ -135,6 +135,9 @@ public class AppController {
         Map<String, String> displayNameAndId =
                 userService.retrieveDisplayNameAndUserIdByUserIds(userIds);
 
+        Map<String, Long> userIdAndImageId =
+                userService.retrieveImageIdAndUserIdByUserIds(userIds);
+
         // Convert Comment Model to DTO for Frontend
         List<CommentResponse> comments = new ArrayList<>();
         for (Comments comment : commentEntityList) {
@@ -144,12 +147,12 @@ public class AppController {
                     comment.getUserId(),
                     displayNameAndId.get(comment.getUserId()),
                     comment.getTextBody(),
+                    userIdAndImageId.get(comment.getUserId()),
                     comment.getCreatedDateTime(),
                     comment.getUpdatedDateTime()
             );
             comments.add(response);
         }
-
 
         // Fetch author profile
         Users users = userService.retrieveAuthorProfile(userId);
