@@ -10,6 +10,7 @@ public class ArticleResponse {
     private String title;
     private String textBody;
     private Long imageId;
+    private Long commentCount;
     private LocalDateTime createdDateTime;
     private String updatedDateTime;
 
@@ -17,7 +18,7 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(String articleId, String userId, String topicId, String title,
-                           String textBody, Long imageId, LocalDateTime createdDateTime,
+                           String textBody, Long imageId, Long commentCount, LocalDateTime createdDateTime,
                            LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
@@ -25,6 +26,7 @@ public class ArticleResponse {
         this.title = title;
         this.textBody = textBody;
         this.imageId = imageId;
+        this.commentCount = commentCount;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
                 + updatedDateTime.getMonth().toString().substring(1).toLowerCase()
@@ -56,6 +58,10 @@ public class ArticleResponse {
 
     public Long getImageId() {
         return imageId;
+    }
+
+    public Long getCommentCount() {
+        return commentCount;
     }
 
     public LocalDateTime getCreatedDateTime() {

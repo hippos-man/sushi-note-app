@@ -134,6 +134,12 @@ public class AppController {
             throw new RuntimeException();
         }
 
+        // Fetch all comments by article ID
+        List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
+
+        // Count number of comments by article IDs
+        Long commentCount = Long.valueOf(commentEntityList.size());
+
         // Set article information to Response Entity
         String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
         ArticleResponse articleResponse = new ArticleResponse(
@@ -143,12 +149,11 @@ public class AppController {
                 article.getTitle(),
                 articleHtml,
                 article.getDocumentId(),
+                commentCount,
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
 
-        // Fetch all comments by article ID
-        List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
 
         // Retrieve all commenter's user ids.
         List<String> userIds = commentEntityList
