@@ -49,3 +49,10 @@ CREATE TABLE documents (
     user_id VARCHAR (50) NOT NULL,
     created_date_time DATETIME NOT NULL
 );
+
+CREATE TABLE likes (
+    user_id VARCHAR (50) NOT NULL,
+    article_id VARCHAR (50) NOT NULL,
+    created_date_time DATETIME NOT NULL,
+    PRIMARY KEY (user_id, article_id)
+);
