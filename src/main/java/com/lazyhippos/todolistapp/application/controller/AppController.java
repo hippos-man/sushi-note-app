@@ -74,10 +74,24 @@ public class AppController {
 
         Map<String, Long> userIdAndImageId =
                 userService.retrieveImageIdAndUserIdByUserIds(userIds);
+
+        // List up all article Ids
+        List<String> articleIds = articles
+                .stream()
+                .map(Articles::getArticleId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        // Fetch all comments by articleIds
+        List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
+
+        Map<String, Long> articleIdAndCommentCount =
+                commentService.countCommentByArticleIds(comments, articleIds);
+
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()),
+                        articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
         ));
 
         // Fetch all topics which is available
@@ -120,6 +134,12 @@ public class AppController {
             throw new RuntimeException();
         }
 
+        // Fetch all comments by article ID
+        List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
+
+        // Count number of comments by article IDs
+        Long commentCount = Long.valueOf(commentEntityList.size());
+
         // Set article information to Response Entity
         String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
         ArticleResponse articleResponse = new ArticleResponse(
@@ -129,12 +149,11 @@ public class AppController {
                 article.getTitle(),
                 articleHtml,
                 article.getDocumentId(),
+                commentCount,
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
         );
 
-        // Fetch all comments by article ID
-        List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
 
         // Retrieve all commenter's user ids.
         List<String> userIds = commentEntityList
@@ -211,6 +230,19 @@ public class AppController {
         // Fetch all by Topic ID
         List<Articles> articles = articleService.retrieveByTopicId(topicId);
 
+        // List up all article Ids
+        List<String> articleIds = articles
+                .stream()
+                .map(Articles::getArticleId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        // Fetch all comments by articleIds
+        List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
+
+        Map<String, Long> articleIdAndCommentCount =
+                commentService.countCommentByArticleIds(comments, articleIds);
+
+
         // Retrieve all author's user ids.
         List<String> userIds = articles
                 .stream()
@@ -222,7 +254,7 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -330,10 +362,23 @@ public class AppController {
         // Retrieve all one's article Title, TopicID, Updated datetime and Article ID
         List<Articles> articleList = articleService.retrieveByUserId(userId);
 
+        // List up all article Ids
+        List<String> articleIds = articleList
+                .stream()
+                .map(Articles::getArticleId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        // Fetch all comments by articleIds
+        List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
+
+        Map<String, Long> articleIdAndCommentCount =
+                commentService.countCommentByArticleIds(comments, articleIds);
+
+
         List<ArticleSummary> summaryList = new ArrayList<>();
         articleList.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), author.getImageId(), e.getUpdatedDateTime())
+                        e.getDocumentId(), author.getImageId(), articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
         ));
 
         model.addAttribute("isLogin", true);

@@ -1,6 +1,7 @@
 package com.lazyhippos.todolistapp.application.resource;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserRequest implements Serializable {

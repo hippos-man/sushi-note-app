@@ -40,6 +40,16 @@
                     </div>
                     <div class="article__body" th:utext="${article.textBody}"></div>
                 </div>
+                <div class="gridNote__footer">
+                    <div class="gridNote__footer__upvote">
+                        <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                        <div class="upvote-count">0</div>
+                    </div>
+                    <div class="gridNote__footer__comment">
+                        <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                        <div class="comment-count" th:text="${article.commentCount}">0</div>
+                    </div>
+                </div>
                 <div class="separator"></div>
             </article>
 
