@@ -66,6 +66,24 @@ img.edit-icon {
     height: 15px;
 }
 
+.gridNote__footer {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0;
+}
+
+.gridNote__footer > div {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+img.upvote-icon, img.comment-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+}
+
 
 div.separator {
     border-top: 1px #dee0e1 solid;
@@ -183,3 +201,4 @@ div.login-to-comment span {
 div.edit-delete-comment-wrapper {
     display: flex;
 }
+

@@ -82,3 +82,20 @@ a.article-title:hover {
     text-decoration: underline;
 }
 
+.gridNote__footer {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0 10px 0;
+}
+
+.gridNote__footer > div {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+img.upvote-icon, img.comment-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 3px;
+}
