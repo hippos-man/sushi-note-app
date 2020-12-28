@@ -43,7 +43,7 @@
                 <div class="gridNote__footer">
                     <div class="gridNote__footer__upvote">
                         <img class="upvote-icon" th:src="@{/images/clap.svg}">
-                        <div class="upvote-count">0</div>
+                        <div class="upvote-count" th:text="${article.likeCount}">0</div>
                     </div>
                     <div class="gridNote__footer__comment">
                         <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
