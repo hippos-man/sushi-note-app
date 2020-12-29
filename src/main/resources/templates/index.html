@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>HOME - Sushi note</title>
     <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
@@ -73,8 +75,18 @@
                             </div>
                         </div>
                         <div class="gridNote__footer">
+<!--                            <div class="gridNote__footer__upvote">-->
+<!--                                <img class="upvote-icon" th:src="@{/images/clap.svg}">-->
+<!--                                <div class="upvote-count" th:text="${article.likeCount}">0</div>-->
+<!--                            </div>-->
                             <div class="gridNote__footer__upvote">
-                                <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                                <form th:if="${isLogin}" class="upvote-form" action="#" method="post">
+                                    <input type="hidden" name="userId" th:value="${loginUserId}">
+                                    <input type="hidden" name="articleId" th:value="${article.articleId}">
+                                    <!-- TODO Use image as background of button-->
+                                    <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                                </form>
+                                <img th:unless="${isLogin}" class="upvote-icon" th:src="@{/images/clap.svg}">
                                 <div class="upvote-count" th:text="${article.likeCount}">0</div>
                             </div>
                             <div class="gridNote__footer__comment">
@@ -88,5 +100,40 @@
         </main>
     </div>
 </div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        /** Upvote POST API method **/
+        const upvoteFormDOMList = document.querySelectorAll('form.upvote-form');
+        upvoteFormDOMList.forEach((upvoteForm) => {
+            upvoteForm.children[2].addEventListener('click', (upvoteBtn) => {
+                event.preventDefault();
+                const xhr = new XMLHttpRequest();
+                let targetDOM = upvoteBtn.target;
+                xhr.open('POST', '/api/v1/upvote');
+                console.log('upvoteBtn= ', upvoteBtn);
+                let formData = new FormData(targetDOM.parentElement);
+                let upvoteCount = targetDOM.parentElement.parentElement.children[1];
+                xhr.setRequestHeader(header, token);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        console.log('Post request was Successful');
+                        upvoteCount.innerHTML = parseInt(upvoteCount.innerHTML) + 1;
+                        upvoteCount.style.color = 'blue';
+                    } else {
+                        console.log('Server error');
+                    }
+                };
+                xhr.onerror = function () {
+                    console.log('something went wrong');
+                };
+                xhr.send(formData);
+            });
+        });
+        /** End Upvote POST API method **/
+    });
+</script>
 </body>
 </html>
