@@ -144,6 +144,7 @@
             /** Upvote POST API method **/
             const upvoteForm = document.querySelector('#upvote-form');
             const upvoteBtn = document.querySelector('img#upvote-btn');
+            let upvoteCount = document.querySelector('div.upvote-count');
             if (upvoteForm != null && upvoteBtn != null) {
                 upvoteBtn.addEventListener('click', (event) =>{
                     event.preventDefault();
@@ -154,9 +155,8 @@
                     xhr.onreadystatechange = function () {
                         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                             console.log('Post request was Successful');
-                            console.log('Xhr response: ', xhr.response);
-                            let articleId = xhr.response;
-                            console.log('Upvote to articleId= ', articleId);
+                            upvoteCount.innerHTML = parseInt(upvoteCount.innerHTML) + 1;
+                            upvoteCount.style.color = 'blue';
                         } else {
                             console.log('Server error');
                         }
