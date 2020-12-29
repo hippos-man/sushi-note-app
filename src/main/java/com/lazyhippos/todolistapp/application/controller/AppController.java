@@ -26,6 +26,7 @@ public class AppController {
     private final UserService userService;
     private final CommentService commentService;
     private final DocumentService documentService;
+    private final LikeService likeService;
 
     private final String INDEX_VIEW = "index";
     private final String ARTICLE_DETAIL_VIEW = "articleDetail";
@@ -37,12 +38,14 @@ public class AppController {
     private final String SLASH = "/";
 
     public AppController(ArticleService articleService, TopicService topicService,
-                         UserService userService, CommentService commentService, DocumentService documentService){
+                         UserService userService, CommentService commentService, DocumentService documentService,
+                         LikeService likeService){
         this.articleService = articleService;
         this.topicService = topicService;
         this.userService = userService;
         this.commentService = commentService;
         this.documentService = documentService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/")
@@ -84,14 +87,24 @@ public class AppController {
         // Fetch all comments by articleIds
         List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
 
+        // Map article id and comment count
         Map<String, Long> articleIdAndCommentCount =
                 commentService.countCommentByArticleIds(comments, articleIds);
+
+        // Fetch all likes by articleIds
+        List<Likes> likes = likeService.retrieveAllByArticleIds(articleIds);
+
+        // Map article id and likes count
+        Map<String, Long> articleIdAndLikeCount =
+                likeService.countLikeByArticleIds(likes, articleIds);
 
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
                         e.getDocumentId(), userIdAndImageId.get(e.getUserId()),
-                        articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
+                        articleIdAndLikeCount.get(e.getArticleId()),
+                        articleIdAndCommentCount.get(e.getArticleId()),
+                        e.getUpdatedDateTime())
         ));
 
         // Fetch all topics which is available
@@ -137,8 +150,11 @@ public class AppController {
         // Fetch all comments by article ID
         List<Comments> commentEntityList = commentService.retrieveByArticleId(articleId);
 
-        // Count number of comments by article IDs
+        // Count number of comments by article id
         Long commentCount = Long.valueOf(commentEntityList.size());
+
+        // TODO Count number of likes by article id
+        Long likeCount = likeService.countLikeByArticleId(articleId);
 
         // Set article information to Response Entity
         String articleHtml = ArticleResponse.convertToHtml(article.getTextBody());
@@ -149,6 +165,7 @@ public class AppController {
                 article.getTitle(),
                 articleHtml,
                 article.getDocumentId(),
+                likeCount,
                 commentCount,
                 article.getUpdatedDateTime(),
                 article.getCreatedDateTime()
@@ -239,6 +256,13 @@ public class AppController {
         // Fetch all comments by articleIds
         List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
 
+        // Fetch all likes by articleIds
+        List<Likes> likes = likeService.retrieveAllByArticleIds(articleIds);
+
+        // Map article id and likes count
+        Map<String, Long> articleIdAndLikeCount =
+                likeService.countLikeByArticleIds(likes, articleIds);
+
         Map<String, Long> articleIdAndCommentCount =
                 commentService.countCommentByArticleIds(comments, articleIds);
 
@@ -254,7 +278,10 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articles.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()), articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
+                        e.getDocumentId(), userIdAndImageId.get(e.getUserId()),
+                        articleIdAndLikeCount.get(e.getArticleId()),
+                        articleIdAndCommentCount.get(e.getArticleId()),
+                        e.getUpdatedDateTime())
         ));
         // Fetch all topics which is available
         List<Topics> topics = topicService.retrieveAll();
@@ -371,6 +398,14 @@ public class AppController {
         // Fetch all comments by articleIds
         List<Comments> comments = commentService.retrieveAllByArticleIds(articleIds);
 
+        // Fetch all likes by articleIds
+        List<Likes> likes = likeService.retrieveAllByArticleIds(articleIds);
+
+        // Map article id and likes count
+        Map<String, Long> articleIdAndLikeCount =
+                likeService.countLikeByArticleIds(likes, articleIds);
+
+
         Map<String, Long> articleIdAndCommentCount =
                 commentService.countCommentByArticleIds(comments, articleIds);
 
@@ -378,7 +413,9 @@ public class AppController {
         List<ArticleSummary> summaryList = new ArrayList<>();
         articleList.forEach(e -> summaryList.add(
                 new ArticleSummary( e.getArticleId(), e.getUserId(), e.getTopicId(), e.getTitle(), e.getSummary(),
-                        e.getDocumentId(), author.getImageId(), articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
+                        e.getDocumentId(), author.getImageId(),
+                        articleIdAndLikeCount.get(e.getArticleId()),
+                        articleIdAndCommentCount.get(e.getArticleId()), e.getUpdatedDateTime())
         ));
 
         model.addAttribute("isLogin", true);

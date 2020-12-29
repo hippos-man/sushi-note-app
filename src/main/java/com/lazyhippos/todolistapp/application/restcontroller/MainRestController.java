@@ -5,6 +5,7 @@ import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.DocumentService;
+import com.lazyhippos.todolistapp.domain.service.LikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -25,11 +26,14 @@ public class MainRestController {
     private final CommentService commentService;
     private final ArticleService articleService;
     private final DocumentService documentService;
+    private final LikeService likeService;
 
-    public MainRestController(CommentService commentService, ArticleService articleService, DocumentService documentService) {
+    public MainRestController(CommentService commentService, ArticleService articleService,
+                              DocumentService documentService, LikeService likeService) {
         this.commentService = commentService;
         this.articleService = articleService;
         this.documentService = documentService;
+        this.likeService = likeService;
     }
     /** FOR TEST PURPOSE ONLY **/
     @GetMapping(value = "/comments")
@@ -74,6 +78,18 @@ public class MainRestController {
         }
         Long documentId = documentService.getDocumentIdByFilePath(filePath);
         return new ResponseEntity<>(documentId, HttpStatus.OK);
+    }
+
+    @PostMapping("/upvote")
+    public ResponseEntity<String> upvote (
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "articleId") String articleId) {
+        // TODO Handle Bad request
+        Boolean isSuccessful = likeService.save(articleId, userId, LocalDateTime.now());
+        if(!isSuccessful) {
+            return new ResponseEntity<>(articleId, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(articleId, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/comment/{commentId}/delete")

@@ -10,6 +10,7 @@ public class ArticleResponse {
     private String title;
     private String textBody;
     private Long imageId;
+    private Long likeCount;
     private Long commentCount;
     private LocalDateTime createdDateTime;
     private String updatedDateTime;
@@ -18,14 +19,15 @@ public class ArticleResponse {
     }
 
     public ArticleResponse(String articleId, String userId, String topicId, String title,
-                           String textBody, Long imageId, Long commentCount, LocalDateTime createdDateTime,
-                           LocalDateTime updatedDateTime) {
+                           String textBody, Long imageId, Long likeCount, Long commentCount,
+                           LocalDateTime createdDateTime, LocalDateTime updatedDateTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.topicId = topicId;
         this.title = title;
         this.textBody = textBody;
         this.imageId = imageId;
+        this.likeCount = likeCount;
         this.commentCount = commentCount;
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime.getMonth().toString().substring(0, 1)
@@ -58,6 +60,10 @@ public class ArticleResponse {
 
     public Long getImageId() {
         return imageId;
+    }
+
+    public Long getLikeCount() {
+        return likeCount;
     }
 
     public Long getCommentCount() {

@@ -202,3 +202,7 @@ div.edit-delete-comment-wrapper {
     display: flex;
 }
 
+img#upvote-btn {
+    cursor: pointer;
+}
+
