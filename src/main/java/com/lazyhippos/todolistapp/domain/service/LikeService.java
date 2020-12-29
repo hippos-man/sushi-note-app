@@ -4,6 +4,8 @@ import com.lazyhippos.todolistapp.domain.model.Likes;
 import com.lazyhippos.todolistapp.domain.repository.LikeJpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,5 +36,16 @@ public class LikeService {
 
     public Long countLikeByArticleId(String articleId) {
         return likeJpaRepository.countByArticleId(articleId);
+    }
+
+    public Boolean save(String articleId, String userId, LocalDateTime currentDateTime) {
+        try {
+            likeJpaRepository.save(new Likes(
+                    userId, articleId, currentDateTime
+            ));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

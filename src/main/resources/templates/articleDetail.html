@@ -42,7 +42,13 @@
                 </div>
                 <div class="gridNote__footer">
                     <div class="gridNote__footer__upvote">
-                        <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                        <form th:if="${isLogin}" id="upvote-form" action="#" method="post">
+                            <input type="hidden" name="userId" th:value="${loginUserId}">
+                            <input type="hidden" name="articleId" th:value="${article.articleId}">
+                            <!-- TODO Use image as background of button-->
+                            <img id="upvote-btn" class="upvote-icon" th:src="@{/images/clap.svg}">
+                        </form>
+                        <img th:unless="${isLogin}" class="upvote-icon" th:src="@{/images/clap.svg}">
                         <div class="upvote-count" th:text="${article.likeCount}">0</div>
                     </div>
                     <div class="gridNote__footer__comment">
@@ -133,10 +139,38 @@
                 }
             }
 
-            /** Call Comment Delete method **/
-            const deleteUrl = "http://localhost:8080/api/v1/comment/";
             const token = document.querySelector('meta[name="_csrf"]').content;
             const header = document.querySelector('meta[name="_csrf_header"]').content;
+            /** Upvote POST API method **/
+            const upvoteForm = document.querySelector('#upvote-form');
+            const upvoteBtn = document.querySelector('img#upvote-btn');
+            if (upvoteForm != null && upvoteBtn != null) {
+                upvoteBtn.addEventListener('click', (event) =>{
+                    event.preventDefault();
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/v1/upvote');
+                    let formData = new FormData(upvoteForm);
+                    xhr.setRequestHeader(header, token);
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            console.log('Post request was Successful');
+                            console.log('Xhr response: ', xhr.response);
+                            let articleId = xhr.response;
+                            console.log('Upvote to articleId= ', articleId);
+                        } else {
+                            console.log('Server error');
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.log('something went wrong');
+                    };
+                    xhr.send(formData);
+                });
+            }
+            /** End Upvote POST API method **/
+
+            /** Call Comment Delete method **/
+            const deleteUrl = "http://localhost:8080/api/v1/comment/";
             let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
             commentDeleteDOMList.forEach(commentDeleteDOM => {
                 commentDeleteDOM.addEventListener('click', function (e) {
@@ -158,6 +192,7 @@
                     xhr.send();
                 });
             });
+            /** End Call Comment Delete method **/
         });
     </script>
 </body>
