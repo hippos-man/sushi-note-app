@@ -127,6 +127,7 @@ img.timelineHeader__user-icon {
 img.upvote-icon, img.comment-icon {
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 aside {

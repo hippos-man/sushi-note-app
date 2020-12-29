@@ -84,8 +84,6 @@
 
         /** Upvote POST API method **/
         const upvoteFormDOMList = document.querySelectorAll('form.upvote-form');
-        // const upvoteBtn = document.querySelectorAll('img#upvote-btn');
-        // let upvoteCount = document.querySelector('div.upvote-count');
         upvoteFormDOMList.forEach((upvoteForm) => {
             upvoteForm.children[2].addEventListener('click', (upvoteBtn) => {
                 event.preventDefault();
