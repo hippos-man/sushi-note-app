@@ -76,3 +76,7 @@ VALUES
     Yoshinoya in Japan serves better white rice which is delicious! You better to try!", "2020-11-15T12:01:00", "2020-11-15T12:01:00"),
     ("vasejoghaohgaogd", "jfalhgakjdalh", "hanako777", "On second thought,it may be same. Sorry.", "2020-11-15T13:01:00", "2020-11-15T13:01:00"),
     ("24jlgaklh4hlgafg", "jfalhgakjdalh", "hanako777", "Additionally, Yoshinoya in Japan serve more kind of meals such as selfish hotpot, pork rice bowl and so on. I love pork jinger rice bowl.", "2020-11-15T14:01:00", "2020-11-15T14:01:00");
+
+INSERT INTO likes (user_id, article_id, created_date_time)
+VALUES
+    ("hanako777", "jfalhgakjdalh", "2020-12-15T12:01:00");
