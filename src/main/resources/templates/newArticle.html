@@ -73,13 +73,16 @@
                 <input type="hidden" id="articleId" th:field="*{articleId}">
                 <input type="hidden" id="documentId" th:field="*{documentId}">
                 <div class="dummy"></div>
-                <input class="btn-large"type="submit" value="Create">
+                <input id = "article-submit" class="btn-large"type="submit" value="Create">
             </form>
         </div>
     </main>
 </div>
 <script>
     window.addEventListener('DOMContentLoaded', (event) => {
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
         /** Document Upload API **/
         const form = document.querySelector('#file-form');
         const fileSelector = document.querySelector('input[name=file]');
@@ -91,8 +94,6 @@
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/api/v1/upload');
             let data = new FormData(form);
-            const token = document.querySelector('meta[name="_csrf"]').content;
-            const header = document.querySelector('meta[name="_csrf_header"]').content;
             xhr.setRequestHeader(header, token);
             xhr.onreadystatechange = function () {
                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
@@ -112,6 +113,18 @@
             xhr.send(data);
         });
         /** End Document Upload API **/
+
+        /** Confirm submission **/
+        const articleSubmitBtn = document.querySelector('input#article-submit');
+        if (articleSubmitBtn != null) {
+            articleSubmitBtn.addEventListener('click', (event) => {
+                if (!confirm("Are you sure, you want to submit this article?")){
+                    event.preventDefault();
+                }
+            });
+        }
+        /** End Confirm submission **/
+
     });
 </script>
 </body>
