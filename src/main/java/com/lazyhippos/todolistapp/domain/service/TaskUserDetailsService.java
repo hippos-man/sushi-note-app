@@ -37,7 +37,7 @@ public class TaskUserDetailsService implements UserDetailsService {
         grantedList.add(authority);
 
         UserDetails userDetails = (UserDetails)
-                new User(user.getUserId(), user.getPassword(),grantedList);
+                new User(user.getUserId(), user.getPassword(), grantedList);
         return userDetails;
     }
 }
