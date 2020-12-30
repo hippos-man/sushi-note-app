@@ -59,17 +59,22 @@
     </main>
 </div>
 <script>
-    /** Call Article Delete method **/
+
     window.addEventListener("DOMContentLoaded", (event) =>  {
         const token = document.querySelector('meta[name="_csrf"]').content;
         const header = document.querySelector('meta[name="_csrf_header"]').content;
 
+        /** Call Article Delete method **/
         const deleteUrl = "http://localhost:8080/api/v1/article/";
         const articleDeleteDOMList = document.querySelectorAll('div.article-delete a');
         const articleId = document.querySelector('input#articleId').value;
         const userId = document.querySelector('input#userId').value;
         articleDeleteDOMList.forEach(articleDeleteDOM => {
             articleDeleteDOM.addEventListener('click', function () {
+                // Confirm delete operation
+                if (!confirm("Are you sure, you want to delete this article?")) {
+                    return false;
+                }
                 let xhr = new XMLHttpRequest();
                 xhr.open("DELETE", deleteUrl + articleId + '/delete', true);
                 xhr.setRequestHeader(header, token);
@@ -88,6 +93,7 @@
             });
         });
         /** End Call Article Delete method **/
+
         /** Document Upload API **/
         const form = document.querySelector('#file-form');
         const fileSelector = document.querySelector('input[name=file]');
