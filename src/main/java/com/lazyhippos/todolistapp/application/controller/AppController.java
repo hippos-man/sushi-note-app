@@ -3,6 +3,7 @@ package com.lazyhippos.todolistapp.application.controller;
 import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.*;
 import com.lazyhippos.todolistapp.domain.service.*;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -138,9 +139,15 @@ public class AppController {
             );
         }
         // Fetch article by article ID from DB
-        Articles article = articleService
-                .retrieveByArticleId(articleId)
-                .orElseThrow(RuntimeException::new);
+        Optional<Articles> retrievedArticle = null;
+        try {
+            retrievedArticle = articleService
+                    .retrieveByArticleId(articleId);
+        } catch (EntityNotFoundException ex) {
+            throw new RuntimeException();
+        }
+
+        Articles article = retrievedArticle.get();
 
         // for Illegal request
         if (!userId.equals(article.getUserId())) {
@@ -153,7 +160,7 @@ public class AppController {
         // Count number of comments by article id
         Long commentCount = Long.valueOf(commentEntityList.size());
 
-        // TODO Count number of likes by article id
+        // Count number of likes by article id
         Long likeCount = likeService.countLikeByArticleId(articleId);
 
         // Set article information to Response Entity

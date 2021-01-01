@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/categories/**",
                         "/s/**",
-                        "/api/v1/uploads/images/**").permitAll()
+                        "/api/v1/uploads/images/**",
+                        "/api/v1/articles/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
