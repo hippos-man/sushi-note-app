@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.restcontroller;
 
+import com.lazyhippos.todolistapp.application.resource.ImageRequest;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
@@ -61,18 +62,17 @@ public class MainRestController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
-                                          @RequestParam(value = "userId") String userId) throws IOException {
-        // TODO Validation
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    public ResponseEntity<Long> upload (@ModelAttribute("request") ImageRequest request) throws IOException {
+        // TODO Validation & Error Handling
+        String fileName = StringUtils.cleanPath(request.getFile().getOriginalFilename());
         // Add identifier to file name
         String filePath = "/" + UUID.randomUUID() + "/" + fileName;
         Documents document = new Documents(
-                file.getBytes(),
+                request.getFile().getBytes(),
                 fileName,
                 filePath,
-                file.getSize(),
-                userId,
+                request.getFile().getSize(),
+                request.getUserId(),
                 LocalDateTime.now()
         );
         Boolean isSuccessful = documentService.save(document);
@@ -82,6 +82,29 @@ public class MainRestController {
         Long documentId = documentService.getDocumentIdByFilePath(filePath);
         return new ResponseEntity<>(documentId, HttpStatus.OK);
     }
+
+//    @PostMapping(value = "/upload")
+//    public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
+//                                          @RequestParam(value = "userId") String userId) throws IOException {
+//        // TODO Validation & Error Handling
+//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//        // Add identifier to file name
+//        String filePath = "/" + UUID.randomUUID() + "/" + fileName;
+//        Documents document = new Documents(
+//                file.getBytes(),
+//                fileName,
+//                filePath,
+//                file.getSize(),
+//                userId,
+//                LocalDateTime.now()
+//        );
+//        Boolean isSuccessful = documentService.save(document);
+//        if (!isSuccessful) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        Long documentId = documentService.getDocumentIdByFilePath(filePath);
+//        return new ResponseEntity<>(documentId, HttpStatus.OK);
+//    }
 
     @PostMapping("/upvote")
     public ResponseEntity<String> upvote (

@@ -372,6 +372,7 @@ public class AppController {
         model.addAttribute("request", new ArticleRequest(
                 article.getArticleId(), article.getUserId(), article.getTopicId(), article.getTitle(),
                 article.getTextBody(), article.getDocumentId()));
+        model.addAttribute("imageRequest", new ImageRequest(null, loginUserId));
 
         return EDIT_ARTICLE_VIEW;
     }
@@ -564,7 +565,8 @@ public class AppController {
     public String showDocumentManager(Model model, Principal principal) {
         List<Documents> listDocs = documentService.retrieveAll();
         model.addAttribute("listDocs", listDocs);
-        model.addAttribute("userId", principal.getName());
+//        model.addAttribute("userId", principal.getName());
+        model.addAttribute("imageRequest", new ImageRequest(null, principal.getName()));
         return "documentManager";
     }
 
