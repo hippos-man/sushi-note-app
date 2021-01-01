@@ -1,7 +1,9 @@
 package com.lazyhippos.todolistapp.domain.service;
 
+import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.repository.DocumentJpaRepository;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +36,10 @@ public class DocumentService {
     }
 
     public Optional<Documents> retrieveById(Long documentId) {
-        return documentJpaRepository.findById(documentId);
+        Optional<Documents> retrievedItem = documentJpaRepository.findById(documentId);
+        if (!retrievedItem.isPresent()) {
+            throw new EntityNotFoundException(Documents.class, "documentId", documentId.toString());
+        }
+        return retrievedItem;
     }
 }

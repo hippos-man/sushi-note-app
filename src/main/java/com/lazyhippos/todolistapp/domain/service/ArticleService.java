@@ -3,6 +3,7 @@ package com.lazyhippos.todolistapp.domain.service;
 import com.lazyhippos.todolistapp.application.resource.ArticleRequest;
 import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.repository.ArticleJpaRepository;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,11 @@ public class ArticleService {
     }
 
     public Optional<Articles> retrieveByArticleId(String articleId) {
-        return articleJpaRepository.findById(articleId);
+        Optional<Articles> retrievedArticle = articleJpaRepository.findById(articleId);
+        if (!retrievedArticle.isPresent()) {
+            throw new EntityNotFoundException(Articles.class, "articleId", articleId);
+        }
+        return retrievedArticle;
     }
 
     public List<Articles> retrieveByUserId(String userId) {

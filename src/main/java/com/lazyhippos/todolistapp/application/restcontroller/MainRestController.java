@@ -1,11 +1,12 @@
 package com.lazyhippos.todolistapp.application.restcontroller;
 
-import com.lazyhippos.todolistapp.domain.model.Comments;
+import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.DocumentService;
 import com.lazyhippos.todolistapp.domain.service.LikeService;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -15,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,16 +35,19 @@ public class MainRestController {
         this.documentService = documentService;
         this.likeService = likeService;
     }
-    /** FOR TEST PURPOSE ONLY **/
-    @GetMapping(value = "/comments")
-    public @ResponseBody List<Comments> get () {
-        return commentService.retrieveAll();
+
+    /** Not in use at the moment **/
+    @GetMapping("/articles/{articleId}")
+    public Articles getArticle(@PathVariable("articleId") String articleId) throws EntityNotFoundException {
+        // Fetch Article
+        Optional<Articles> fetchedItem = articleService.retrieveByArticleId(articleId);
+        return fetchedItem.get();
     }
 
     @GetMapping(value = "/uploads/images/{documentId}")
     @ResponseBody
     public void downloadDocument (@PathVariable(value = "documentId") Long documentId,
-                                                    HttpServletResponse response) throws IOException{
+                                                    HttpServletResponse response) throws IOException, EntityNotFoundException {
         // Fetch Image
         final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
         if (retrievedImage.isPresent()) {
