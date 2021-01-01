@@ -42,10 +42,9 @@
             <div>
                 <div class="document-form">
                     <div class="text-upload-success"></div>
-                    <form id="file-form" action="#" method="post" enctype="multipart/form-data">
-                        <input type="file" name="file" required />
-                        <input type="hidden" name="userId" th:value="${userId}" />
-                        <br>
+                    <form id="file-form" action="#" th:object="${imageRequest}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" th:field="*{file}" required />
+                        <input type="hidden" name="userId" th:field="*{userId}" />
                     </form>
                     <div class="preview-image"></div>
                 </div>
