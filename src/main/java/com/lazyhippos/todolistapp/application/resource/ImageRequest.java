@@ -2,9 +2,12 @@ package com.lazyhippos.todolistapp.application.resource;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
+
 public class ImageRequest {
 
     private MultipartFile file;
+    @NotEmpty
     private String userId;
 
     public ImageRequest() {
