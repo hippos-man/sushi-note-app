@@ -123,6 +123,11 @@
             xhr.send(data);
         });
         /** End Document Upload API **/
+
+        /** Set preview image if documentId is not empty **/
+        if (documentIdDOM != null && documentIdDOM.value != null) {
+            previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentIdDOM.value +'">';
+        }
     });
 </script>
 </body>

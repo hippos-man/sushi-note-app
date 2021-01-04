@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="article-detail">
+    <!-- TODO Use common header -->
     <header class="home-head">
         <h2 class="home__logo">
             <a class="header__logo" href="#" th:href="@{/}">
@@ -104,6 +105,7 @@
                     previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
                 } else {
                     console.log('Server error');
+                    textSuccess.innerHTML = '<h3>Something wrong in uploading.</h3>';
                 }
             };
             xhr.onerror = function () {

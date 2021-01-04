@@ -8,13 +8,15 @@ import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.DocumentService;
 import com.lazyhippos.todolistapp.domain.service.LikeService;
 import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
+import com.lazyhippos.todolistapp.exception.InvalidFormRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -62,8 +64,12 @@ public class MainRestController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Long> upload (@ModelAttribute("request") ImageRequest request) throws IOException {
-        // TODO Validation & Error Handling
+    @ResponseBody
+    public ResponseEntity<Object> upload (@Valid @ModelAttribute("request") ImageRequest request, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidFormRequestException();
+        }
+
         String fileName = StringUtils.cleanPath(request.getFile().getOriginalFilename());
         // Add identifier to file name
         String filePath = "/" + UUID.randomUUID() + "/" + fileName;
@@ -77,34 +83,12 @@ public class MainRestController {
         );
         Boolean isSuccessful = documentService.save(document);
         if (!isSuccessful) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to upload the image.", HttpStatus.BAD_REQUEST);
         }
         Long documentId = documentService.getDocumentIdByFilePath(filePath);
-        return new ResponseEntity<>(documentId, HttpStatus.OK);
+        return new ResponseEntity<>(documentId.toString(), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/upload")
-//    public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
-//                                          @RequestParam(value = "userId") String userId) throws IOException {
-//        // TODO Validation & Error Handling
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        // Add identifier to file name
-//        String filePath = "/" + UUID.randomUUID() + "/" + fileName;
-//        Documents document = new Documents(
-//                file.getBytes(),
-//                fileName,
-//                filePath,
-//                file.getSize(),
-//                userId,
-//                LocalDateTime.now()
-//        );
-//        Boolean isSuccessful = documentService.save(document);
-//        if (!isSuccessful) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        Long documentId = documentService.getDocumentIdByFilePath(filePath);
-//        return new ResponseEntity<>(documentId, HttpStatus.OK);
-//    }
 
     @PostMapping("/upvote")
     public ResponseEntity<String> upvote (
