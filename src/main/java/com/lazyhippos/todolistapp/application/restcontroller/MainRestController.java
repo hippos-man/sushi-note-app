@@ -9,6 +9,7 @@ import com.lazyhippos.todolistapp.domain.service.DocumentService;
 import com.lazyhippos.todolistapp.domain.service.LikeService;
 import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import com.lazyhippos.todolistapp.exception.InvalidFormRequestException;
+import com.lazyhippos.todolistapp.exception.MissingRequestParamException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -89,43 +90,39 @@ public class MainRestController {
         return new ResponseEntity<>(documentId.toString(), HttpStatus.OK);
     }
 
-
     @PostMapping("/upvote")
     public ResponseEntity<String> upvote (
-            @RequestParam(value = "userId") String userId,
-            @RequestParam(value = "articleId") String articleId) {
-        // TODO Handle Bad request
-        Boolean isSuccessful = likeService.save(articleId, userId, LocalDateTime.now());
-        if(!isSuccessful) {
-            return new ResponseEntity<>(articleId, HttpStatus.BAD_REQUEST);
+            @RequestParam(value = "userId") Optional<String> userId,
+            @RequestParam(value = "articleId") Optional<String> articleId) {
+        if (!userId.isPresent() || !articleId.isPresent() || userId.get().isEmpty() || articleId.get().isEmpty()) {
+            throw new MissingRequestParamException();
         }
-        return new ResponseEntity<>(articleId, HttpStatus.OK);
+        Boolean isSuccessful = likeService.save(articleId.get(), userId.get(), LocalDateTime.now());
+        if(!isSuccessful) {
+            return new ResponseEntity<>(articleId.get(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(articleId.get(), HttpStatus.OK);
     }
 
+    // TODO Check if user has privilege to delete
     @DeleteMapping(value = "/comment/{commentId}/delete")
-    public @ResponseBody ResponseEntity<String> deleteComment (@PathVariable(value = "commentId") String commentId) {
-        // TODO Check if user has privilege to delete
-        System.out.println("Comment Delete operation started.");
+    public @ResponseBody ResponseEntity<Object> deleteComment (@PathVariable(value = "commentId") String commentId) {
         Boolean isSuccessful = commentService.delete(commentId);
         if (!isSuccessful) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("Comment is deleted! Comment ID= " + commentId);
         return new ResponseEntity<>(commentId, HttpStatus.OK);
     }
 
 
-
+    // TODO Check if user has privilege to delete
     @DeleteMapping(value = "/article/{articleId}/delete")
     public @ResponseBody ResponseEntity<String> deleteArticle (@PathVariable(value = "articleId") String articleId) {
-        // TODO Check if user has privilege to delete
-        System.out.println("Article Delete operation started.");
-        // execute deletion of article
+        // Execute deletion of article
         Boolean isSuccessfulForArticle = articleService.delete(articleId);
-        // execute deletion of related comments
+        // Execute deletion of related comments
         Boolean isSuccessfulForComment;
         if (isSuccessfulForArticle) {
-            System.out.println("Delete article: Successful");
             isSuccessfulForComment = commentService.deleteByArticleId(articleId);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -134,7 +131,6 @@ public class MainRestController {
         if (!isSuccessfulForComment) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("Delete related Comments: Successful");
         return new ResponseEntity<>(articleId, HttpStatus.OK);
     }
 

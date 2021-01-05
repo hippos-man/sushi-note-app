@@ -48,5 +48,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-
+    @ExceptionHandler(MissingRequestParamException.class)
+    protected ResponseEntity<Object> handleMissingRequestParam() {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage("Required parameter is missing.");
+        return buildResponseEntity(apiError);
+    }
 }
