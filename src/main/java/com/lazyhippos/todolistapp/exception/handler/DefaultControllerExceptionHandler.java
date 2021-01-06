@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.exception;
+package com.lazyhippos.todolistapp.exception.handler;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
