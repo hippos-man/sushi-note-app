@@ -390,9 +390,9 @@ public class AppController {
 
     @GetMapping("/m/{userId}")
     public String showMyPage(@PathVariable("userId") String userId, Model model, Principal principal) {
-        // Authenticate
-        if (!userId.equals(principal.getName())) {
-            throw new RuntimeException();
+
+        if (!hasPermission(principal, userId)) {
+            return REDIRECT + SLASH;
         }
 
         // Retrieve Profile
