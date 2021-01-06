@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,6 +17,7 @@ public class Documents {
     private String originalName;
     private String filePath;
     private Long fileSize;
+    @NotBlank
     private String userId;
     private LocalDateTime createdDateTime;
 

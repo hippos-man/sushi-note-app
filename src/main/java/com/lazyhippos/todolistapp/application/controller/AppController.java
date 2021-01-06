@@ -3,6 +3,7 @@ package com.lazyhippos.todolistapp.application.controller;
 import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.*;
 import com.lazyhippos.todolistapp.domain.service.*;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -120,6 +121,7 @@ public class AppController {
         return INDEX_VIEW;
     }
 
+
     @GetMapping("/s/{userId}/{articleId}")
     public String showArticleDetailPage(@PathVariable("userId") String userId, @PathVariable("articleId") String articleId,
                                         Principal principal, Model model) {
@@ -138,13 +140,19 @@ public class AppController {
             );
         }
         // Fetch article by article ID from DB
-        Articles article = articleService
-                .retrieveByArticleId(articleId)
-                .orElseThrow(RuntimeException::new);
+        Optional<Articles> retrievedArticle = null;
+        try {
+            retrievedArticle = articleService
+                    .retrieveByArticleId(articleId);
+        } catch (EntityNotFoundException ex) {
+            throw new RuntimeException();
+        }
+
+        Articles article = retrievedArticle.get();
 
         // for Illegal request
         if (!userId.equals(article.getUserId())) {
-            throw new RuntimeException();
+            return REDIRECT + SLASH;
         }
 
         // Fetch all comments by article ID
@@ -153,7 +161,7 @@ public class AppController {
         // Count number of comments by article id
         Long commentCount = Long.valueOf(commentEntityList.size());
 
-        // TODO Count number of likes by article id
+        // Count number of likes by article id
         Long likeCount = likeService.countLikeByArticleId(articleId);
 
         // Set article information to Response Entity
@@ -227,6 +235,7 @@ public class AppController {
         return ARTICLE_DETAIL_VIEW;
     }
 
+
     @GetMapping("/categories/{topicId}")
     public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
         Boolean isLogin = false;
@@ -299,6 +308,7 @@ public class AppController {
         return INDEX_VIEW;
     }
 
+
     @GetMapping("/drafts/new")
     public String showAddArticlePage(Model model, Principal principal) {
         // Retrieve User ID
@@ -327,16 +337,24 @@ public class AppController {
                 articleId, userId, null, null, null, null));
         model.addAttribute("authorProfile", author);
         model.addAttribute("userId", userId);
+        model.addAttribute("imageRequest", new ImageRequest(null, userId));
         return NEW_ARTICLE_VIEW;
     }
+
 
     @GetMapping("/article/{articleId}/edit")
     public String showEditArticlePage (@PathVariable String articleId, Model model, Principal principal) {
 
-        Optional<Articles> articlesOptional = articleService.retrieveByArticleId(articleId);
+        Optional<Articles> articlesOptional = null;
+        try {
+            articlesOptional = articleService.retrieveByArticleId(articleId);
+        } catch (EntityNotFoundException ex) {
+            return REDIRECT + SLASH;
+        }
+
         if (!articlesOptional.isPresent()
-                || !articlesOptional.get().getUserId().equals(principal.getName())) {
-            throw new RuntimeException();
+                || !hasPermission(principal, articlesOptional.get().getUserId())) {
+            return REDIRECT + SLASH;
         }
 
         Articles article = articlesOptional.get();
@@ -365,15 +383,17 @@ public class AppController {
         model.addAttribute("request", new ArticleRequest(
                 article.getArticleId(), article.getUserId(), article.getTopicId(), article.getTitle(),
                 article.getTextBody(), article.getDocumentId()));
+        model.addAttribute("imageRequest", new ImageRequest(null, loginUserId));
 
         return EDIT_ARTICLE_VIEW;
     }
 
+
     @GetMapping("/m/{userId}")
     public String showMyPage(@PathVariable("userId") String userId, Model model, Principal principal) {
-        // Authenticate
-        if (!userId.equals(principal.getName())) {
-            throw new RuntimeException();
+
+        if (!hasPermission(principal, userId)) {
+            return REDIRECT + SLASH;
         }
 
         // Retrieve Profile
@@ -424,15 +444,16 @@ public class AppController {
         return MY_PAGE_VIEW;
     }
 
+
     @GetMapping("/comment/{commentId}/edit")
     public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model, Principal principal) {
 
         // Retrieve Comment by Comment ID
         Comments comment = commentService.retrieveByCommentId(commentId);
-        // Throw exception if unauthorized user request edit page.
-        if (!principal.getName().equals(comment.getUserId())) {
-            throw new RuntimeException();
+        if (comment == null || !hasPermission(principal, comment.getUserId())) {
+            return REDIRECT + SLASH;
         }
+
         String loginUserId = principal.getName();
         // Fetch login user profile
         Users users = userService.retrieveAuthorProfile(loginUserId);
@@ -461,8 +482,10 @@ public class AppController {
         return EDIT_COMMENT_VIEW;
     }
 
+
     @PostMapping("/article/create")
-    public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
+    public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request,
+                                 BindingResult result, Model model, Principal principal){
 
         if (result.hasErrors()) {
             // Fetch author profile
@@ -487,6 +510,11 @@ public class AppController {
             model.addAttribute("authorProfile", author);
             return NEW_ARTICLE_VIEW;
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // DEBUG
@@ -495,9 +523,10 @@ public class AppController {
         return REDIRECT + SLASH;
     }
 
+
     @PostMapping("/article/edit")
     public String editArticle(@ModelAttribute("request") @Validated ArticleRequest request,
-                              BindingResult result, Model model) {
+                              BindingResult result, Model model, Principal principal) {
 
         if (result.hasErrors()) {
             List<Topics> topics = topicService.retrieveAll();
@@ -519,20 +548,30 @@ public class AppController {
             model.addAttribute("isLogin",true);
             return EDIT_ARTICLE_VIEW;
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // GET current time
         LocalDateTime now = LocalDateTime.now();
-        // DEBUG
-        System.out.println("Edit Article Request= " + request);
         articleService.update(request, now);
         return REDIRECT + SLASH;
     }
 
+
     @PostMapping("/comment/create")
-    public String createComment (@ModelAttribute(value = "request") @Validated CommentRequest request, BindingResult result) {
+    public String createComment (@ModelAttribute(value = "request") @Validated CommentRequest request, BindingResult result,
+                                 Principal principal) {
         // Input check
         if (result.hasErrors()) {
             throw new RuntimeException("Invalid input (comment)");
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // Register new comment
@@ -540,12 +579,18 @@ public class AppController {
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
+
     @PostMapping("/comment/edit")
     public String editComment (@ModelAttribute(value = "request")
-                                   @Validated CommentUpdateRequest request, BindingResult result) {
+                                   @Validated CommentUpdateRequest request, BindingResult result, Principal principal) {
         if (result.hasErrors()) {
             throw new RuntimeException();
         }
+
+        if (!hasPermission(principal, request.getAuthorId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // Update the comment
@@ -557,9 +602,10 @@ public class AppController {
     public String showDocumentManager(Model model, Principal principal) {
         List<Documents> listDocs = documentService.retrieveAll();
         model.addAttribute("listDocs", listDocs);
-        model.addAttribute("userId", principal.getName());
+        model.addAttribute("imageRequest", new ImageRequest(null, principal.getName()));
         return "documentManager";
     }
+
 
     @PostMapping(value = "/upload")
     public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
@@ -578,5 +624,19 @@ public class AppController {
         documentService.save(document);
         ra.addFlashAttribute("message", "The file has been successfully uploaded.");
         return "redirect:/upload";
+    }
+
+
+    private boolean hasPermission (Principal principal, String userId) {
+        // Null check
+        if (principal == null || userId == null) {
+            return false;
+        }
+        // Check if Authenticated
+        if (principal.getName().isEmpty()) {
+            return false;
+        }
+        // Check if login user has permission to proceed the operation
+        return principal.getName().equals(userId);
     }
 }
