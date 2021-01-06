@@ -75,10 +75,6 @@
                             </div>
                         </div>
                         <div class="gridNote__footer">
-<!--                            <div class="gridNote__footer__upvote">-->
-<!--                                <img class="upvote-icon" th:src="@{/images/clap.svg}">-->
-<!--                                <div class="upvote-count" th:text="${article.likeCount}">0</div>-->
-<!--                            </div>-->
                             <div class="gridNote__footer__upvote">
                                 <form th:if="${isLogin}" class="upvote-form" action="#" method="post">
                                     <input type="hidden" name="userId" th:value="${loginUserId}">

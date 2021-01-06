@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
@@ -32,12 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
                         "/categories/**",
                         "/s/**",
-                        "/api/v1/uploads/images/**").permitAll()
+                        "/api/v1/uploads/images/**",
+                        "/api/v1/articles/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 .loginPage("/login")
-                .defaultSuccessUrl("/", true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login")

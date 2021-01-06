@@ -24,10 +24,9 @@
                     <p>Preview image</p>
                 </div>
                 <div class="text-upload-success"></div>
-                <form id="file-form" action="#" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" required />
-                    <input type="hidden" name="userId" th:value="${loginUserId}"/>
-                    <br>
+                <form id="file-form" action="#" th:object="${imageRequest}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" th:field="*{file}" required />
+                    <input type="hidden" name="userId" th:field="*{userId}" />
                 </form>
             </div>
             <form id="profile__form" role="form" action="#" th:action="@{/user/update}" th:object="${request}" method="post">

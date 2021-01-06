@@ -1,21 +1,28 @@
 package com.lazyhippos.todolistapp.application.restcontroller;
 
+import com.lazyhippos.todolistapp.application.resource.ImageRequest;
+import com.lazyhippos.todolistapp.domain.model.Articles;
 import com.lazyhippos.todolistapp.domain.model.Comments;
 import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import com.lazyhippos.todolistapp.domain.service.CommentService;
 import com.lazyhippos.todolistapp.domain.service.DocumentService;
 import com.lazyhippos.todolistapp.domain.service.LikeService;
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
+import com.lazyhippos.todolistapp.exception.InvalidFormRequestException;
+import com.lazyhippos.todolistapp.exception.MissingRequestParamException;
+import com.lazyhippos.todolistapp.exception.NotPermittedRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,16 +42,20 @@ public class MainRestController {
         this.documentService = documentService;
         this.likeService = likeService;
     }
-    /** FOR TEST PURPOSE ONLY **/
-    @GetMapping(value = "/comments")
-    public @ResponseBody List<Comments> get () {
-        return commentService.retrieveAll();
+
+    /** Not in use at the moment **/
+    @GetMapping("/articles/{articleId}")
+    public Articles getArticle(@PathVariable("articleId") String articleId) throws EntityNotFoundException {
+        // Fetch Article
+        Articles fetchedItem = articleService.retrieveByArticleId(articleId)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, "articleId", articleId));
+        return fetchedItem;
     }
 
     @GetMapping(value = "/uploads/images/{documentId}")
     @ResponseBody
     public void downloadDocument (@PathVariable(value = "documentId") Long documentId,
-                                                    HttpServletResponse response) throws IOException{
+                                                    HttpServletResponse response) throws IOException, EntityNotFoundException {
         // Fetch Image
         final Optional<Documents> retrievedImage = documentService.retrieveById(documentId);
         if (retrievedImage.isPresent()) {
@@ -58,64 +69,88 @@ public class MainRestController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<Long> upload (@RequestParam(value = "file") MultipartFile file,
-                                          @RequestParam(value = "userId") String userId) throws IOException {
-        // TODO Validation
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    @ResponseBody
+    public ResponseEntity<Object> upload (@Valid @ModelAttribute("request") ImageRequest request,
+                                          BindingResult bindingResult, Principal principal) throws IOException {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidFormRequestException();
+        }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            throw new NotPermittedRequestException();
+        }
+
+        String fileName = StringUtils.cleanPath(request.getFile().getOriginalFilename());
         // Add identifier to file name
         String filePath = "/" + UUID.randomUUID() + "/" + fileName;
         Documents document = new Documents(
-                file.getBytes(),
+                request.getFile().getBytes(),
                 fileName,
                 filePath,
-                file.getSize(),
-                userId,
+                request.getFile().getSize(),
+                request.getUserId(),
                 LocalDateTime.now()
         );
         Boolean isSuccessful = documentService.save(document);
         if (!isSuccessful) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to upload the image.", HttpStatus.BAD_REQUEST);
         }
         Long documentId = documentService.getDocumentIdByFilePath(filePath);
-        return new ResponseEntity<>(documentId, HttpStatus.OK);
+        return new ResponseEntity<>(documentId.toString(), HttpStatus.OK);
     }
+
 
     @PostMapping("/upvote")
     public ResponseEntity<String> upvote (
-            @RequestParam(value = "userId") String userId,
-            @RequestParam(value = "articleId") String articleId) {
-        // TODO Handle Bad request
-        Boolean isSuccessful = likeService.save(articleId, userId, LocalDateTime.now());
-        if(!isSuccessful) {
-            return new ResponseEntity<>(articleId, HttpStatus.BAD_REQUEST);
+            @RequestParam(value = "userId") Optional<String> userId,
+            @RequestParam(value = "articleId") Optional<String> articleId,
+            Principal principal) {
+        if (!userId.isPresent() || !articleId.isPresent() || userId.get().isEmpty() || articleId.get().isEmpty()) {
+            throw new MissingRequestParamException();
         }
-        return new ResponseEntity<>(articleId, HttpStatus.OK);
+
+        if (!hasPermission(principal, userId.get())) {
+            throw new NotPermittedRequestException();
+        }
+
+        Boolean isSuccessful = likeService.save(articleId.get(), userId.get(), LocalDateTime.now());
+        if(!isSuccessful) {
+            return new ResponseEntity<>(articleId.get(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(articleId.get(), HttpStatus.OK);
     }
 
+
     @DeleteMapping(value = "/comment/{commentId}/delete")
-    public @ResponseBody ResponseEntity<String> deleteComment (@PathVariable(value = "commentId") String commentId) {
-        // TODO Check if user has privilege to delete
-        System.out.println("Comment Delete operation started.");
+    public @ResponseBody ResponseEntity<Object> deleteComment (@PathVariable(value = "commentId") String commentId,
+                                                               Principal principal) {
+        // Check if the comment exists
+        Comments comment = commentService.retrieveByCommentId(commentId);
+        if (comment == null) {
+            throw new EntityNotFoundException(Comments.class, "commentId", commentId);
+        }
+        if (!hasPermission(principal, comment.getUserId())) {
+            throw new NotPermittedRequestException();
+        }
         Boolean isSuccessful = commentService.delete(commentId);
         if (!isSuccessful) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("Comment is deleted! Comment ID= " + commentId);
         return new ResponseEntity<>(commentId, HttpStatus.OK);
     }
 
 
-
     @DeleteMapping(value = "/article/{articleId}/delete")
     public @ResponseBody ResponseEntity<String> deleteArticle (@PathVariable(value = "articleId") String articleId) {
-        // TODO Check if user has privilege to delete
-        System.out.println("Article Delete operation started.");
-        // execute deletion of article
+        // Check if the article exists
+        articleService.retrieveByArticleId(articleId)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, "articleId", articleId));
+
+        // Execute deletion of article
         Boolean isSuccessfulForArticle = articleService.delete(articleId);
-        // execute deletion of related comments
+        // Execute deletion of related comments
         Boolean isSuccessfulForComment;
         if (isSuccessfulForArticle) {
-            System.out.println("Delete article: Successful");
             isSuccessfulForComment = commentService.deleteByArticleId(articleId);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -124,8 +159,20 @@ public class MainRestController {
         if (!isSuccessfulForComment) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("Delete related Comments: Successful");
         return new ResponseEntity<>(articleId, HttpStatus.OK);
+    }
+
+    private boolean hasPermission (Principal principal, String userId) {
+        // Null check
+        if (principal == null || userId == null) {
+            return false;
+        }
+        // Check if Authenticated
+        if (principal.getName().isEmpty()) {
+            return false;
+        }
+        // Check if login user has permission to proceed the operation
+        return principal.getName().equals(userId);
     }
 
 }

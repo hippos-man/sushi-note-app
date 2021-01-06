@@ -1,5 +1,6 @@
 package com.lazyhippos.todolistapp.application.controller;
 
+import com.lazyhippos.todolistapp.application.resource.ImageRequest;
 import com.lazyhippos.todolistapp.application.resource.UserProfile;
 import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
@@ -69,6 +70,7 @@ public class UserController {
         model.addAttribute("isLogin", true);
         model.addAttribute("loginUserId", user.getUserId());
         model.addAttribute("userProfile", userProfile);
+        model.addAttribute("imageRequest", new ImageRequest(null, principal.getName()));
         return USER_EDIT_VIEW;
     }
 

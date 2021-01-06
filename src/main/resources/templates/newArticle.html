@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="article-detail">
+    <!-- TODO Use common header -->
     <header class="home-head">
         <h2 class="home__logo">
             <a class="header__logo" href="#" th:href="@{/}">
@@ -42,10 +43,9 @@
             <div>
                 <div class="document-form">
                     <div class="text-upload-success"></div>
-                    <form id="file-form" action="#" method="post" enctype="multipart/form-data">
-                        <input type="file" name="file" required />
-                        <input type="hidden" name="userId" th:value="${userId}" />
-                        <br>
+                    <form id="file-form" action="#" th:object="${imageRequest}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" th:field="*{file}" required />
+                        <input type="hidden" name="userId" th:field="*{userId}" />
                     </form>
                     <div class="preview-image"></div>
                 </div>
@@ -105,6 +105,7 @@
                     previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
                 } else {
                     console.log('Server error');
+                    textSuccess.innerHTML = '<h3>Something wrong in uploading.</h3>';
                 }
             };
             xhr.onerror = function () {

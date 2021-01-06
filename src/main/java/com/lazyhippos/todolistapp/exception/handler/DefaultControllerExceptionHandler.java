@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.exception;
+package com.lazyhippos.todolistapp.exception.handler;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
-public class DefaultExceptionHandler {
+public class DefaultControllerExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error";
 
     @ExceptionHandler(value = Exception.class)
