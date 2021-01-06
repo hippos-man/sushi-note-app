@@ -2,6 +2,7 @@ package com.lazyhippos.todolistapp.application.restcontroller;
 
 import com.lazyhippos.todolistapp.application.resource.ImageRequest;
 import com.lazyhippos.todolistapp.domain.model.Articles;
+import com.lazyhippos.todolistapp.domain.model.Comments;
 import com.lazyhippos.todolistapp.domain.model.Documents;
 import com.lazyhippos.todolistapp.domain.service.ArticleService;
 import com.lazyhippos.todolistapp.domain.service.CommentService;
@@ -10,6 +11,7 @@ import com.lazyhippos.todolistapp.domain.service.LikeService;
 import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
 import com.lazyhippos.todolistapp.exception.InvalidFormRequestException;
 import com.lazyhippos.todolistapp.exception.MissingRequestParamException;
+import com.lazyhippos.todolistapp.exception.NotPermittedRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,8 +47,9 @@ public class MainRestController {
     @GetMapping("/articles/{articleId}")
     public Articles getArticle(@PathVariable("articleId") String articleId) throws EntityNotFoundException {
         // Fetch Article
-        Optional<Articles> fetchedItem = articleService.retrieveByArticleId(articleId);
-        return fetchedItem.get();
+        Articles fetchedItem = articleService.retrieveByArticleId(articleId)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, "articleId", articleId));
+        return fetchedItem;
     }
 
     @GetMapping(value = "/uploads/images/{documentId}")
@@ -66,9 +70,14 @@ public class MainRestController {
 
     @PostMapping(value = "/upload")
     @ResponseBody
-    public ResponseEntity<Object> upload (@Valid @ModelAttribute("request") ImageRequest request, BindingResult bindingResult) throws IOException {
+    public ResponseEntity<Object> upload (@Valid @ModelAttribute("request") ImageRequest request,
+                                          BindingResult bindingResult, Principal principal) throws IOException {
         if (bindingResult.hasErrors()) {
             throw new InvalidFormRequestException();
+        }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            throw new NotPermittedRequestException();
         }
 
         String fileName = StringUtils.cleanPath(request.getFile().getOriginalFilename());
@@ -90,13 +99,20 @@ public class MainRestController {
         return new ResponseEntity<>(documentId.toString(), HttpStatus.OK);
     }
 
+
     @PostMapping("/upvote")
     public ResponseEntity<String> upvote (
             @RequestParam(value = "userId") Optional<String> userId,
-            @RequestParam(value = "articleId") Optional<String> articleId) {
+            @RequestParam(value = "articleId") Optional<String> articleId,
+            Principal principal) {
         if (!userId.isPresent() || !articleId.isPresent() || userId.get().isEmpty() || articleId.get().isEmpty()) {
             throw new MissingRequestParamException();
         }
+
+        if (!hasPermission(principal, userId.get())) {
+            throw new NotPermittedRequestException();
+        }
+
         Boolean isSuccessful = likeService.save(articleId.get(), userId.get(), LocalDateTime.now());
         if(!isSuccessful) {
             return new ResponseEntity<>(articleId.get(), HttpStatus.BAD_REQUEST);
@@ -104,9 +120,18 @@ public class MainRestController {
         return new ResponseEntity<>(articleId.get(), HttpStatus.OK);
     }
 
-    // TODO Check if user has privilege to delete
+
     @DeleteMapping(value = "/comment/{commentId}/delete")
-    public @ResponseBody ResponseEntity<Object> deleteComment (@PathVariable(value = "commentId") String commentId) {
+    public @ResponseBody ResponseEntity<Object> deleteComment (@PathVariable(value = "commentId") String commentId,
+                                                               Principal principal) {
+        // Check if the comment exists
+        Comments comment = commentService.retrieveByCommentId(commentId);
+        if (comment == null) {
+            throw new EntityNotFoundException(Comments.class, "commentId", commentId);
+        }
+        if (!hasPermission(principal, comment.getUserId())) {
+            throw new NotPermittedRequestException();
+        }
         Boolean isSuccessful = commentService.delete(commentId);
         if (!isSuccessful) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -115,9 +140,12 @@ public class MainRestController {
     }
 
 
-    // TODO Check if user has privilege to delete
     @DeleteMapping(value = "/article/{articleId}/delete")
     public @ResponseBody ResponseEntity<String> deleteArticle (@PathVariable(value = "articleId") String articleId) {
+        // Check if the article exists
+        articleService.retrieveByArticleId(articleId)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, "articleId", articleId));
+
         // Execute deletion of article
         Boolean isSuccessfulForArticle = articleService.delete(articleId);
         // Execute deletion of related comments
@@ -132,6 +160,19 @@ public class MainRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(articleId, HttpStatus.OK);
+    }
+
+    private boolean hasPermission (Principal principal, String userId) {
+        // Null check
+        if (principal == null || userId == null) {
+            return false;
+        }
+        // Check if Authenticated
+        if (principal.getName().isEmpty()) {
+            return false;
+        }
+        // Check if login user has permission to proceed the operation
+        return principal.getName().equals(userId);
     }
 
 }

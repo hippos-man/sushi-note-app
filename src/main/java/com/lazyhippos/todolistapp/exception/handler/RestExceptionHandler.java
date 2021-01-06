@@ -1,5 +1,9 @@
-package com.lazyhippos.todolistapp.exception;
+package com.lazyhippos.todolistapp.exception.handler;
 
+import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
+import com.lazyhippos.todolistapp.exception.InvalidFormRequestException;
+import com.lazyhippos.todolistapp.exception.MissingRequestParamException;
+import com.lazyhippos.todolistapp.exception.NotPermittedRequestException;
 import com.lazyhippos.todolistapp.exception.apierror.ApiError;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -12,10 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -52,6 +53,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingRequestParam() {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Required parameter is missing.");
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(NotPermittedRequestException.class)
+    protected ResponseEntity<Object> handleNotPermittedRequest() {
+        ApiError apiError = new ApiError(FORBIDDEN);
+        apiError.setMessage("No permission to proceed the request.");
         return buildResponseEntity(apiError);
     }
 }
