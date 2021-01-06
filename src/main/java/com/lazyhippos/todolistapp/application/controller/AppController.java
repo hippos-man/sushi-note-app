@@ -4,9 +4,6 @@ import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.*;
 import com.lazyhippos.todolistapp.domain.service.*;
 import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.security.acl.NotOwnerException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -124,6 +120,7 @@ public class AppController {
         // Dispatch Home page
         return INDEX_VIEW;
     }
+
 
     @GetMapping("/s/{userId}/{articleId}")
     public String showArticleDetailPage(@PathVariable("userId") String userId, @PathVariable("articleId") String articleId,
@@ -238,6 +235,7 @@ public class AppController {
         return ARTICLE_DETAIL_VIEW;
     }
 
+
     @GetMapping("/categories/{topicId}")
     public String showCategoryPage (@PathVariable("topicId") String topicId, Model model, Principal principal) {
         Boolean isLogin = false;
@@ -310,6 +308,7 @@ public class AppController {
         return INDEX_VIEW;
     }
 
+
     @GetMapping("/drafts/new")
     public String showAddArticlePage(Model model, Principal principal) {
         // Retrieve User ID
@@ -341,6 +340,7 @@ public class AppController {
         model.addAttribute("imageRequest", new ImageRequest(null, userId));
         return NEW_ARTICLE_VIEW;
     }
+
 
     @GetMapping("/article/{articleId}/edit")
     public String showEditArticlePage (@PathVariable String articleId, Model model, Principal principal) {
@@ -387,6 +387,7 @@ public class AppController {
 
         return EDIT_ARTICLE_VIEW;
     }
+
 
     @GetMapping("/m/{userId}")
     public String showMyPage(@PathVariable("userId") String userId, Model model, Principal principal) {
@@ -443,15 +444,16 @@ public class AppController {
         return MY_PAGE_VIEW;
     }
 
+
     @GetMapping("/comment/{commentId}/edit")
     public String showEditCommentPage(@PathVariable(value = "commentId") String commentId, Model model, Principal principal) {
 
         // Retrieve Comment by Comment ID
         Comments comment = commentService.retrieveByCommentId(commentId);
-        // Throw exception if unauthorized user request edit page.
-        if (!principal.getName().equals(comment.getUserId())) {
-            throw new RuntimeException();
+        if (comment == null || !hasPermission(principal, comment.getUserId())) {
+            return REDIRECT + SLASH;
         }
+
         String loginUserId = principal.getName();
         // Fetch login user profile
         Users users = userService.retrieveAuthorProfile(loginUserId);
@@ -480,8 +482,10 @@ public class AppController {
         return EDIT_COMMENT_VIEW;
     }
 
+
     @PostMapping("/article/create")
-    public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request, BindingResult result, Model model){
+    public String createArticle (@ModelAttribute("request") @Validated ArticleRequest request,
+                                 BindingResult result, Model model, Principal principal){
 
         if (result.hasErrors()) {
             // Fetch author profile
@@ -506,6 +510,11 @@ public class AppController {
             model.addAttribute("authorProfile", author);
             return NEW_ARTICLE_VIEW;
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // DEBUG
@@ -514,9 +523,10 @@ public class AppController {
         return REDIRECT + SLASH;
     }
 
+
     @PostMapping("/article/edit")
     public String editArticle(@ModelAttribute("request") @Validated ArticleRequest request,
-                              BindingResult result, Model model) {
+                              BindingResult result, Model model, Principal principal) {
 
         if (result.hasErrors()) {
             List<Topics> topics = topicService.retrieveAll();
@@ -538,20 +548,30 @@ public class AppController {
             model.addAttribute("isLogin",true);
             return EDIT_ARTICLE_VIEW;
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // GET current time
         LocalDateTime now = LocalDateTime.now();
-        // DEBUG
-        System.out.println("Edit Article Request= " + request);
         articleService.update(request, now);
         return REDIRECT + SLASH;
     }
 
+
     @PostMapping("/comment/create")
-    public String createComment (@ModelAttribute(value = "request") @Validated CommentRequest request, BindingResult result) {
+    public String createComment (@ModelAttribute(value = "request") @Validated CommentRequest request, BindingResult result,
+                                 Principal principal) {
         // Input check
         if (result.hasErrors()) {
             throw new RuntimeException("Invalid input (comment)");
         }
+
+        if (!hasPermission(principal, request.getUserId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // Register new comment
@@ -559,12 +579,18 @@ public class AppController {
         return REDIRECT + SLASH + 's' + SLASH + request.getAuthorId() + SLASH + request.getArticleId();
     }
 
+
     @PostMapping("/comment/edit")
     public String editComment (@ModelAttribute(value = "request")
-                                   @Validated CommentUpdateRequest request, BindingResult result) {
+                                   @Validated CommentUpdateRequest request, BindingResult result, Principal principal) {
         if (result.hasErrors()) {
             throw new RuntimeException();
         }
+
+        if (!hasPermission(principal, request.getAuthorId())) {
+            return REDIRECT + SLASH;
+        }
+
         // Get current time
         LocalDateTime now = LocalDateTime.now();
         // Update the comment
@@ -579,6 +605,7 @@ public class AppController {
         model.addAttribute("imageRequest", new ImageRequest(null, principal.getName()));
         return "documentManager";
     }
+
 
     @PostMapping(value = "/upload")
     public String uploadFile(@RequestParam("document") MultipartFile multipartFile,
@@ -598,6 +625,7 @@ public class AppController {
         ra.addFlashAttribute("message", "The file has been successfully uploaded.");
         return "redirect:/upload";
     }
+
 
     private boolean hasPermission (Principal principal, String userId) {
         // Null check
