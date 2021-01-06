@@ -4,6 +4,9 @@ import com.lazyhippos.todolistapp.application.resource.*;
 import com.lazyhippos.todolistapp.domain.model.*;
 import com.lazyhippos.todolistapp.domain.service.*;
 import com.lazyhippos.todolistapp.exception.EntityNotFoundException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.security.acl.NotOwnerException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -151,7 +155,7 @@ public class AppController {
 
         // for Illegal request
         if (!userId.equals(article.getUserId())) {
-            throw new RuntimeException();
+            return REDIRECT + SLASH;
         }
 
         // Fetch all comments by article ID
@@ -341,10 +345,16 @@ public class AppController {
     @GetMapping("/article/{articleId}/edit")
     public String showEditArticlePage (@PathVariable String articleId, Model model, Principal principal) {
 
-        Optional<Articles> articlesOptional = articleService.retrieveByArticleId(articleId);
+        Optional<Articles> articlesOptional = null;
+        try {
+            articlesOptional = articleService.retrieveByArticleId(articleId);
+        } catch (EntityNotFoundException ex) {
+            return REDIRECT + SLASH;
+        }
+
         if (!articlesOptional.isPresent()
-                || !articlesOptional.get().getUserId().equals(principal.getName())) {
-            throw new RuntimeException();
+                || !hasPermission(principal, articlesOptional.get().getUserId())) {
+            return REDIRECT + SLASH;
         }
 
         Articles article = articlesOptional.get();
@@ -587,5 +597,18 @@ public class AppController {
         documentService.save(document);
         ra.addFlashAttribute("message", "The file has been successfully uploaded.");
         return "redirect:/upload";
+    }
+
+    private boolean hasPermission (Principal principal, String userId) {
+        // Null check
+        if (principal == null || userId == null) {
+            return false;
+        }
+        // Check if Authenticated
+        if (principal.getName().isEmpty()) {
+            return false;
+        }
+        // Check if login user has permission to proceed the operation
+        return principal.getName().equals(userId);
     }
 }
