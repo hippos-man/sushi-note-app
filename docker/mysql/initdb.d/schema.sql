@@ -56,3 +56,9 @@ CREATE TABLE likes (
     created_date_time DATETIME NOT NULL,
     PRIMARY KEY (user_id, article_id)
 );
+
+CREATE TABLE verification_token (
+    token_id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR (100) NOT NULL,
+    expiry_date DATE NOT NULL
+);
