@@ -3,11 +3,12 @@ CREATE TABLE users (
     display_name VARCHAR (50) NOT NULL,
     email_address VARCHAR (255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    document_id BIGINT(20),
     is_active BOOLEAN NOT NULL,
     created_date_time DATETIME NOT NULL,
     updated_date_time DATETIME NOT NULL,
-    role_name VARCHAR(50) NOT NULL
+    role_name VARCHAR(50) NOT NULL,
+    image_id BIGINT(20),
+    is_enabled BOOLEAN NOT NULL
 );
 
 CREATE TABLE articles (
