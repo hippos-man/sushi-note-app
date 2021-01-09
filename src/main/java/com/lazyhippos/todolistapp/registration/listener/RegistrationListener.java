@@ -1,9 +1,9 @@
 package com.lazyhippos.todolistapp.registration.listener;
 
 import com.lazyhippos.todolistapp.domain.model.Users;
+import com.lazyhippos.todolistapp.domain.model.VerificationToken;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import com.lazyhippos.todolistapp.registration.OnRegistrationCompleteEvent;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -39,8 +39,12 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
         final Users user = event.getUsers();
         final String token = UUID.randomUUID().toString();
-        userService.createVerificationTokenForUser(user, token);
-
+        VerificationToken verificationToken = userService.createVerificationTokenForUser(user, token);
+        if (verificationToken != null) {
+            System.out.println("Email Verification Token saved.");
+        } else {
+            System.out.println("Failed to save Email Verification Token.");
+        }
         final SimpleMailMessage email = constructEmailMessage(event, user, token);
         mailSender.send(email);
     }
