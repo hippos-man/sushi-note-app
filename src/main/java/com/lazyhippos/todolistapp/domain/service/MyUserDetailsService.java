@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TaskUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     private final UserJpaRepository userJpaRepository;
 
-    TaskUserDetailsService(UserJpaRepository userJpaRepository){
+    MyUserDetailsService(UserJpaRepository userJpaRepository){
         this.userJpaRepository = userJpaRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String userId) throws UsernameNotFoundException {
         Optional<Users> usersOptional = userJpaRepository.findById(userId);
         if(!usersOptional.isPresent()){
-            throw new UsernameNotFoundException("UserId : " + userId + " was not found in the database");
+            throw new UsernameNotFoundException("No user found with user id: " + userId);
         }
         Users user = usersOptional.get();
         String role =user.getRoleName().name();
@@ -37,7 +37,7 @@ public class TaskUserDetailsService implements UserDetailsService {
         grantedList.add(authority);
 
         UserDetails userDetails = (UserDetails)
-                new User(user.getUserId(), user.getPassword(), grantedList);
+                new User(user.getUserId(), user.getPassword(), user.getEnabled(), true, true, true, grantedList);
         return userDetails;
     }
 }

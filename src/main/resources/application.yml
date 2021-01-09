@@ -10,3 +10,18 @@ spring:
     url: jdbc:mysql://localhost:3314/sushi_note_db
     username: root
     password: rootpassword
+  # Gmail SMTP
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: helpdesk.sushinote@gmail.com
+    password: algl&hfa%Hd312
+    properties:
+      mail:
+        smtps:
+          auth: true
+          starttls:
+            enable : false
+
+support:
+  email: helpdesk.sushinote@gmail.com

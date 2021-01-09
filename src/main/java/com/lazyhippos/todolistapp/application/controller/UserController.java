@@ -6,6 +6,8 @@ import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.UserService;
+import com.lazyhippos.todolistapp.registration.OnRegistrationCompleteEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -24,6 +27,7 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private final UserService userService;
+    private final ApplicationEventPublisher eventPublisher;
     private final String REDIRECT = "redirect:";
     private final String USER_REGISTER_VIEW = "signup";
     private final String USER_EDIT_VIEW = "editUser";
@@ -31,8 +35,9 @@ public class UserController {
     private final String SLASH = "/";
 
 
-    UserController(UserService userService) {
+    UserController(UserService userService, ApplicationEventPublisher eventPublisher) {
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping("/user/signup")
@@ -77,7 +82,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     public String register(@Valid @ModelAttribute(name = "request") UserRequest request,
-                           BindingResult bindingResult, Model model){
+                           BindingResult bindingResult, Model model, HttpServletRequest servletRequest){
         if (isAuthenticated()) {
             return REDIRECT + SLASH;
         }
@@ -92,6 +97,8 @@ public class UserController {
             }
         }
 
+        // TODO Duplicate Email check
+
         if (bindingResult.hasErrors()){
             model.addAttribute("request", request);
             return USER_REGISTER_VIEW;
@@ -100,8 +107,16 @@ public class UserController {
         // Get current time
         LocalDateTime now = LocalDateTime.now();
 
-        // Store new user
-        userService.register(request, now);
+        // Store new user (with disabled status)
+        Users registered = userService.register(request, now);
+
+        // Create Token and Send verification email
+        String appUrl = servletRequest.getContextPath();
+        eventPublisher.publishEvent(
+                new OnRegistrationCompleteEvent(
+                        registered, servletRequest.getLocale(), appUrl)
+        );
+        // TODO Return Successful Message Page
         return LOGIN_VIEW;
     }
 
