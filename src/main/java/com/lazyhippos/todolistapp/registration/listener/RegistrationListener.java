@@ -5,7 +5,6 @@ import com.lazyhippos.todolistapp.domain.model.VerificationToken;
 import com.lazyhippos.todolistapp.domain.service.UserService;
 import com.lazyhippos.todolistapp.registration.OnRegistrationCompleteEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-@PropertySource(value = {"classpath:application.yml"})
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
     private final UserService userService;
