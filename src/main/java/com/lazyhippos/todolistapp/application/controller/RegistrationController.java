@@ -17,9 +17,10 @@ public class RegistrationController {
     @GetMapping("/registrationConfirm")
     public String confirmRegistration(@RequestParam("token") final String token) {
         final String result = userService.validateVerificationToken(token);
-//        if (result.equals("valid")) {
-//            // Do something
-//        }
+        if (result.equals("valid")) {
+            // TODO Do something
+            System.out.println("Verification Token is valid. Your account is successfully activated.");
+        }
         return "redirect:/";
     }
 }

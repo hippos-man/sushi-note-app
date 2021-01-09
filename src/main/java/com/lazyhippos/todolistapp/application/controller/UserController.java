@@ -110,11 +110,11 @@ public class UserController {
         // Store new user (with disabled status)
         Users registered = userService.register(request, now);
 
-        // Create Token and Send verification email
-        String appUrl = servletRequest.getContextPath();
+//        // Create Token and Send verification email
+//        String appUrl = servletRequest.getContextPath();
         eventPublisher.publishEvent(
                 new OnRegistrationCompleteEvent(
-                        registered, servletRequest.getLocale(), appUrl)
+                        registered, servletRequest.getLocale(), getAppUrl(servletRequest))
         );
         // TODO Return Successful Message Page
         return LOGIN_VIEW;
@@ -144,5 +144,9 @@ public class UserController {
             return false;
         }
         return authentication.isAuthenticated();
+    }
+
+    private String getAppUrl(HttpServletRequest request) {
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }

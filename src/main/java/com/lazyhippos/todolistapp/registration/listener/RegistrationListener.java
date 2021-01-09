@@ -50,7 +50,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final Users user, final String token) {
         final String recipientAddress = user.getEmailAddress();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = event.getAppUrl() + "/registrationConfirm.html?token=" + token;
+        final String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
         final String message = messageSource.getMessage("message.regSucLink",
                 null,
                 "You registered successfully. To confirm your registration, please click on the below link.",
