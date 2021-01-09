@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/user/signup",
                         "/user/register",
+                        "/registrationConfirm",
                         "/",
                         "/categories/**",
                         "/s/**",
