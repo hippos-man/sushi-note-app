@@ -18,9 +18,28 @@ public class VerificationToken {
 
     @OneToOne(targetEntity = Users.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    private Users users;
+    private Users user;
 
     private Date expiryDate;
+
+    public VerificationToken() {
+        super();
+    }
+
+    public VerificationToken(final String token) {
+        super();
+        this.token = token;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+    public VerificationToken(final String token, final Users user) {
+        super();
+        this.token = token;
+        this.user = user;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+
 
     private Date calculateExpiryDate (int expiryTimeInMinutes) {
         Calendar cal = Calendar.getInstance();
@@ -29,4 +48,23 @@ public class VerificationToken {
         return new Date(cal.getTime().getTime());
     }
 
+    public static int getEXPIRATION() {
+        return EXPIRATION;
+    }
+
+    public Long getTokenId() {
+        return tokenId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
 }
