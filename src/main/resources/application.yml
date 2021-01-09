@@ -16,13 +16,13 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: helpdesk.sushinote@gmail.com
-    password: algl&hfa%Hd312
+    password: erghjtgjasmtrlgb
     properties:
       mail:
-        smtps:
+        smtp:
           auth: true
           starttls:
-            enable : false
+            enable : true
 
 support:
-  email: helpdesk.sushinote@gmail.com
+  mail: helpdesk.sushinote@gmail.com

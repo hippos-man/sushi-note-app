@@ -1,4 +1,4 @@
-package com.lazyhippos.todolistapp.configuration;
+package com.lazyhippos.todolistapp;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,10 +25,10 @@ public class EmailConfig {
     @Value("${spring.mail.password}")
     private String mailServerPassword;
 
-    @Value("${spring.mail.properties.mail.smtps.auth}")
+    @Value("${spring.mail.properties.mail.smtp.auth}")
     private String mailServerAuth;
 
-    @Value("${spring.mail.properties.mail.smtps.starttls.enable}")
+    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private String mailServerStartTls;
 
     @Bean
