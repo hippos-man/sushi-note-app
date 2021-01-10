@@ -1,6 +1,6 @@
 package com.lazyhippos.todolistapp;
 
-import com.lazyhippos.todolistapp.domain.service.TaskUserDetailsService;
+import com.lazyhippos.todolistapp.domain.service.MyUserDetailsService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,11 +15,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final TaskUserDetailsService taskUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder,TaskUserDetailsService taskUserDetailsService){
+    public SecurityConfig(PasswordEncoder passwordEncoder, MyUserDetailsService myUserDetailsService){
         this.passwordEncoder = passwordEncoder;
-        this.taskUserDetailsService = taskUserDetailsService;
+        this.myUserDetailsService = myUserDetailsService;
     }
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception{
@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/user/signup",
                         "/user/register",
+                        "/registrationConfirm",
+                        "/result",
                         "/",
                         "/categories/**",
                         "/s/**",
@@ -48,6 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder managerBuilder) throws Exception{
-        managerBuilder.userDetailsService(taskUserDetailsService).passwordEncoder(passwordEncoder);
+        managerBuilder.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder);
     }
 }

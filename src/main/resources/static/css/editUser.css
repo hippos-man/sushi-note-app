@@ -28,9 +28,11 @@ div.space-bottom-2 {
 }
 
 input[type=text] {
+    padding: 5px 10px;
     border: 1px solid #e1e5e7;
     height: 25px;
-    padding: 5px 10px;
+    width: 100%;
+    max-width: 335px;
 }
 
 input[type=submit] {
@@ -47,4 +49,9 @@ div.preview-image {
 div.preview-image img {
     max-width: 100px;
     border-radius: 50%;
+}
+
+div.preview-image p {
+    font-size: 14px;
+    color: navy;
 }

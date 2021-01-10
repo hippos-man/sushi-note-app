@@ -6,16 +6,22 @@ import com.lazyhippos.todolistapp.application.resource.UserRequest;
 import com.lazyhippos.todolistapp.application.resource.UserUpdateRequest;
 import com.lazyhippos.todolistapp.domain.model.Users;
 import com.lazyhippos.todolistapp.domain.service.UserService;
+import com.lazyhippos.todolistapp.registration.OnRegistrationCompleteEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -24,15 +30,18 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private final UserService userService;
+    private final ApplicationEventPublisher eventPublisher;
     private final String REDIRECT = "redirect:";
     private final String USER_REGISTER_VIEW = "signup";
     private final String USER_EDIT_VIEW = "editUser";
     private final String LOGIN_VIEW = "login";
     private final String SLASH = "/";
+    public final String MESSAGE_VIEW = "simple";
 
 
-    UserController(UserService userService) {
+    UserController(UserService userService, ApplicationEventPublisher eventPublisher) {
         this.userService = userService;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping("/user/signup")
@@ -76,10 +85,10 @@ public class UserController {
 
 
     @PostMapping("/user/register")
-    public String register(@Valid @ModelAttribute(name = "request") UserRequest request,
-                           BindingResult bindingResult, Model model){
+    public ModelAndView register(@Valid @ModelAttribute(name = "request") UserRequest request,
+                                 BindingResult bindingResult, ModelMap model, HttpServletRequest servletRequest, RedirectAttributes ra){
         if (isAuthenticated()) {
-            return REDIRECT + SLASH;
+            return new ModelAndView(REDIRECT + SLASH);
         }
 
         // Duplicate USER ID check
@@ -92,17 +101,34 @@ public class UserController {
             }
         }
 
+        // Duplicate Email Address check
+        if (!request.getEmailAddress().isEmpty()) {
+            Boolean isEmailAddressExist = userService.isEmailAddressExist(request.getEmailAddress());
+            if (isEmailAddressExist) {
+                bindingResult.rejectValue("emailAddress",
+                        "error.user",
+                        "A email address is registered already.");
+            }
+        }
+
         if (bindingResult.hasErrors()){
             model.addAttribute("request", request);
-            return USER_REGISTER_VIEW;
+            return new ModelAndView(USER_REGISTER_VIEW, model);
         }
 
         // Get current time
         LocalDateTime now = LocalDateTime.now();
 
-        // Store new user
-        userService.register(request, now);
-        return LOGIN_VIEW;
+        // Store new user (with disabled status)
+        Users registered = userService.register(request, now);
+
+        eventPublisher.publishEvent(
+                new OnRegistrationCompleteEvent(
+                        registered, servletRequest.getLocale(), getAppUrl(servletRequest))
+        );
+        model.addAttribute("message",
+                "Verification email is sent to your email address. Please activate your account.");
+        return new ModelAndView(MESSAGE_VIEW, model);
     }
 
     @PostMapping("/user/update")
@@ -129,5 +155,9 @@ public class UserController {
             return false;
         }
         return authentication.isAuthenticated();
+    }
+
+    private String getAppUrl(HttpServletRequest request) {
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }

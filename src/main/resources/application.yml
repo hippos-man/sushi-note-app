@@ -5,8 +5,24 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3314/sushi_note_db
     username: root
     password: rootpassword
+  # Gmail SMTP
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: helpdesk.sushinote@gmail.com
+    password: erghjtgjasmtrlgb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable : true
+
+support:
+  mail: helpdesk.sushinote@gmail.com

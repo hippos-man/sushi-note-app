@@ -1,9 +1,6 @@
 package com.lazyhippos.todolistapp.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +17,7 @@ public class Users {
     private LocalDateTime updatedDateTime;
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
+    private Boolean isEnabled;
 
     public Users() {
     }
@@ -36,6 +34,7 @@ public class Users {
         this.createdDateTime = createdDateTime;
         this.updatedDateTime = updatedDateTime;
         this.roleName = roleName;
+        this.isEnabled = false;
     }
 
     public String getUserId() {
@@ -108,5 +107,13 @@ public class Users {
 
     public void setRoleName(RoleName roleName) {
         this.roleName = roleName;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
     }
 }
