@@ -1,0 +1,93 @@
+.article__main {
+    margin : 0;
+}
+
+.article__form {
+    margin-right: auto;
+    margin-left: auto;
+    width: 700px;
+    padding: 24px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.preview-image img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+p.register__title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+form.article-form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type=text] {
+    border: 1px solid #e1e5e7;
+    height: 25px;
+    padding: 5px 10px;
+    font-size: 24px;
+}
+
+textarea#textBody {
+    border: 1px solid #e1e5e7;
+    padding: 5px 10px;
+    font-size: 18px;
+    min-height: 250px;
+    resize: vertical;
+}
+
+form > input, textarea, select {
+    margin-bottom: 20px;
+}
+
+select {
+    border: 1px solid #e1e5e7;
+    font-size: 18px;
+    max-width: 200px;
+    padding: 5px;
+}
+
+input[type=submit] {
+    margin-top: 30px;
+    margin-right: auto;
+    min-width: 300px;
+    margin-left: auto;
+}
+
+span.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+div.space-bottom-2 {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Common component*/
+
+.btn-large {
+    width: 150px;
+    height: 35px;
+    border: 1px solid #2cb696;
+    background-color: #2cb696;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Common compornent*/
+
+.article-delete a {
+    font-size: 14px;
+    color: #5e6c84;
+    text-decoration: underline;
+}

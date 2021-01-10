@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Edit Article</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/editArticle.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="article-detail">
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${profileImageId})"></header>
+    <main class="article__main">
+        <div class="article__form">
+            <div class="register__title-container">
+                <p class="register__title">Edit my article</p>
+            </div>
+            <div class="document-form">
+                <div class="text-upload-success"></div>
+                <form id="file-form" action="#" th:object="${imageRequest}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" th:field="*{file}" required />
+                    <input type="hidden" name="userId" th:field="*{userId}" />
+                </form>
+                <div class="preview-image"></div>
+            </div>
+            <form class="article-form" role="form" action="#" th:action="@{/article/edit}" th:object="${request}" method="post">
+                <div class="space-bottom-2">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" th:field="*{title}" placeholder="Enter title">
+                    <span class="error-message" th:errors="*{title}"></span>
+                </div>
+                <div class="space-bottom-2">
+                <label for="topicId">Topic</label>
+                    <select id = "topicId" th:field="*{topicId}">
+                        <option value="" disabled selected>Select topic</option>
+                        <option th:each=" topic : ${topicMap}"
+                                th:value="${topic.getKey()}" th:text="${topic.getValue()}"></option>
+                    </select>
+                    <span class="error-message" th:errors="*{topicId}"></span>
+                </div>
+                <div class="space-bottom-2">
+                    <label for="textBody">Text body</label>
+                    <textarea type="text" id="textBody" th:field="*{textBody}" placeholder="What do you want to talk about?"></textarea>
+                    <span class="error-message" th:errors="*{textBody}"></span>
+                </div>
+                <input type="hidden" id="userId" th:field="*{userId}">
+                <input type="hidden" id="articleId" th:field="*{articleId}">
+                <input type="hidden" id="documentId" th:field="*{documentId}">
+                <div class="dummy"></div>
+                <input class="btn-large" type="submit" value="Update">
+            </form>
+            <div class="article-delete">
+                <a href="#">Delete</a>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+
+    window.addEventListener("DOMContentLoaded", (event) =>  {
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        /** Call Article Delete method **/
+        const deleteUrl = "http://localhost:8080/api/v1/article/";
+        const articleDeleteDOMList = document.querySelectorAll('div.article-delete a');
+        const articleId = document.querySelector('input#articleId').value;
+        const userId = document.querySelector('input#userId').value;
+        articleDeleteDOMList.forEach(articleDeleteDOM => {
+            articleDeleteDOM.addEventListener('click', function () {
+                // Confirm delete operation
+                if (!confirm("Are you sure, you want to delete this article?")) {
+                    return false;
+                }
+                let xhr = new XMLHttpRequest();
+                xhr.open("DELETE", deleteUrl + articleId + '/delete', true);
+                xhr.setRequestHeader(header, token);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        console.log('Delete request= Successful');
+                        window.location.href = "http://localhost:8080/m/" + userId;
+                    } else {
+                        console.log('Server error');
+                    }
+                };
+                xhr.onerror = function () {
+                    console.log('something went wrong');
+                };
+                xhr.send();
+            });
+        });
+        /** End Call Article Delete method **/
+
+        /** Document Upload API **/
+        const form = document.querySelector('#file-form');
+        const fileSelector = document.querySelector('input[name=file]');
+        const documentIdDOM = document.querySelector('input#documentId');
+        const textSuccess = document.querySelector('div.text-upload-success');
+        const previewImageDOM = document.querySelector('div.preview-image');
+        fileSelector.addEventListener('change', (event) =>{
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/v1/upload');
+            let data = new FormData(form);
+            xhr.setRequestHeader(header, token);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    console.log('Post request was Successful');
+                    textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
+                    console.log(xhr.response);
+                    let documentId = xhr.response;
+                    documentIdDOM.value = documentId;
+                    previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
+                } else {
+                    console.log('Server error');
+                }
+            };
+            xhr.onerror = function () {
+                console.log('something went wrong');
+            };
+            xhr.send(data);
+        });
+        /** End Document Upload API **/
+
+        /** Set preview image if documentId is not empty **/
+        if (documentIdDOM != null && documentIdDOM.value != null) {
+            previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentIdDOM.value +'">';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>My Page</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/myPage.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="article-detail">
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${userProfile.userId}, imageId=${userProfile.imageId})"></header>
+    <main class="my-page">
+        <header class="user-profile">
+            <div class="left-area">
+                <div class="profile-image">
+                    <img th:if="${userProfile.imageId}" th:src="@{'/api/v1/uploads/images/' + ${userProfile.imageId}}">
+                    <img th:unless="${userProfile.imageId}" th:src="@{/images/user.svg}">
+                </div>
+                <div class="edit-profile">
+                    <a th:href="@{/user/profile/edit}">Settings</a>
+                </div>
+            </div>
+            <div class="user-content">
+                <h1 class="display-name" th:text="${userProfile.displayName}">Sushi Official</h1>
+                <div class="user-summary">
+                    <p>Hello there! I'm using Sushi note. Please feel free to contact with me</p>
+                </div>
+            </div>
+        </header>
+        <section class="my-article">
+            <div class="article__content" th:each="post : ${articles}">
+                <div class="article-main">
+                    <div class="article-text">
+                        <h3 class="article-title">
+                            <a th:href="@{'/s/' + ${post.userId} + '/' + ${post.articleId}}" class="article-title"
+                               th:text="${post.title}">TITLE AREA</a>
+                        </h3>
+                        <div class="article-summary" th:utext="${post.summary}"></div>
+                    </div>
+                    <div class="article-image">
+                        <img th:if="${post.imageId}" class="article-image" th:src="@{'/api/v1/uploads/images/' + ${post.imageId}}">
+                        <img th:unless="${post.imageId}" class="article-image" th:src="@{/images/no-photo-available.png}">
+                    </div>
+                </div>
+                <div class="author-profile">
+                    <div class="author-avatar">
+                        <img th:if="${userProfile.imageId}" class="author-icon" th:src="@{'/api/v1/uploads/images/' + ${userProfile.imageId}}">
+                        <img th:unless="${userProfile.imageId}" class="author-icon" th:src="@{/images/user.svg}">
+                    </div>
+                    <div class="author-text">
+                        <div class="display-name" th:text="${userProfile.displayName}">Sushi Official</div>
+                        <div class="updated-date-time" th:text="${post.updatedDateTime}">Dec 10th, 2020</div>
+                    </div>
+                </div>
+                <div class="gridNote__footer">
+                    <div class="gridNote__footer__upvote">
+                        <form th:if="${isLogin}" class="upvote-form" action="#" method="post">
+                            <input type="hidden" name="userId" th:value="${userProfile.userId}">
+                            <input type="hidden" name="articleId" th:value="${post.articleId}">
+                            <!-- TODO Use image as background of button-->
+                            <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                        </form>
+                        <img th:unless="${isLogin}" class="upvote-icon" th:src="@{/images/clap.svg}">
+                        <div class="upvote-count" th:text="${post.likeCount}">0</div>
+                    </div>
+                    <div class="gridNote__footer__comment">
+                        <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                        <div class="comment-count" th:text="${post.commentCount}">0</div>
+                    </div>
+                </div>
+                <div class="article-separator"></div>
+            </div>
+        </section>
+    </main>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        /** Upvote POST API method **/
+        const upvoteFormDOMList = document.querySelectorAll('form.upvote-form');
+        upvoteFormDOMList.forEach((upvoteForm) => {
+            upvoteForm.children[2].addEventListener('click', (upvoteBtn) => {
+                event.preventDefault();
+                const xhr = new XMLHttpRequest();
+                let targetDOM = upvoteBtn.target;
+                xhr.open('POST', '/api/v1/upvote');
+                console.log('upvoteBtn= ', upvoteBtn);
+                let formData = new FormData(targetDOM.parentElement);
+                let upvoteCount = targetDOM.parentElement.parentElement.children[1];
+                xhr.setRequestHeader(header, token);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        console.log('Post request was Successful');
+                        upvoteCount.innerHTML = parseInt(upvoteCount.innerHTML) + 1;
+                        upvoteCount.style.color = 'blue';
+                    } else {
+                        console.log('Server error');
+                    }
+                };
+                xhr.onerror = function () {
+                    console.log('something went wrong');
+                };
+                xhr.send(formData);
+            });
+        });
+        /** End Upvote POST API method **/
+    });
+</script>
+</body>
+</html>

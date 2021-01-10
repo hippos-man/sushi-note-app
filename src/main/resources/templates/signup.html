@@ -8,9 +8,10 @@
 </head>
 <body>
 <div class="signup">
+    <!-- TODO Use common header -->
     <header class="signup-head">
         <h2 class="signup__logo">
-            <a class="header__logo" href="#">
+            <a class="header__logo" href="#" th:href="@{/}">
                 <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
                 <span>Sushi note</span>
             </a>
@@ -35,22 +36,30 @@
                     <p class="register__title">Register to Sushi note</p>
                 </div>
                 <form class="signup-form" role="form" action="#" th:action="@{/user/register}" th:object="${request}" method="post">
-                    <label for="displayName">Display Name (public name)</label>
-                    <input type="text" id="displayName" th:field="*{displayName}" placeholder="Enter your public name">
-                    <span class="error-message" th:errors="*{displayName}"></span>
-                    <label for="userId">User ID (used for your url)</label>
-                    <input type="text" id="userId" th:field="*{userId}"
-                           placeholder="Create your user id">
-                    <span class="error-message" th:errors="*{userId}"></span>
-                    <label for="emailAddress">Email Address</label>
-                    <input type="text" id="emailAddress" th:field="*{emailAddress}"
-                           placeholder="Enter your email">
-                    <span class="error-message" th:errors="*{emailAddress}"></span>
-                    <label for="password">Password (at least 8 characters)</label>
-                    <input type="password" id="password" th:field="*{password}" placeholder="Create a password">
-                    <span class="error-message" th:errors="*{password}"></span>
+                    <div class="space-bottom-2">
+                        <label for="displayName">Display Name (public name)</label>
+                        <input type="text" id="displayName" th:field="*{displayName}" placeholder="Enter your public name">
+                        <span class="error-message" th:errors="*{displayName}"></span>
+                    </div>
+                    <div class="space-bottom-2">
+                        <label for="userId">User ID (used for your url)</label>
+                        <input type="text" id="userId" th:field="*{userId}"
+                               placeholder="Create your user id">
+                        <span class="error-message" th:errors="*{userId}"></span>
+                    </div>
+                    <div class="space-bottom-2">
+                        <label for="emailAddress">Email Address</label>
+                        <input type="text" id="emailAddress" th:field="*{emailAddress}"
+                               placeholder="Enter your email">
+                        <span class="error-message" th:errors="*{emailAddress}"></span>
+                    </div>
+                    <div class="space-bottom-2">
+                        <label for="password">Password (at least 8 characters)</label>
+                        <input type="password" id="password" th:field="*{password}" placeholder="Create a password">
+                        <span class="error-message" th:errors="*{password}"></span>
+                    </div>
                     <div class="dummy"></div>
-                    <input class="btn-large"type="submit" value="Register">
+                    <input class="btn-large" type="submit" value="Register">
                 </form>
             </div>
         </div>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Article Detail</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/articleDetail.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div class="article-detail">
+        <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${imageId})"></header>
+        <main class="article-main">
+            <article>
+                <div class="article__content">
+                    <div th:if="${isAdmin}" class="edit-button">
+                        <a class="edit-link" href="#" th:href="@{'/article/' + ${article.articleId} + '/edit'}">
+                            <img class="edit-icon" th:src="@{/images/pencil.svg}">
+                            <span>Edit</span>
+                        </a>
+                    </div>
+                    <figure>
+                        <img th:if="${article.imageId}" class="article-header-image" th:src="@{'/api/v1/uploads/images/' + ${article.imageId}}">
+                        <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
+                    </figure>
+                    <h1 class="article__title" th:text="${article.title}">Why is Japanese Sushi so good?</h1>
+                    <div class="article__author">
+                        <div class="articleHeader__avatar">
+                            <img th:if="${authorProfile.imageId}" class="article__avatar" th:src="@{'/api/v1/uploads/images/' + ${authorProfile.imageId}}">
+                            <img th:unless="${authorProfile.imageId}" class="article__avatar" th:src="@{/images/user.svg}">
+                        </div>
+                        <div class="articleHeader__info">
+                            <div class="articleHeader__name" th:text="${authorProfile.displayName}">John Smith</div>
+                            <span class="articleHeader__date">
+                                <time th:text="${article.updatedDateTime}">Dec 14th 2020</time>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="article__body" th:utext="${article.textBody}"></div>
+                </div>
+                <div class="gridNote__footer">
+                    <div class="gridNote__footer__upvote">
+                        <form th:if="${isLogin}" id="upvote-form" action="#" method="post">
+                            <input type="hidden" name="userId" th:value="${loginUserId}">
+                            <input type="hidden" name="articleId" th:value="${article.articleId}">
+                            <!-- TODO Use image as background of button-->
+                            <img id="upvote-btn" class="upvote-icon" th:src="@{/images/clap.svg}">
+                        </form>
+                        <img th:unless="${isLogin}" class="upvote-icon" th:src="@{/images/clap.svg}">
+                        <div class="upvote-count" th:text="${article.likeCount}">0</div>
+                    </div>
+                    <div class="gridNote__footer__comment">
+                        <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                        <div class="comment-count" th:text="${article.commentCount}">0</div>
+                    </div>
+                </div>
+                <div class="separator"></div>
+            </article>
+
+            <section class="comment-section">
+                <div class="comment__wrapper" th:if="${!comments.isEmpty()}" th:each="comment : ${comments}">
+                    <div class="comment__content">
+                        <div class="commenter">
+                            <div class="commenter-avatar">
+                                <img th:if="${comment.imageId}" class="commenter__avatar" th:src="@{'/api/v1/uploads/images/' + ${comment.imageId}}">
+                                <img th:unless="${comment.imageId}"class="commenter__avatar" th:src="@{/images/user.svg}">
+                            </div>
+                            <div class="commenter-text">
+                                <span class="commenter-display-name" th:text="${comment.displayName}"></span>
+                                <span class="comment_updated-date-time" th:text="${comment.updatedDateTime}"></span>
+                            </div>
+                        </div>
+                        <div class="edit-delete-comment-wrapper">
+                            <div class="edit-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
+                                <a href="#" th:href="@{'/comment/' + ${comment.commentId} + '/edit'}">Edit</a>
+                            </div>
+                            <div class="delete-comment" th:if="${isLogin && (comment.commenterId == loginUserId)}">
+                                <a href="#" class="comment-delete">Delete
+                                    <input type="hidden" id="commentId" th:value="${comment.commentId}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="comment-body" th:utext="${comment.textBody}"></div>
+                    </div>
+                    <div class="separator"></div>
+                </div>
+                <div class="add-comment" th:if="${isLogin}">
+                    <div class="add-comment-avatar">
+                        <img th:if="${imageId}" th:src="@{'/api/v1/uploads/images/' + ${imageId}}">
+                        <img th:unless="${imageId}" th:src="@{/images/user.svg}">
+                    </div>
+                    <form class="add-comment" role="form" th:action="@{/comment/create}" th:object="${request}" method="post">
+                        <textarea id="textBody" rows='1' th:field="*{textBody}" placeholder="Add a comment..."></textarea>
+                        <input type="hidden" id="authorId" th:field="*{authorId}">
+                        <input type="hidden" id="articleId" th:field="*{articleId}">
+                        <input type="hidden" id="userId" th:field="*{userId}">
+                        <input type="submit" class="btn-mid-large" value="Add Comment">
+                    </form>
+                </div>
+                <div class="login-to-comment" th:if="${!isLogin}">
+                    <span>
+                        <a th:href="@{/login}">Log in</a>&nbsp;to like or comment
+                    </span>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            /** Autosize for text area **/
+            const textarea = document.querySelector('textarea');
+            if (textarea != null) {
+                textarea.addEventListener('keydown', autosize);
+                function autosize() {
+                    let element = this;
+                    setTimeout(function(){
+                        element.style.cssText = 'height:auto; padding:0';
+                        element.style.cssText = 'height:' + element.scrollHeight + 'px';
+                    }, 0);
+                }
+            }
+
+            /** Disable button if textarea is empty **/
+            let button = document.querySelector('input[type=submit]');
+            if (button != null) {
+                button.setAttribute('disabled', true);
+                let textareaDOM = document.querySelector('textarea#textBody');
+                if (textareaDOM != null) {
+                    textareaDOM.addEventListener('keyup', function(){
+                        let textInput = textareaDOM.value;
+                        if (textInput != '') {
+                            button.removeAttribute('disabled');
+                        } else {
+                            button.setAttribute('disabled', true);
+                        }
+                    });
+                }
+            }
+
+            const token = document.querySelector('meta[name="_csrf"]').content;
+            const header = document.querySelector('meta[name="_csrf_header"]').content;
+            /** Upvote POST API method **/
+            const upvoteForm = document.querySelector('#upvote-form');
+            const upvoteBtn = document.querySelector('img#upvote-btn');
+            let upvoteCount = document.querySelector('div.upvote-count');
+            if (upvoteForm != null && upvoteBtn != null) {
+                upvoteBtn.addEventListener('click', (event) =>{
+                    event.preventDefault();
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/v1/upvote');
+                    let formData = new FormData(upvoteForm);
+                    xhr.setRequestHeader(header, token);
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            console.log('Post request was Successful');
+                            upvoteCount.innerHTML = parseInt(upvoteCount.innerHTML) + 1;
+                            upvoteCount.style.color = 'blue';
+                        } else {
+                            console.log('Server error');
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.log('something went wrong');
+                    };
+                    xhr.send(formData);
+                });
+            }
+            /** End Upvote POST API method **/
+
+            /** Call Comment Delete method **/
+            const deleteUrl = "http://localhost:8080/api/v1/comment/";
+            let commentDeleteDOMList = document.querySelectorAll('a.comment-delete');
+            commentDeleteDOMList.forEach(commentDeleteDOM => {
+                commentDeleteDOM.addEventListener('click', function (e) {
+                    if(!confirm("Are you sure, you want to delete this comment?")){
+                        return false;
+                    }
+                    let commentId = e.target.firstElementChild.defaultValue;
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", deleteUrl + commentId + '/delete', true);
+                    xhr.setRequestHeader(header, token);
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            console.log('Delete request= Successful');
+                            window.location.reload();
+                        } else {
+                            console.log('Server error');
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.log('something went wrong');
+                    };
+                    xhr.send();
+                });
+            });
+            /** End Call Comment Delete method **/
+        });
+    </script>
+</body>
+</html>

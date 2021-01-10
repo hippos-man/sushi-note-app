@@ -3,90 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todos List</title>
-    <link href='https://fonts.googleapis.com/css?family=Alike Angular' rel='stylesheet'>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>HOME - Sushi note</title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
     <link th:href="@{/css/index.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div class="global-header">
+<div class="home">
+    <header th:replace="fragments/common.html :: common-header (isLogin=${isLogin}, loginUserId=${loginUserId}, imageId=${imageId})"></header>
+    <div class="home-main">
+        <nav class="left-nav">
+            <div class="topicMenu__container">
+                <div class="topicMenu__section">
+                    <a class="category__link" href="#" th:href="@{'/'}">
+                        <img class="tag-img" th:src="@{/images/tag.svg}">
+                        <button class="topicMenu__title">All</button>
+                    </a>
+                </div>
+                <div class="topicMenu__section" th:each="topic : ${topics}">
+                    <a class="category__link" href="#" th:href="@{'/categories/' + ${topic.topicId}}">
+                        <img class="tag-img" th:src="@{/images/tag.svg}">
+                        <button class="topicMenu__title" th:text="${topic.topicName}"></button>
+                    </a>
+                </div>
+                <div th:if="${isLogin}" class="logout">
+                    <form class="logout" th:action="@{/logout}" method="post">
+                        <input id="logout" type="submit" value="Log out">
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <main class="home__body">
+            <h1 class="timelineCategory__title" th:text="${activeCategoryName}">Recommendation</h1>
+            <div class="timelineCategory__headerNav">
+                <ul>
+                    <li class="buttonGroup__item">
+                        <button class="btn-small is-active">Latest</button>
+                    </li>
+                    <li class="buttonGroup__item">
+                        <button class="btn-small">Popular</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="timelineCategory__body">
+                <p th:if="${articles.empty}">No items is found in the category</p>
+                <div class="timelineCategory__item__wrapper" th:each="article : ${articles}">
+                    <div class="timelineCategory__item">
+                        <div class="gridNote__eyeCatch">
+                            <img th:if="${article.imageId}" class="article-header-image" th:src="@{'/api/v1/uploads/images/' + ${article.imageId}}">
+                            <img th:unless="${article.imageId}" class="article-header-image" th:src="@{/images/no-photo-available.png}">
+                        </div>
+                        <div class="timelineHeader">
+                            <img th:if="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{'/api/v1/uploads/images/' + ${article.profileImageId}}">
+                            <img th:unless="${article.profileImageId}" class="timelineHeader__user-icon" th:src="@{/images/user.svg}">
+                            <div class="timelineHeader__authorName">
+                                <a href="#" th:text="${article.userId}">John</a>
+                            </div>
+                            <span>&nbsp;&middot;&nbsp;</span>
+                            <div class="timelineHeader__post-date" th:text="${article.updatedDateTime}"></div>
+                        </div>
+                        <div class="gridNote__body">
+                            <div class="textNote">
+                                <a class="gridNote__link" href="#" th:href="@{'/s/'
+                                + ${article.userId}
+                                + '/'
+                                + ${article.articleId}}">
+                                    <h3 class="textNote__title" th:text="${article.title}"></h3>
+                                </a>
+                                <p class="textNote__description" th:text="${article.summary}"></p>
+                            </div>
+                        </div>
+                        <div class="gridNote__footer">
+                            <div class="gridNote__footer__upvote">
+                                <form th:if="${isLogin}" class="upvote-form" action="#" method="post">
+                                    <input type="hidden" name="userId" th:value="${loginUserId}">
+                                    <input type="hidden" name="articleId" th:value="${article.articleId}">
+                                    <!-- TODO Use image as background of button-->
+                                    <img class="upvote-icon" th:src="@{/images/clap.svg}">
+                                </form>
+                                <img th:unless="${isLogin}" class="upvote-icon" th:src="@{/images/clap.svg}">
+                                <div class="upvote-count" th:text="${article.likeCount}">0</div>
+                            </div>
+                            <div class="gridNote__footer__comment">
+                                <img class="comment-icon" th:src="@{/images/speech-bubble.svg}">
+                                <div class="comment-count" th:text="${article.commentCount}">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
 
-</div>
-<div class="container-main">
-    <div class="left-container">
-        <div class="user-container">
-            <img id="user-icon" th:src="@{/images/user_logo_640x640.png}" alt="user icon">
-            <!-- TODO Replace to Login User ID -->
-            <span class="user-id">Foo</span>
-        </div>
-        <div class="label-container">
-            <div class="label-list">
-            <h3>Labels</h3>
-            <table>
-                <tr>
-                    <td><a class="label-title" th:href="@{'/to-do/list'(label_id=all)}">All Items</a></td>
-                    <td></td>
-                </tr>
-                <tr th:each="label: ${labels}">
-                    <td class="label-name"><a class="label-title" th:href="@{'/to-do/list'(label_id=${label.labelId})}">
-                        <span th:text="${label.labelName}"></span></a>
-                    </td>
-                    <td><a th:href="@{'/label/delete'(labelId=${label.labelId})}">
-                        <img class="delete-btn" src="#" alt="delete button" th:src="@{/images/rubbish_bin_48x48.png}"></a>
-                    </td>
-                </tr>
-            </table>
-            </div>
-            <div class="new-label-button">
-                <a th:href="@{'/label/new'}">
-                    <button class="add-label-btn" type="button">+</button>
-                </a>
-            </div>
-        </div>
-        <div class="logout">
-            <form class="logout" th:action="@{/logout}" method="post">
-                <input id="log-out" type="submit" value="Log out">
-            </form>
-        </div>
-    </div>
-    <div class="todo-container">
-        <div class="todo-form">
-            <h3 th:if="${listName}" th:text="${listName}">All Tasks</h3>
-            <form role="form" action="#" th:action="@{/to-do/register}" th:object="${todoForm}" method="post">
-                <table>
-                    <tr>
-                        <td><span class="error-message"th:if="${errorMessage}" th:text="${errorMessage}"></span></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" th:field="*{title}" placeholder="What needs to be done?"></td>
-                        <td class="add-button"><input class="blue-btn" type="submit" value="Add"></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div class="todo-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Upcoming</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${todos.empty}">
-                    <td>No Items Available</td>
-                </tr>
-                <tr class="todo-title" th:each="todo: ${todos}">
-                    <td class="todo-title">
-                        <a class="todo-title" th:href="@{'/to-do/' + ${todo.todoId} + '/edit'}" th:text="${todo.title}"></a>
-                    </td>
-                    <td class="complete-button">
-                        <form role="form" action="#" th:action="@{'/to-do/complete/' + ${todo.todoId}}" method="post">
-                        <input id="complete-btn"type="submit" value="&#10003;">
-                    </form></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+        /** Upvote POST API method **/
+        const upvoteFormDOMList = document.querySelectorAll('form.upvote-form');
+        upvoteFormDOMList.forEach((upvoteForm) => {
+            upvoteForm.children[2].addEventListener('click', (upvoteBtn) => {
+                event.preventDefault();
+                const xhr = new XMLHttpRequest();
+                let targetDOM = upvoteBtn.target;
+                xhr.open('POST', '/api/v1/upvote');
+                console.log('upvoteBtn= ', upvoteBtn);
+                let formData = new FormData(targetDOM.parentElement);
+                let upvoteCount = targetDOM.parentElement.parentElement.children[1];
+                xhr.setRequestHeader(header, token);
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        console.log('Post request was Successful');
+                        upvoteCount.innerHTML = parseInt(upvoteCount.innerHTML) + 1;
+                        upvoteCount.style.color = 'blue';
+                    } else {
+                        console.log('Server error');
+                    }
+                };
+                xhr.onerror = function () {
+                    console.log('something went wrong');
+                };
+                xhr.send(formData);
+            });
+        });
+        /** End Upvote POST API method **/
+    });
+</script>
 </body>
 </html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>New Article</title>
+    <link th:href="@{/css/newArticle.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="article-detail">
+    <!-- TODO Use common header -->
+    <header class="home-head">
+        <h2 class="home__logo">
+            <a class="header__logo" href="#" th:href="@{/}">
+                <img class="header-logo" th:src="@{/images/sushi-note-logo.svg}">
+                <span>Sushi note</span>
+            </a>
+        </h2>
+        <nav class="nav__bar__top">
+            <div th:if="${!isLogin}" class="home__toLogin">
+                <a class="home__toLoginLink" href="#" th:href="@{/login}">Login</a>
+            </div>
+            <div th:if="${!isLogin}" class="home__toSignin">
+                <a class="home__toSigninLink" href="#" th:href="@{/user/signup}">Sign up</a>
+            </div>
+            <div th:if="${isLogin}" class="nav__user-icon">
+                <a th:href="@{'/m/' + ${authorProfile.userId}}">
+                    <img class="nav__user-icon" th:src="@{/images/user.svg}">
+                </a>
+            </div>
+            <div th:if="${isLogin}" class="nav__add__note">
+                <a class="add__note" href="#" th:href="@{/drafts/new}">Add note</a>
+            </div>
+        </nav>
+    </header>
+    <main class="article__main">
+        <div class="article__form">
+            <div class="register__title-container">
+                <p class="register__title">Create new article</p>
+            </div>
+            <div>
+                <div class="document-form">
+                    <div class="text-upload-success"></div>
+                    <form id="file-form" action="#" th:object="${imageRequest}" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" th:field="*{file}" required />
+                        <input type="hidden" name="userId" th:field="*{userId}" />
+                    </form>
+                    <div class="preview-image"></div>
+                </div>
+            </div>
+            <form class="article-form" role="form" action="#" th:action="@{/article/create}" th:object="${request}" method="post">
+                <div class="space-bottom-2">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" th:field="*{title}" placeholder="Enter title">
+                    <span class="error-message" th:errors="*{title}"></span>
+                </div>
+                <div class="space-bottom-2">
+                    <label for="topicId">Topic</label>
+                    <select id = "topicId" th:field="*{topicId}">
+                        <option value="" disabled selected>Select topic</option>
+                        <option th:each=" topic : ${topicMap}"
+                                th:value="${topic.getKey()}" th:text="${topic.getValue()}"></option>
+                    </select>
+                </div>
+                <div class="space-bottom-2">
+                    <label for="body">Text body</label>
+                    <textarea type="text" id="body" th:field="*{textBody}" placeholder="What do you want to talk about?"></textarea>
+                    <span class="error-message" th:errors="*{textBody}"></span>
+                </div>
+                <input type="hidden" id="userId" th:field="*{userId}">
+                <input type="hidden" id="articleId" th:field="*{articleId}">
+                <input type="hidden" id="documentId" th:field="*{documentId}">
+                <div class="dummy"></div>
+                <input id = "article-submit" class="btn-large"type="submit" value="Create">
+            </form>
+        </div>
+    </main>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        /** Document Upload API **/
+        const form = document.querySelector('#file-form');
+        const fileSelector = document.querySelector('input[name=file]');
+        const documentIdDOM = document.querySelector('input#documentId');
+        const textSuccess = document.querySelector('div.text-upload-success');
+        const previewImageDOM = document.querySelector('div.preview-image');
+        fileSelector.addEventListener('change', (event) =>{
+            event.preventDefault();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/v1/upload');
+            let data = new FormData(form);
+            xhr.setRequestHeader(header, token);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                    console.log('Post request was Successful');
+                    textSuccess.innerHTML = '<h3>Image uploaded successfully.</h3>';
+                    console.log(xhr.response);
+                    let documentId = xhr.response;
+                    documentIdDOM.value = documentId;
+                    previewImageDOM.innerHTML = '<img src="' + '/api/v1/uploads/images/' + documentId +'">';
+                } else {
+                    console.log('Server error');
+                    textSuccess.innerHTML = '<h3>Something wrong in uploading.</h3>';
+                }
+            };
+            xhr.onerror = function () {
+                console.log('something went wrong');
+            };
+            xhr.send(data);
+        });
+        /** End Document Upload API **/
+
+        /** Confirm submission **/
+        const articleSubmitBtn = document.querySelector('input#article-submit');
+        if (articleSubmitBtn != null) {
+            articleSubmitBtn.addEventListener('click', (event) => {
+                if (!confirm("Are you sure, you want to submit this article?")){
+                    event.preventDefault();
+                }
+            });
+        }
+        /** End Confirm submission **/
+
+    });
+</script>
+</body>
+</html>
