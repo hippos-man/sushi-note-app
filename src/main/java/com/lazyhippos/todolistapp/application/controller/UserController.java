@@ -13,10 +13,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,6 +36,7 @@ public class UserController {
     private final String USER_EDIT_VIEW = "editUser";
     private final String LOGIN_VIEW = "login";
     private final String SLASH = "/";
+    public final String MESSAGE_VIEW = "simple";
 
 
     UserController(UserService userService, ApplicationEventPublisher eventPublisher) {
@@ -81,10 +85,10 @@ public class UserController {
 
 
     @PostMapping("/user/register")
-    public String register(@Valid @ModelAttribute(name = "request") UserRequest request,
-                           BindingResult bindingResult, Model model, HttpServletRequest servletRequest){
+    public ModelAndView register(@Valid @ModelAttribute(name = "request") UserRequest request,
+                                 BindingResult bindingResult, ModelMap model, HttpServletRequest servletRequest, RedirectAttributes ra){
         if (isAuthenticated()) {
-            return REDIRECT + SLASH;
+            return new ModelAndView(REDIRECT + SLASH);
         }
 
         // Duplicate USER ID check
@@ -97,11 +101,19 @@ public class UserController {
             }
         }
 
-        // TODO Duplicate Email check
+        // Duplicate Email Address check
+        if (!request.getEmailAddress().isEmpty()) {
+            Boolean isEmailAddressExist = userService.isEmailAddressExist(request.getEmailAddress());
+            if (isEmailAddressExist) {
+                bindingResult.rejectValue("emailAddress",
+                        "error.user",
+                        "A email address is registered already.");
+            }
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("request", request);
-            return USER_REGISTER_VIEW;
+            return new ModelAndView(USER_REGISTER_VIEW, model);
         }
 
         // Get current time
@@ -110,14 +122,13 @@ public class UserController {
         // Store new user (with disabled status)
         Users registered = userService.register(request, now);
 
-//        // Create Token and Send verification email
-//        String appUrl = servletRequest.getContextPath();
         eventPublisher.publishEvent(
                 new OnRegistrationCompleteEvent(
                         registered, servletRequest.getLocale(), getAppUrl(servletRequest))
         );
-        // TODO Return Successful Message Page
-        return LOGIN_VIEW;
+        model.addAttribute("message",
+                "Verification email is sent to your email address. Please activate your account.");
+        return new ModelAndView(MESSAGE_VIEW, model);
     }
 
     @PostMapping("/user/update")

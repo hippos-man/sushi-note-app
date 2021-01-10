@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +67,11 @@ public class UserService {
 
     public Boolean isUserIdExist(String userId) {
         return userJpaRepository.existsById(userId);
+    }
+
+    public Boolean isEmailAddressExist (String emailAddress) {
+        Optional<Users> user = userJpaRepository.findByEmailAddress(emailAddress);
+        return user.isPresent();
     }
 
     public Map<String, String> retrieveDisplayNameAndUserIdByUserIds (List<String> userIds) {
