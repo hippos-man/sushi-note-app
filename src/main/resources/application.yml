@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  # DB Connection Mysql in docker
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3314/sushi_note_db
+    username: root
+    password: rootpassword
+  # Gmail SMTP
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: USERNAME
+    password: PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable : true
+
+support:
+  mail: EMAILADDRESS
