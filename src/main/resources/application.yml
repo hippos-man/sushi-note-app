@@ -6,6 +6,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  # DB Connection Mysql in docker
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3314/sushi_note_db
