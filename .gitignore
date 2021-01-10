@@ -8,6 +8,9 @@ build/
 #Ignore log directory
 log/
 
+#Ignore application credentials
+application.yml
+
 ### STS ###
 .apt_generated
 .classpath
