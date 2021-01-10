@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link th:href="@{/css/common.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/simple.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <header th:replace="fragments/common.html :: common-header (isLogin = false, loginUserId = null, imageId = null)"></header>
+    <div class="result-message">
+        <h3 th:text="${message}">Error occurred</h3>
+    </div>
+</body>
+</html>

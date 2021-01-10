@@ -29,14 +29,15 @@ public class AppController {
     private final DocumentService documentService;
     private final LikeService likeService;
 
-    private final String INDEX_VIEW = "index";
-    private final String ARTICLE_DETAIL_VIEW = "articleDetail";
-    private final String NEW_ARTICLE_VIEW = "newArticle";
-    private final String EDIT_ARTICLE_VIEW = "editArticle";
-    private final String EDIT_COMMENT_VIEW = "editComment";
-    private final String MY_PAGE_VIEW = "myPage";
-    private final String REDIRECT = "redirect:";
-    private final String SLASH = "/";
+    public final String INDEX_VIEW = "index";
+    public final String ARTICLE_DETAIL_VIEW = "articleDetail";
+    public final String NEW_ARTICLE_VIEW = "newArticle";
+    public final String EDIT_ARTICLE_VIEW = "editArticle";
+    public final String EDIT_COMMENT_VIEW = "editComment";
+    public final String MY_PAGE_VIEW = "myPage";
+    public final String MESSAGE_VIEW = "simple";
+    public final String REDIRECT = "redirect:";
+    public final String SLASH = "/";
 
     public AppController(ArticleService articleService, TopicService topicService,
                          UserService userService, CommentService commentService, DocumentService documentService,
